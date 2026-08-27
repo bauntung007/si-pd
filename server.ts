@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import fs from "fs";
+import fs, { promises as fsPromises } from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 
@@ -22,11 +22,14 @@ if (!fs.existsSync(UPLOADS_DIR)) {
 // Serve uploaded images statically
 app.use("/uploads", express.static(UPLOADS_DIR));
 
-// Helper to read database state from server file
-function readDbFile() {
+// In-memory sequential write queue lock to prevent concurrent write race conditions
+let writeQueue = Promise.resolve();
+
+// Asynchronous helper to read database state from server file
+async function readDbFileAsync(): Promise<any> {
   try {
     if (fs.existsSync(DB_FILE_PATH)) {
-      const content = fs.readFileSync(DB_FILE_PATH, "utf-8");
+      const content = await fsPromises.readFile(DB_FILE_PATH, "utf-8");
       return JSON.parse(content);
     }
   } catch (err) {
@@ -35,13 +38,17 @@ function readDbFile() {
   return {};
 }
 
-// Helper to write database state to server file
-function writeDbFile(data: any) {
-  try {
-    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data, null, 2), "utf-8");
-  } catch (err) {
-    console.error("Error writing db_store.json:", err);
-  }
+// Asynchronous helper to write database state to server file with sequential lock
+async function writeDbFileAsync(data: any): Promise<void> {
+  writeQueue = writeQueue.then(async () => {
+    try {
+      const content = JSON.stringify(data, null, 2);
+      await fsPromises.writeFile(DB_FILE_PATH, content, "utf-8");
+    } catch (err) {
+      console.error("Error writing db_store.json:", err);
+    }
+  });
+  return writeQueue;
 }
 
 // Helper to safely parse JSON that may be wrapped in Markdown code blocks
@@ -75,31 +82,31 @@ function requireApiKey(req: express.Request, res: express.Response, next: expres
   next();
 }
 
-// Database Persistence API Routes (Protected)
-app.get("/api/db/all", requireApiKey, (req, res) => {
-  const db = readDbFile();
+// Database Persistence API Routes (Protected - Async Non-blocking)
+app.get("/api/db/all", requireApiKey, async (req, res) => {
+  const db = await readDbFileAsync();
   res.json(db);
 });
 
-app.get("/api/db/:key", requireApiKey, (req, res) => {
+app.get("/api/db/:key", requireApiKey, async (req, res) => {
   const { key } = req.params;
-  const db = readDbFile();
+  const db = await readDbFileAsync();
   res.json({ value: db[key] || null });
 });
 
-app.post("/api/db/:key", requireApiKey, (req, res) => {
+app.post("/api/db/:key", requireApiKey, async (req, res) => {
   const { key } = req.params;
   const { value } = req.body;
   
-  const db = readDbFile();
+  const db = await readDbFileAsync();
   db[key] = value;
-  writeDbFile(db);
+  await writeDbFileAsync(db);
   
   res.json({ success: true });
 });
 
-// API route for Image File Upload (Protected)
-app.post("/api/upload", requireApiKey, (req, res) => {
+// API route for Image File Upload (Protected - Async Non-blocking)
+app.post("/api/upload", requireApiKey, async (req, res) => {
   const { fileName, dataUrl } = req.body;
   if (!dataUrl) {
     return res.status(400).json({ error: "Data gambar tidak boleh kosong." });
@@ -119,7 +126,7 @@ app.post("/api/upload", requireApiKey, (req, res) => {
     const safeName = `img_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${ext}`;
     const filePath = path.join(UPLOADS_DIR, safeName);
 
-    fs.writeFileSync(filePath, buffer);
+    await fsPromises.writeFile(filePath, buffer);
 
     const fileUrl = `/uploads/${safeName}`;
     res.json({ success: true, url: fileUrl });
@@ -128,6 +135,7 @@ app.post("/api/upload", requireApiKey, (req, res) => {
     res.status(500).json({ error: "Gagal menyimpan file gambar ke disk server." });
   }
 });
+
 
 // Route to serve the Kemenhut logo SVG (Public)
 
