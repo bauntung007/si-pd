@@ -5,6 +5,7 @@ import {
   Send, User as UserIcon, Plus, Trash2, HelpCircle, ImageIcon, CheckCircle, Image, Sparkles, Brain
 } from 'lucide-react';
 import { sortRegulations, sortPelaksana, sortPelaksanaDinas, getApiHeaders } from '../lib/utils';
+import { uploadToSupabaseStorage, isSupabaseConfigured } from '../lib/supabase';
 
 interface LaporanFormProps {
   jenisKegiatanList: JenisKegiatan[];
@@ -318,7 +319,7 @@ export default function LaporanForm({
     }
   };
 
-  // Attachment Upload with Server File Storage & Base64 Fallback
+  // Attachment Upload with Supabase Storage, Server Disk File Storage & Base64 Fallback
   const handleUploadSimulated = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -329,25 +330,35 @@ export default function LaporanForm({
         const rawResult = reader.result as string;
         let finalUrl = rawResult;
         
-        try {
-          // Attempt server disk upload to /api/upload
-          const response = await fetch('/api/upload', {
-            method: 'POST',
-            headers: getApiHeaders(),
-            body: JSON.stringify({
-              fileName: file.name,
-              dataUrl: rawResult
-            })
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.url) {
-              finalUrl = data.url;
-            }
+        // 1. Try Supabase Storage Bucket first if configured
+        if (isSupabaseConfigured) {
+          const { url: supabaseUrl, error: supaErr } = await uploadToSupabaseStorage(file, file.name);
+          if (supabaseUrl && !supaErr) {
+            finalUrl = supabaseUrl;
           }
-        } catch (err) {
-          console.warn("Upload ke disk server gagal, beralih ke simpan lokal DataURL:", err);
+        }
+        
+        // 2. Fallback to server local disk upload /api/upload if Supabase wasn't used or failed
+        if (finalUrl === rawResult) {
+          try {
+            const response = await fetch('/api/upload', {
+              method: 'POST',
+              headers: getApiHeaders(),
+              body: JSON.stringify({
+                fileName: file.name,
+                dataUrl: rawResult
+              })
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              if (data.success && data.url) {
+                finalUrl = data.url;
+              }
+            }
+          } catch (err) {
+            console.warn("Upload ke disk server gagal, beralih ke simpan lokal DataURL:", err);
+          }
         }
 
         const newLampiran: Lampiran = {
@@ -366,6 +377,7 @@ export default function LaporanForm({
       reader.readAsDataURL(file);
     });
   };
+
 
 
   const removeLampiran = (id: string) => {

@@ -1,5 +1,7 @@
 import { User, JenisKegiatan, Laporan, AppNotification, PelakuUsaha, KopSuratConfig } from '../types';
 import { getApiHeaders } from './utils';
+import { supabase, isSupabaseConfigured } from './supabase';
+
 
 // Initial Users Seed
 export const DEFAULT_USERS: User[] = [
@@ -990,7 +992,19 @@ export class LocalDB {
       headers: getApiHeaders(),
       body: JSON.stringify({ value })
     }).catch((err) => console.error(`Failed to sync ${key} with backend:`, err));
+
+    // Non-blocking sync to Supabase Cloud PostgreSQL database if configured
+    if (supabase && isSupabaseConfigured && Array.isArray(value)) {
+      supabase.from(key).upsert(value).then(({ error }) => {
+        if (error) {
+          console.warn(`[Supabase Sync Warning] Failed to upsert ${key}:`, error.message);
+        } else {
+          console.log(`[Supabase Sync] Successfully upserted ${value.length} rows to '${key}' table.`);
+        }
+      });
+    }
   }
+
 
 
   static initializeToDefault(force = false): void {

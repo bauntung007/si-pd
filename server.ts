@@ -363,9 +363,22 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://0.0.0.0:${PORT}`);
+  const server = app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+
+  server.on("error", (err: any) => {
+    if (err.code === "EADDRINUSE") {
+      const altPort = PORT + 1;
+      console.warn(`[Port Alert] Port ${PORT} sedang terpakai oleh proses lain. Otomatis beralih ke port ${altPort}...`);
+      app.listen(altPort, "0.0.0.0", () => {
+        console.log(`Server running on http://localhost:${altPort}`);
+      });
+    } else {
+      console.error("Server error:", err);
+    }
   });
 }
 
 startServer();
+
