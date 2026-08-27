@@ -1,0 +1,6 @@
+{
+  "name": "Sistem Laporan Perjalanan Dinas",
+  "description": "Sistem database dan pengelolaan laporan perjalanan dinas berbasis web dengan pembuatan template laporan otomatis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

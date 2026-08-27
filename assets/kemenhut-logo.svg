@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <!-- Outer circular border -->
+  <circle cx="200" cy="200" r="195" fill="#3b7a3f" stroke="#ffffff" stroke-width="6" />
+  
+  <!-- Brown lower quadrants -->
+  <path d="M 12 210 C 12 300, 80 370, 165 385 C 160 350, 140 310, 100 280 C 60 250, 30 230, 12 210 Z" fill="#9c6337" stroke="#ffffff" stroke-width="5" />
+  <path d="M 388 210 C 388 300, 320 370, 235 385 C 240 350, 260 310, 300 280 C 340 250, 370 230, 388 210 Z" fill="#9c6337" stroke="#ffffff" stroke-width="5" />
+  
+  <!-- Brown bottom crescent -->
+  <path d="M 102 375 C 150 392, 250 392, 298 375 C 280 350, 120 350, 102 375 Z" fill="#9c6337" stroke="#ffffff" stroke-width="5" />
+
+  <!-- White branches and leaf shapes of the Kemenhut Tree -->
+  <!-- Main Trunk and Branches -->
+  <path d="M 200 350 C 190 310, 175 250, 130 200 C 120 190, 100 185, 75 190" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+  <path d="M 200 350 C 210 310, 225 250, 270 200 C 280 190, 300 185, 325 190" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+  
+  <path d="M 200 290 C 190 230, 160 160, 110 110 C 105 105, 95 105, 85 110" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+  <path d="M 200 290 C 210 230, 240 160, 290 110 C 295 105, 305 105, 315 110" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+  
+  <path d="M 200 350 L 200 140" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+  <path d="M 200 230 C 185 180, 170 120, 190 70" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+  <path d="M 200 230 C 215 180, 230 120, 210 70" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+
+  <!-- Leaves (Droplets) -->
+  <!-- Top Center Leaf -->
+  <path d="M 200 35 C 190 55, 190 70, 200 80 C 210 70, 210 55, 200 35 Z" fill="#ffffff" />
+  
+  <!-- Left/Right Top Flank Leaves -->
+  <path d="M 130 65 C 120 85, 125 100, 137 107 C 145 95, 140 80, 130 65 Z" fill="#ffffff" />
+  <path d="M 270 65 C 280 85, 275 100, 263 107 C 255 95, 260 80, 270 65 Z" fill="#ffffff" />
+  
+  <!-- Outer Side Upper Leaves -->
+  <path d="M 85 125 C 70 135, 68 150, 78 160 C 88 150, 95 140, 85 125 Z" fill="#ffffff" />
+  <path d="M 315 125 C 330 135, 332 150, 322 160 C 312 150, 305 140, 315 125 Z" fill="#ffffff" />
+  
+  <!-- Outer Side Lower Leaves -->
+  <path d="M 45 200 C 35 210, 30 225, 42 235 C 52 230, 58 215, 45 200 Z" fill="#ffffff" />
+  <path d="M 355 200 C 365 210, 370 225, 358 235 C 348 230, 342 215, 355 200 Z" fill="#ffffff" />
+</svg>
