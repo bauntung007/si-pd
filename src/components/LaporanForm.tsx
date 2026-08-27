@@ -643,24 +643,85 @@ export default function LaporanForm({
         </div>
       )}
 
-      {/* Multi-step progress tracker */}
-      <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-4 flex justify-between items-center max-w-2xl mx-auto shadow-inner overflow-x-auto whitespace-nowrap gap-4">
-        {[
-          { num: 1, label: 'Kategori & Surat' },
-          { num: 2, label: 'Lokus & Tim' },
-          { num: 3, label: 'Isi & Formulasi' },
-          { num: 4, label: 'Dokumentasi' },
-        ].map((s) => (
-          <div key={s.num} className="flex items-center gap-2">
-            <span className={`w-6 h-6 rounded-full border flex items-center justify-center text-[11px] transition-all shrink-0 ${stepClasses(s.num)}`}>
-              {s.num}
+      {/* Multi-step progress tracker with Glassmorphism & Progress Bar */}
+      <div className="glass-card rounded-2xl p-4 sm:p-5 shadow-xl border border-[#232b47]">
+        <div className="flex justify-between items-center mb-3">
+          <div>
+            <span className="text-[10px] font-mono font-bold tracking-widest text-amber-500 uppercase">
+              Langkah {currentStep} Dari 4
             </span>
-            <span className={`text-[11px] font-medium ${currentStep === s.num ? 'text-amber-400 font-bold' : 'text-slate-400'}`}>
-              {s.label}
-            </span>
-            {s.num < 4 && <span className="text-slate-600 text-xs shrink-0">&bull;&bull;</span>}
+            <h4 className="text-xs sm:text-sm font-bold text-white font-figtree">
+              {currentStep === 1 && '1. Jenis Penugasan & Surat Tugas'}
+              {currentStep === 2 && '2. Lokasi & Tim Pelaksana'}
+              {currentStep === 3 && '3. Formulasi & Hasil Kegiatan'}
+              {currentStep === 4 && '4. Dokumentasi & Pengesahan'}
+            </h4>
           </div>
-        ))}
+          <div className="text-right">
+            <span className="text-xs font-mono font-bold text-amber-400">
+              {Math.round((currentStep / 4) * 100)}%
+            </span>
+            <span className="text-[10px] text-slate-400 block font-mono">Selesai</span>
+          </div>
+        </div>
+
+        {/* Progress bar track */}
+        <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mb-4 border border-slate-800">
+          <div
+            className="h-full bg-gradient-to-r from-amber-500 via-amber-400 to-emerald-400 transition-all duration-300 ease-out rounded-full"
+            style={{ width: `${(currentStep / 4) * 100}%` }}
+          />
+        </div>
+
+        {/* Step Items */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+          {[
+            { num: 1, label: 'Kategori & Surat', desc: 'SPT & Dasar Hukum' },
+            { num: 2, label: 'Lokus & Tim', desc: 'Lokasi & Pelaksana' },
+            { num: 3, label: 'Isi & Formulasi', desc: 'Hasil & AI Generator' },
+            { num: 4, label: 'Dokumentasi', desc: 'Lampiran & Review' },
+          ].map((s) => {
+            const isPassed = currentStep > s.num;
+            const isCurrent = currentStep === s.num;
+            return (
+              <button
+                key={s.num}
+                type="button"
+                onClick={() => {
+                  if (s.num <= currentStep) {
+                    setCurrentStep(s.num);
+                  }
+                }}
+                disabled={s.num > currentStep}
+                className={`flex items-center gap-2.5 p-2 rounded-xl border text-left transition-all ${
+                  isCurrent
+                    ? 'bg-amber-500/10 border-amber-500/50 text-amber-400 shadow-md shadow-amber-500/5'
+                    : isPassed
+                    ? 'bg-emerald-500/5 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 cursor-pointer'
+                    : 'bg-slate-900/40 border-slate-800/80 text-slate-500 cursor-not-allowed'
+                }`}
+              >
+                <div
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 transition-colors ${
+                    isCurrent
+                      ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
+                      : isPassed
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-slate-800 text-slate-500'
+                  }`}
+                >
+                  {isPassed ? <CheckCircle className="w-4 h-4" /> : s.num}
+                </div>
+                <div className="min-w-0 hidden sm:block">
+                  <p className={`text-[11px] font-bold truncate leading-tight ${isCurrent ? 'text-amber-400' : isPassed ? 'text-slate-200' : 'text-slate-500'}`}>
+                    {s.label}
+                  </p>
+                  <p className="text-[9px] text-slate-500 truncate">{s.desc}</p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Form Area panel */}

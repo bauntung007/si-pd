@@ -72,30 +72,30 @@ export default function Dashboard({
     <div className="space-y-8 animate-in fade-in-50 duration-200">
       
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-[#131a31] to-[#0e111d] border border-[#232b47] rounded-2xl p-6 sm:p-8 shadow-xl">
+      <div className="relative overflow-hidden glass-card border border-[#232b47] rounded-2xl p-6 sm:p-8 shadow-2xl">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-xl space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-amber-500/10 text-amber-500 rounded font-mono text-[10px] font-bold tracking-wide uppercase border border-amber-500/10">
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-amber-500/10 text-amber-500 rounded font-mono text-[10px] font-bold tracking-wide uppercase border border-amber-500/20">
               Sistem Basis Data Perjalanan Dinas
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-              Selamat Datang, <span className="text-amber-500">{currentUser.nama}</span>!
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-figtree">
+              Selamat Datang, <span className="text-amber-500 font-extrabold">{currentUser.nama}</span>!
             </h2>
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Anda masuk sebagai <span className="text-indigo-300 font-semibold uppercase">{currentUser.role === 'admin' ? 'admin / validator' : currentUser.role === 'verifikator' ? 'user / verifikator' : currentUser.role}</span>. Gunakan sistem penulisan template LPD otomatis untuk mempercepat administrasi BPHL Wilayah XI Banjarbaru.
+              Anda masuk sebagai <span className="text-indigo-300 font-semibold uppercase font-mono">{currentUser.role === 'admin' ? 'admin / validator' : currentUser.role === 'verifikator' ? 'user / verifikator' : currentUser.role}</span>. Gunakan sistem penulisan template LPD otomatis untuk mempercepat administrasi BPHL Wilayah XI Banjarbaru.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <button
               onClick={onCreateNew}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-lg hover:shadow-amber-500/10 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-lg glow-amber cursor-pointer"
             >
               <PlusCircle className="w-4 h-4" />
               Buat Laporan Baru
             </button>
             <button
               onClick={() => onNavigate('laporan')}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700/80 text-white font-bold rounded-xl text-xs transition-all border border-slate-700"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700/80 text-white font-bold rounded-xl text-xs transition-all border border-slate-700/80 cursor-pointer"
             >
               Lihat Daftar Laporan
               <ArrowRight className="w-4 h-4" />
@@ -103,23 +103,23 @@ export default function Dashboard({
           </div>
         </div>
         {/* Subtle decorative background circles */}
-        <div className="absolute right-0 bottom-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute left-1/3 top-0 w-48 h-48 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute right-0 bottom-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute left-1/3 top-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
       </div>
 
       {/* Info Notice about Simulation Mode */}
-      <div className="p-4 bg-[#141b30] border border-blue-900/30 rounded-xl text-xs text-slate-300 leading-relaxed flex items-start gap-3">
+      <div className="p-4 glass-panel rounded-xl text-xs text-slate-300 leading-relaxed flex items-start gap-3 border border-blue-900/40">
         <div className="p-1.5 bg-blue-500/10 rounded-lg text-blue-400 shrink-0">
           <TrendingUp className="w-4 h-4" />
         </div>
         <div>
-          <span className="font-bold text-amber-400">Petunjuk Simulasi Alur Verifikasi & Validasi:</span> Untuk menguji siklus hidup laporan secara lengkap, Anda dapat membuat laporan sebagai staf, lalu beralih peran ke <span className="font-semibold text-slate-100">Isma Chairani / Nunung Khusnul (Verifikator)</span> untuk memverifikasi laporan (mengubah status menjadi Terverifikasi), kemudian beralih peran ke <span className="font-semibold text-slate-100">Busran (Admin/Validator) atau Wahyu Nurhidayat (Validator)</span> untuk memberikan pengesahan final, lalu mengunduh cetakan berkas formal berKop Surat resmi yang sudah tertanda tangan digital.
+          <span className="font-bold text-amber-400 font-figtree">Petunjuk Simulasi Alur Verifikasi & Validasi:</span> Untuk menguji siklus hidup laporan secara lengkap, Anda dapat membuat laporan sebagai staf, lalu beralih peran ke <span className="font-semibold text-slate-100">Isma Chairani / Nunung Khusnul (Verifikator)</span> untuk memverifikasi laporan (mengubah status menjadi Terverifikasi), kemudian beralih peran ke <span className="font-semibold text-slate-100">Busran (Admin/Validator) atau Wahyu Nurhidayat (Validator)</span> untuk memberikan pengesahan final, lalu mengunduh cetakan berkas formal berKop Surat resmi yang sudah tertanda tangan digital.
         </div>
       </div>
 
       {/* Overview Stats Bento-Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        <div className="bg-[#101426] border border-[#1e233d] rounded-xl p-4 flex flex-col justify-between shadow-sm hover:border-[#2b335a] transition-all">
+        <div className="glass-card glass-card-hover rounded-xl p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <span className="text-[11px] font-bold text-slate-400 font-mono tracking-tight uppercase">Total Dokumen</span>
             <div className="p-1.5 bg-slate-800 rounded-lg text-slate-300">
@@ -127,7 +127,7 @@ export default function Dashboard({
             </div>
           </div>
           <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-white">{totalReportsNum}</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-white font-figtree">{totalReportsNum}</span>
             <span className="text-[10px] text-slate-400 block mt-1">LPD terunggah</span>
           </div>
         </div>

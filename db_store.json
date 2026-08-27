@@ -957,7 +957,7 @@
       "user_id": "user-verif",
       "judul": "Laporan Baru Masuk ✍",
       "pesan": "Iman Tochid, S.Hut. telah mengirimkan laporan baru: Pemantauan & Verifikasi Pembayaran PNBP Kehutanan di Tanah Laut.",
-      "is_read": false,
+      "is_read": true,
       "created_at": "2026-06-22T04:15:00Z",
       "laporan_id": "rep-2"
     }

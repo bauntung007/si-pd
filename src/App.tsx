@@ -12,6 +12,7 @@ import MasterDataPanel from './components/MasterDataPanel';
 import DaftarLaporan from './components/DaftarLaporan';
 import TelaahanStafPanel from './components/TelaahanStafPanel';
 import { AlertCircle, FileText, CheckCircle2, AlertTriangle, Trash2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 // Initialize standard LocalDB eagerly to ensure database is ready before state initialization
 LocalDB.initializeToDefault();
@@ -675,95 +676,105 @@ export default function App() {
             </div>
           )}
 
-          {/* PAGE ROUTER PLACEMENT */}
-          {currentPage === 'dashboard' && (
-            <Dashboard
-              laporanList={laporanList}
-              currentUser={currentUser}
-              allUsers={allUsers}
-              jenisKegiatanList={jenisKegiatanList}
-              onNavigate={handleNavigate}
-              onSelectLaporan={handleSelectLaporan}
-              onCreateNew={() => {
-                setEditingLaporan(null);
-                setCurrentPage('laporan-form');
-              }}
-            />
-          )}
+          {/* PAGE ROUTER PLACEMENT WITH MOTION ANIMATIONS */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              {currentPage === 'dashboard' && (
+                <Dashboard
+                  laporanList={laporanList}
+                  currentUser={currentUser}
+                  allUsers={allUsers}
+                  jenisKegiatanList={jenisKegiatanList}
+                  onNavigate={handleNavigate}
+                  onSelectLaporan={handleSelectLaporan}
+                  onCreateNew={() => {
+                    setEditingLaporan(null);
+                    setCurrentPage('laporan-form');
+                  }}
+                />
+              )}
 
-          {currentPage === 'laporan' && (
-            <DaftarLaporan
-              laporanList={laporanList}
-              allUsers={allUsers}
-              jenisKegiatanList={jenisKegiatanList}
-              currentUser={currentUser}
-              onSelectLaporan={handleSelectLaporan}
-              onCreateNew={() => {
-                setEditingLaporan(null);
-                setCurrentPage('laporan-form');
-              }}
-              onDeleteLaporan={handleDeleteLaporan}
-            />
-          )}
+              {currentPage === 'laporan' && (
+                <DaftarLaporan
+                  laporanList={laporanList}
+                  allUsers={allUsers}
+                  jenisKegiatanList={jenisKegiatanList}
+                  currentUser={currentUser}
+                  onSelectLaporan={handleSelectLaporan}
+                  onCreateNew={() => {
+                    setEditingLaporan(null);
+                    setCurrentPage('laporan-form');
+                  }}
+                  onDeleteLaporan={handleDeleteLaporan}
+                />
+              )}
 
-          {currentPage === 'laporan-form' && (
-            <LaporanForm
-              jenisKegiatanList={jenisKegiatanList}
-              allUsers={allUsers}
-              currentUser={currentUser}
-              onSave={handleSaveLaporan}
-              onCancel={() => handleNavigate('laporan')}
-              editingLaporan={editingLaporan || undefined}
-              pelakuUsahaList={pelakuUsahaList}
-              onShowToast={showToast}
-            />
-          )}
+              {currentPage === 'laporan-form' && (
+                <LaporanForm
+                  jenisKegiatanList={jenisKegiatanList}
+                  allUsers={allUsers}
+                  currentUser={currentUser}
+                  onSave={handleSaveLaporan}
+                  onCancel={() => handleNavigate('laporan')}
+                  editingLaporan={editingLaporan || undefined}
+                  pelakuUsahaList={pelakuUsahaList}
+                  onShowToast={showToast}
+                />
+              )}
 
-          {currentPage === 'laporan-detail' && selectedLaporan && (
-            <LaporanDetail
-              laporan={selectedLaporan}
-              allUsers={allUsers}
-              jenisKegiatanList={jenisKegiatanList}
-              currentUser={currentUser}
-              onBack={() => handleNavigate('laporan')}
-              onEdit={() => handleEditLaporanClick(selectedLaporan)}
-              pelakuUsahaList={pelakuUsahaList}
-              onDeleteLaporan={handleDeleteLaporan}
-              onShowToast={showToast}
-            />
-          )}
+              {currentPage === 'laporan-detail' && selectedLaporan && (
+                <LaporanDetail
+                  laporan={selectedLaporan}
+                  allUsers={allUsers}
+                  jenisKegiatanList={jenisKegiatanList}
+                  currentUser={currentUser}
+                  onBack={() => handleNavigate('laporan')}
+                  onEdit={() => handleEditLaporanClick(selectedLaporan)}
+                  pelakuUsahaList={pelakuUsahaList}
+                  onDeleteLaporan={handleDeleteLaporan}
+                  onShowToast={showToast}
+                />
+              )}
 
-          {currentPage === 'verifikasi' && (
-            <VerifikasiPanel
-              laporanList={laporanList}
-              allUsers={allUsers}
-              jenisKegiatanList={jenisKegiatanList}
-              currentUser={currentUser}
-              onVerify={handleVerifyLaporan}
-              onSelectLaporan={handleSelectLaporan}
-            />
-          )}
+              {currentPage === 'verifikasi' && (
+                <VerifikasiPanel
+                  laporanList={laporanList}
+                  allUsers={allUsers}
+                  jenisKegiatanList={jenisKegiatanList}
+                  currentUser={currentUser}
+                  onVerify={handleVerifyLaporan}
+                  onSelectLaporan={handleSelectLaporan}
+                />
+              )}
 
-          {currentPage === 'master-data' && (currentUser.role === 'admin' || currentUser.role === 'validator') && (
-            <MasterDataPanel
-              jenisKegiatanList={jenisKegiatanList}
-              allUsers={allUsers}
-              onUpdateJenisKegiatan={updateJenisKegiatanState}
-              onUpdateUsers={updateUsersState}
-              pelakuUsahaList={pelakuUsahaList}
-              onUpdatePelakuUsaha={updatePelakuUsahaState}
-              onShowToast={showToast}
-            />
-          )}
+              {currentPage === 'master-data' && (currentUser.role === 'admin' || currentUser.role === 'validator') && (
+                <MasterDataPanel
+                  jenisKegiatanList={jenisKegiatanList}
+                  allUsers={allUsers}
+                  onUpdateJenisKegiatan={updateJenisKegiatanState}
+                  onUpdateUsers={updateUsersState}
+                  pelakuUsahaList={pelakuUsahaList}
+                  onUpdatePelakuUsaha={updatePelakuUsahaState}
+                  onShowToast={showToast}
+                />
+              )}
 
-          {currentPage === 'telaahan-staf' && (
-            <TelaahanStafPanel
-              laporanList={laporanList}
-              allUsers={allUsers}
-              currentUser={currentUser}
-              onShowToast={showToast}
-            />
-          )}
+              {currentPage === 'telaahan-staf' && (
+                <TelaahanStafPanel
+                  laporanList={laporanList}
+                  allUsers={allUsers}
+                  currentUser={currentUser}
+                  onShowToast={showToast}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
 
         </div>
       </main>
