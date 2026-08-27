@@ -346,60 +346,60 @@ export default function TelaahanStafPanel({
       {/* 1. LIST VIEW */}
       {activeView === 'list' && (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#3c3c3c] pb-4">
             <div>
-              <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-amber-500" />
-                Daftar Telaahan Staf
+              <h2 className="text-xl font-bold text-white uppercase tracking-wider font-sans flex items-center gap-2">
+                <FileText className="w-5 h-5 text-[#1c69d4]" />
+                DAFTAR TELAAHAN STAF
               </h2>
-              <p className="text-xs text-slate-400 mt-1">
-                Kajian staf fungsional untuk tindak lanjut temuan penting / ketidaksesuaian lapangan.
+              <p className="text-xs text-[#bbbbbb] font-light mt-1">
+                Kajian staf fungsional untuk tindak lanjut temuan penting / ketidaksesuaian lapangan BPHL XI.
               </p>
             </div>
             
             <button
               onClick={startCreate}
-              className="flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-semibold px-4 py-2.5 rounded-lg text-xs tracking-wider transition-all shadow shadow-amber-500/20 shrink-0 cursor-pointer"
+              className="bmw-btn-primary px-5 py-2.5 text-xs font-mono uppercase flex items-center gap-2 cursor-pointer shrink-0"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 text-[#1c69d4]" />
               BUAT TELAAHAN BARU
             </button>
           </div>
 
           {/* Sub-tab Navigation */}
-          <div className="flex border-b border-slate-800/80 gap-1">
+          <div className="flex border-b border-[#3c3c3c] gap-1">
             <button
               onClick={() => setListSubTab('telaahan')}
-              className={`px-4 py-2.5 text-xs font-bold tracking-wider uppercase transition-all border-b-2 cursor-pointer ${
+              className={`px-5 py-3 text-xs font-bold font-mono tracking-widest uppercase transition-all border-b-2 cursor-pointer ${
                 listSubTab === 'telaahan'
-                  ? 'border-amber-500 text-amber-500 bg-amber-500/5'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-[#1c69d4] text-white bg-[#1a1a1a]'
+                  : 'border-transparent text-[#7e7e7e] hover:text-white'
               }`}
             >
-              Daftar Dokumen ({accessibleTSList.length})
+              DAFTAR DOKUMEN ({accessibleTSList.length})
             </button>
             <button
               onClick={() => setListSubTab('laporan')}
-              className={`px-4 py-2.5 text-xs font-bold tracking-wider uppercase transition-all border-b-2 cursor-pointer ${
+              className={`px-5 py-3 text-xs font-bold font-mono tracking-widest uppercase transition-all border-b-2 cursor-pointer ${
                 listSubTab === 'laporan'
-                  ? 'border-amber-500 text-amber-500 bg-amber-500/5'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-[#1c69d4] text-white bg-[#1a1a1a]'
+                  : 'border-transparent text-[#7e7e7e] hover:text-white'
               }`}
             >
-              Status Telaahan LPD ({accessibleLPDList.length})
+              STATUS TELAAHAN LPD ({accessibleLPDList.length})
             </button>
           </div>
 
           {listSubTab === 'telaahan' ? (
             accessibleTSList.length === 0 ? (
-              <div className="bg-[#121624] border border-slate-800/80 rounded-xl p-8 text-center space-y-4">
-                <div className="w-12 h-12 bg-slate-800/50 text-slate-400 rounded-full flex items-center justify-center mx-auto">
-                  <FileText className="w-6 h-6" />
+              <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-10 text-center space-y-4 shadow-2xl">
+                <div className="w-12 h-12 bg-[#0d0d0d] border border-[#3c3c3c] text-[#7e7e7e] rounded-none flex items-center justify-center mx-auto">
+                  <FileText className="w-6 h-6 text-[#1c69d4]" />
                 </div>
                 <div className="max-w-md mx-auto">
-                  <p className="text-sm font-semibold text-slate-200">Belum ada Telaahan Staf</p>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Apabila terdapat temuan penting lapangan atau ketidaksesuaian dalam Laporan Perjalanan Dinas, silakan klik tombol di atas untuk membuat Telaahan Staf resmi bertenaga AI.
+                  <p className="text-sm font-bold text-white uppercase font-sans tracking-wide">BELUM ADA TELAAHAN STAF</p>
+                  <p className="text-xs text-[#bbbbbb] font-light mt-1">
+                    Apabila terdapat temuan penting lapangan dalam Laporan Perjalanan Dinas, klik tombol di atas untuk menyusun Telaahan Staf baru.
                   </p>
                 </div>
               </div>
@@ -413,28 +413,28 @@ export default function TelaahanStafPanel({
                     <div 
                       key={ts.id}
                       onClick={() => startEdit(ts)}
-                      className="bg-[#121624] border border-slate-800/80 hover:border-amber-500/30 p-5 rounded-xl transition-all cursor-pointer group flex flex-col md:flex-row md:items-center justify-between gap-4"
+                      className="bg-[#1a1a1a] border border-[#3c3c3c] hover:border-white p-5 rounded-none transition-all cursor-pointer group flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xl"
                     >
                       <div className="space-y-2">
                         <div className="flex items-start gap-2">
-                          <span className="bg-amber-500/10 text-amber-500 text-[10px] font-mono px-2 py-0.5 rounded shrink-0">TS-AI</span>
-                          <h3 className="font-bold text-sm text-slate-100 group-hover:text-amber-400 transition-colors">
-                            {cleanJudulTelaahan(ts.judul) || 'Telaahan Staf (Tanpa Judul)'}
+                          <span className="bg-[#1c69d4]/10 text-[#1c69d4] border border-[#1c69d4]/30 text-[9px] font-mono font-bold px-2 py-0.5 rounded-none uppercase">TS-AI</span>
+                          <h3 className="font-bold text-sm text-white group-hover:text-[#1c69d4] transition-colors font-sans uppercase">
+                            {cleanJudulTelaahan(ts.judul) || 'TELAAHAN STAF (TANPA JUDUL)'}
                           </h3>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-400">
-                          <span className="flex items-center gap-1">
-                            <FileText className="w-3.5 h-3.5 text-slate-500" />
-                            ST: <span className="font-mono text-slate-300">{lpd?.nomor_surat_tugas || 'N/A'}</span>
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-[#bbbbbb]">
+                          <span className="flex items-center gap-1 font-mono">
+                            <FileText className="w-3.5 h-3.5 text-[#7e7e7e]" />
+                            ST: <span className="text-white">{lpd?.nomor_surat_tugas || 'N/A'}</span>
                           </span>
                           <span className="flex items-center gap-1">
-                            <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                            <MapPin className="w-3.5 h-3.5 text-[#7e7e7e]" />
                             {lpd?.tempat_kegiatan || 'Lokasi N/A'}
                           </span>
                           <span className="flex items-center gap-1">
-                            <UserIcon className="w-3.5 h-3.5 text-slate-500" />
-                            Penyusun: <span className="text-slate-300">{firstPenyusun?.nama || 'N/A'}{ts.penyusun_ids.length > 1 ? ` (+${ts.penyusun_ids.length - 1} orang)` : ''}</span>
+                            <UserIcon className="w-3.5 h-3.5 text-[#7e7e7e]" />
+                            Penyusun: <span className="text-white">{firstPenyusun?.nama || 'N/A'}{ts.penyusun_ids.length > 1 ? ` (+${ts.penyusun_ids.length - 1} orang)` : ''}</span>
                           </span>
                         </div>
                       </div>
@@ -442,15 +442,15 @@ export default function TelaahanStafPanel({
                       <div className="flex items-center gap-2.5 self-end md:self-center shrink-0">
                         <button
                           onClick={(e) => { e.stopPropagation(); startPrint(ts); }}
-                          className="flex items-center gap-1.5 px-3 py-2 bg-amber-500/10 hover:bg-amber-500 hover:text-slate-950 border border-amber-500/30 hover:border-amber-500 rounded-lg text-amber-400 transition-all cursor-pointer text-xs font-semibold shadow-sm"
+                          className="bmw-btn-outline px-3 py-1.5 text-[10px] flex items-center gap-1.5 cursor-pointer font-mono uppercase"
                           title="Cetak PDF / A4"
                         >
-                          <Printer className="w-3.5 h-3.5" />
-                          <span>Cetak PDF</span>
+                          <Printer className="w-3.5 h-3.5 text-[#1c69d4]" />
+                          <span>CETAK PDF</span>
                         </button>
                         <button
                           onClick={(e) => handleDelete(ts.id, e)}
-                          className="p-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 rounded-lg text-rose-400 hover:text-rose-300 transition-all cursor-pointer"
+                          className="p-1.5 bg-[#0d0d0d] border border-[#3c3c3c] text-[#7e7e7e] hover:text-[#e22718] hover:border-[#e22718] rounded-none transition-colors cursor-pointer"
                           title="Hapus"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -462,23 +462,23 @@ export default function TelaahanStafPanel({
               </div>
             )
           ) : (
-            <div className="bg-[#121624] border border-slate-800/80 rounded-xl overflow-hidden shadow-xl">
+            <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none overflow-hidden shadow-2xl">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="border-b border-slate-800 bg-slate-900/40 text-slate-300 font-semibold uppercase tracking-wider text-[10px]">
-                      <th className="p-4">No. Surat Tugas</th>
-                      <th className="p-4">Lokasi & Kegiatan</th>
-                      <th className="p-4">Tanggal Tugas</th>
-                      <th className="p-4">Tim Pelaksana</th>
-                      <th className="p-4 text-center">Status Telaahan</th>
-                      <th className="p-4 text-right">Aksi</th>
+                    <tr className="border-b border-[#3c3c3c] bg-[#0d0d0d] text-white font-bold font-mono uppercase tracking-wider text-[10px]">
+                      <th className="p-4">NO. SURAT TUGAS</th>
+                      <th className="p-4">LOKASI & KEGIATAN</th>
+                      <th className="p-4">TANGGAL TUGAS</th>
+                      <th className="p-4">TIM PELAKSANA</th>
+                      <th className="p-4 text-center">STATUS TELAAHAN</th>
+                      <th className="p-4 text-right">AKSI</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/50">
+                  <tbody className="divide-y divide-[#262626]">
                     {accessibleLPDList.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="p-8 text-center text-slate-500 italic">
+                        <td colSpan={6} className="p-8 text-center text-[#7e7e7e] font-mono italic">
                           Tidak ditemukan Laporan Perjalanan Dinas.
                         </td>
                       </tr>
@@ -493,29 +493,29 @@ export default function TelaahanStafPanel({
                         }).filter(Boolean).join(', ') || allUsers.find(u => u.id === lpd.user_id)?.nama || 'N/A';
 
                         return (
-                          <tr key={lpd.id} className="hover:bg-slate-900/20 transition-colors">
-                            <td className="p-4 font-mono font-medium text-slate-200 max-w-[180px] truncate">
+                          <tr key={lpd.id} className="hover:bg-[#262626]/40 transition-colors">
+                            <td className="p-4 font-mono font-bold text-white max-w-[180px] truncate">
                               {lpd.nomor_surat_tugas}
                             </td>
-                            <td className="p-4 font-medium text-slate-300 max-w-[200px] truncate" title={lpd.tempat_kegiatan}>
+                            <td className="p-4 font-medium text-[#bbbbbb] max-w-[200px] truncate" title={lpd.tempat_kegiatan}>
                               {lpd.tempat_kegiatan}
                             </td>
-                            <td className="p-4 text-slate-400">
+                            <td className="p-4 text-[#7e7e7e] font-mono text-[11px]">
                               {lpd.tanggal_mulai} s.d {lpd.tanggal_selesai}
                             </td>
-                            <td className="p-4 text-slate-400 max-w-[180px] truncate" title={pelaksanaNames}>
+                            <td className="p-4 text-[#bbbbbb] max-w-[180px] truncate" title={pelaksanaNames}>
                               {pelaksanaNames}
                             </td>
                             <td className="p-4 text-center">
                               {hasTS ? (
-                                <span className="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold border border-emerald-500/20">
+                                <span className="inline-flex items-center gap-1.5 bg-[#0fa336]/10 text-[#0fa336] px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono uppercase tracking-wider border border-[#0fa336]/30">
                                   <Check className="w-3 h-3" />
-                                  Selesai
+                                  SELESAI
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1 bg-amber-500/10 text-amber-500 px-2.5 py-1 rounded-full text-[10px] font-bold border border-amber-500/20">
-                                  <AlertTriangle className="w-3 h-3 animate-pulse" />
-                                  Belum Dibuat
+                                <span className="inline-flex items-center gap-1.5 bg-[#f4b400]/10 text-[#f4b400] px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono uppercase tracking-wider border border-[#f4b400]/30">
+                                  <AlertTriangle className="w-3 h-3" />
+                                  BELUM DIBUAT
                                 </span>
                               )}
                             </td>
@@ -524,14 +524,14 @@ export default function TelaahanStafPanel({
                                 <div className="flex justify-end gap-2">
                                   <button
                                     onClick={() => startEdit(existingTS)}
-                                    className="px-2.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500 hover:text-white border border-indigo-500/30 text-indigo-400 rounded-lg text-[11px] font-semibold transition-all cursor-pointer shadow-sm"
+                                    className="bmw-btn-outline px-3 py-1 text-[10px] font-mono uppercase cursor-pointer"
                                     title="Buka draf Telaahan Staf yang sudah dibuat"
                                   >
-                                    Buka Draf
+                                    BUKA DRAF
                                   </button>
                                   <button
                                     onClick={() => startPrint(existingTS)}
-                                    className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-all cursor-pointer"
+                                    className="p-1.5 bg-[#0d0d0d] border border-[#3c3c3c] text-[#7e7e7e] hover:text-white hover:border-white rounded-none transition-colors cursor-pointer"
                                     title="Cetak Langsung"
                                   >
                                     <Printer className="w-3.5 h-3.5" />
@@ -544,9 +544,9 @@ export default function TelaahanStafPanel({
                                     handleLPDChange(lpd.id);
                                     setActiveView('form');
                                   }}
-                                  className="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-lg text-[11px] font-bold transition-all cursor-pointer shadow-sm"
+                                  className="bmw-btn-primary px-3 py-1.5 text-[10px] font-mono uppercase cursor-pointer"
                                 >
-                                  Buat Telaahan
+                                  BUAT TELAAHAN
                                 </button>
                               )}
                             </td>
@@ -565,18 +565,18 @@ export default function TelaahanStafPanel({
       {/* 2. FORM VIEW */}
       {activeView === 'form' && (
         <div className="space-y-6">
-          <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+          <div className="flex items-center gap-3 border-b border-[#3c3c3c] pb-4">
             <button
               onClick={() => setActiveView('list')}
-              className="p-2 bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer"
+              className="p-2 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none text-[#7e7e7e] hover:text-white transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div>
-              <h2 className="text-xl font-bold text-slate-100">
-                {selectedTS ? 'Edit Telaahan Staf' : 'Buat Telaahan Staf Baru'}
+              <h2 className="text-xl font-bold text-white uppercase font-sans tracking-wide">
+                {selectedTS ? 'EDIT TELAAHAN STAF' : 'BUAT TELAAHAN STAF BARU'}
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-[#bbbbbb] font-mono mt-1 font-light">
                 Pilih LPD, kemudian biarkan AI menyusun naskah telaahan dinas secara lengkap.
               </p>
             </div>
@@ -586,21 +586,21 @@ export default function TelaahanStafPanel({
             
             {/* LPD Context & Settings Block */}
             <div className="lg:col-span-1 space-y-5">
-              <div className="bg-[#121624] border border-slate-800/80 p-5 rounded-xl space-y-4">
-                <h3 className="text-xs font-bold text-amber-500 tracking-wider uppercase">1. Referensi Kegiatan</h3>
+              <div className="bg-[#1a1a1a] border border-[#3c3c3c] p-5 rounded-none space-y-4 shadow-2xl">
+                <h3 className="text-xs font-bold text-white font-mono tracking-widest uppercase">1. REFERENSI KEGIATAN</h3>
                 
                 {/* Select LPD */}
                 <div className="space-y-1.5">
-                  <label className="text-xs text-slate-400">Pilih Laporan Perjalanan Dinas (LPD)</label>
+                  <label className="text-xs text-[#bbbbbb] font-mono block">PILIH LAPORAN PERJALANAN DINAS (LPD)</label>
                   <select
                     disabled={!!selectedTS}
                     value={selectedLPDId}
                     onChange={(e) => handleLPDChange(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50 disabled:opacity-60"
+                    className="bmw-input w-full font-sans text-xs py-2 disabled:opacity-60"
                   >
-                    <option value="">-- Pilih LPD --</option>
+                    <option value="" className="bg-[#1a1a1a]">-- Pilih LPD --</option>
                     {accessibleLPDList.map((l) => (
-                      <option key={l.id} value={l.id}>
+                      <option key={l.id} value={l.id} className="bg-[#1a1a1a]">
                         {l.nomor_surat_tugas} - {l.tempat_kegiatan}
                       </option>
                     ))}
@@ -609,19 +609,19 @@ export default function TelaahanStafPanel({
 
                 {/* Selected LPD Brief Summary */}
                 {currentLPD ? (
-                  <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800/40 space-y-2 text-xs text-slate-300">
-                    <p className="font-semibold text-amber-500/80">Rangkuman LPD:</p>
+                  <div className="bg-[#0d0d0d] p-3 border border-[#3c3c3c] rounded-none space-y-2 text-xs text-[#bbbbbb]">
+                    <p className="font-bold text-white font-mono text-[10px] uppercase">RANGKUMAN LPD:</p>
                     <div className="space-y-1 text-[11px] leading-relaxed">
-                      <p><strong className="text-slate-400">Tujuan:</strong> {currentLPD.tempat_kegiatan}</p>
-                      <p><strong className="text-slate-400">Waktu:</strong> {currentLPD.tanggal_mulai} s.d {currentLPD.tanggal_selesai}</p>
+                      <p><strong className="text-[#7e7e7e]">Tujuan:</strong> {currentLPD.tempat_kegiatan}</p>
+                      <p><strong className="text-[#7e7e7e]">Waktu:</strong> {currentLPD.tanggal_mulai} s.d {currentLPD.tanggal_selesai}</p>
                       <p className="text-justify line-clamp-3">
-                        <strong className="text-slate-400">Temuan Lapangan:</strong> {currentLPD.hasil_poin_penting || '(Tidak ada)'}
+                        <strong className="text-[#7e7e7e]">Temuan Lapangan:</strong> {currentLPD.hasil_poin_penting || '(Tidak ada)'}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="p-3 bg-amber-500/5 border border-amber-500/10 rounded-lg text-amber-500/80 text-xs flex gap-2">
-                    <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <div className="p-3 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none text-[#bbbbbb] text-xs flex gap-2 font-mono">
+                    <AlertTriangle className="w-4 h-4 text-[#f4b400] shrink-0" />
                     <span>Silakan pilih LPD di atas untuk memuat data referensi.</span>
                   </div>
                 )}
@@ -629,24 +629,24 @@ export default function TelaahanStafPanel({
 
               {/* Signature Settings Block */}
               {currentLPD && (
-                <div className="bg-[#121624] border border-slate-800/80 p-5 rounded-xl space-y-4">
-                  <h3 className="text-xs font-bold text-amber-500 tracking-wider uppercase">2. Tanda Tangan</h3>
+                <div className="bg-[#1a1a1a] border border-[#3c3c3c] p-5 rounded-none space-y-4 shadow-2xl">
+                  <h3 className="text-xs font-bold text-white font-mono tracking-widest uppercase">2. TANDA TANGAN</h3>
 
                   {/* Place Date */}
                   <div className="space-y-1.5">
-                    <label className="text-xs text-slate-400">Tempat & Tanggal Telaahan</label>
+                    <label className="text-xs text-[#bbbbbb] font-mono block">TEMPAT & TANGGAL TELAAHAN</label>
                     <input
                       type="text"
                       value={tanggalTelaahan}
                       onChange={(e) => setTanggalTelaahan(e.target.value)}
                       placeholder="Banjarbaru, 18 Juni 2026"
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50"
+                      className="bmw-input w-full font-sans text-xs"
                     />
                   </div>
 
                   {/* Checklist Penyusun */}
                   <div className="space-y-2">
-                    <label className="text-xs text-slate-400 block">Checklist Penyusun (Tim Pelaksana)</label>
+                    <label className="text-xs text-[#bbbbbb] font-mono block">CHECKLIST PENYUSUN (TIM PELAKSANA)</label>
                     <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
                       {allUsers
                         .filter(u => currentLPD.pelaksana_ids?.includes(u.id) || u.id === currentLPD.user_id)
@@ -656,20 +656,20 @@ export default function TelaahanStafPanel({
                             <button
                               key={user.id}
                               onClick={() => togglePenyusun(user.id)}
-                              className={`w-full flex items-center justify-between p-2 rounded-lg border text-left text-xs transition-all cursor-pointer ${
+                              className={`w-full flex items-center justify-between p-2 rounded-none border text-left text-xs transition-all cursor-pointer ${
                                 isSelected 
-                                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' 
-                                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                                  ? 'bg-[#1c69d4]/10 border-[#1c69d4] text-white' 
+                                  : 'bg-[#0d0d0d] border-[#3c3c3c] text-[#bbbbbb] hover:border-white'
                               }`}
                             >
                               <div className="truncate">
-                                <p className="font-semibold truncate">{user.nama}</p>
-                                <p className="text-[10px] font-mono text-slate-500 mt-0.5 truncate">{user.nip}</p>
+                                <p className="font-bold truncate text-white">{user.nama}</p>
+                                <p className="text-[10px] font-mono text-[#7e7e7e] mt-0.5 truncate">{user.nip}</p>
                               </div>
                               {isSelected ? (
-                                <CheckSquare className="w-4 h-4 text-amber-500 shrink-0 ml-2" />
+                                <CheckSquare className="w-4 h-4 text-[#1c69d4] shrink-0 ml-2" />
                               ) : (
-                                <Square className="w-4 h-4 text-slate-600 shrink-0 ml-2" />
+                                <Square className="w-4 h-4 text-[#7e7e7e] shrink-0 ml-2" />
                               )}
                             </button>
                           );
@@ -682,20 +682,20 @@ export default function TelaahanStafPanel({
 
             {/* Telaahan Main Document Content Editor */}
             <div className="lg:col-span-2 space-y-5">
-              <div className="bg-[#121624] border border-slate-800/80 p-5 rounded-xl space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-800 pb-3">
-                  <h3 className="text-xs font-bold text-amber-500 tracking-wider uppercase">3. Naskah Telaahan Staf</h3>
+              <div className="bg-[#1a1a1a] border border-[#3c3c3c] p-6 rounded-none space-y-4 shadow-2xl">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#262626] pb-3">
+                  <h3 className="text-xs font-bold text-white font-mono tracking-widest uppercase">3. NASKAH TELAAHAN STAF</h3>
                   
                   {currentLPD && (
                     <button
                       onClick={handleGenerateAI}
                       disabled={isGenerating}
-                      className="flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-3 py-1.5 rounded-lg text-[10px] tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      className="bmw-btn-primary px-3 py-1.5 text-[10px] flex items-center gap-1.5 font-mono uppercase cursor-pointer disabled:opacity-50"
                     >
                       {isGenerating ? (
-                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#1c69d4]" />
                       ) : (
-                        <Wand2 className="w-3.5 h-3.5" />
+                        <Wand2 className="w-3.5 h-3.5 text-[#1c69d4]" />
                       )}
                       {judul ? 'RE-GENERATE DENGAN AI' : 'GENERATE DENGAN AI'}
                     </button>
@@ -703,26 +703,26 @@ export default function TelaahanStafPanel({
                 </div>
 
                 {!selectedLPDId ? (
-                  <div className="p-8 text-center text-slate-400 text-xs">
+                  <div className="p-8 text-center text-[#7e7e7e] text-xs font-mono">
                     Silakan pilih Laporan Perjalanan Dinas di panel kiri terlebih dahulu.
                   </div>
                 ) : isGenerating ? (
-                  <div className="p-12 text-center space-y-3">
-                    <RefreshCw className="w-8 h-8 text-amber-500 animate-spin mx-auto" />
+                  <div className="p-12 text-center space-y-3 font-mono">
+                    <RefreshCw className="w-8 h-8 text-[#1c69d4] animate-spin mx-auto" />
                     <div>
-                      <p className="text-xs text-slate-200 font-semibold">Sedang merancang Telaahan Staf...</p>
-                      <p className="text-[10px] text-slate-400 mt-1">
+                      <p className="text-xs text-white font-bold uppercase tracking-wider">Sedang merancang Telaahan Staf...</p>
+                      <p className="text-[10px] text-[#bbbbbb] mt-1 font-light">
                         Gemini AI sedang meninjau temuan lapangan dan mensintesis naskah dinas resmi.
                       </p>
                     </div>
                   </div>
                 ) : !judul ? (
-                  <div className="p-12 text-center space-y-3 bg-slate-950/40 rounded-xl border border-dashed border-slate-800">
-                    <Wand2 className="w-8 h-8 text-indigo-400 mx-auto" />
+                  <div className="p-12 text-center space-y-3 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none">
+                    <Wand2 className="w-8 h-8 text-[#1c69d4] mx-auto" />
                     <div className="max-w-sm mx-auto">
-                      <p className="text-xs text-slate-300 font-semibold">Draf Naskah Masih Kosong</p>
-                      <p className="text-[10px] text-slate-400 mt-1">
-                        Klik tombol <strong className="text-indigo-400">GENERATE DENGAN AI</strong> di kanan atas untuk menghasilkan rancangan telaahan staf kementerian secara otomatis.
+                      <p className="text-xs text-white font-bold uppercase font-mono tracking-wider">Draf Naskah Masih Kosong</p>
+                      <p className="text-[10px] text-[#bbbbbb] mt-1 font-light">
+                        Klik tombol <strong className="text-[#1c69d4]">GENERATE DENGAN AI</strong> di kanan atas untuk menghasilkan rancangan telaahan staf kementerian secara otomatis.
                       </p>
                     </div>
                   </div>
@@ -730,77 +730,77 @@ export default function TelaahanStafPanel({
                   <div className="space-y-4">
                     {/* TENTANG */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-slate-400 block font-semibold">TENTANG (JUDUL)</label>
+                      <label className="text-xs text-white font-bold font-mono tracking-wider block uppercase">TENTANG (JUDUL)</label>
                       <textarea
                         value={judul}
                         onChange={(e) => setJudul(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50 font-semibold"
+                        className="bmw-input w-full font-sans text-xs font-semibold leading-relaxed"
                         rows={2}
                       />
                     </div>
 
                     {/* PERSOALAN */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-slate-400 block font-semibold">A. PERSOALAN</label>
+                      <label className="text-xs text-white font-bold font-mono tracking-wider block uppercase">A. PERSOALAN</label>
                       <textarea
                         value={persoalan}
                         onChange={(e) => setPersoalan(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50"
+                        className="bmw-input w-full font-sans text-xs leading-relaxed"
                         rows={4}
                       />
                     </div>
 
                     {/* PRAANGGAPAN */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-slate-400 block font-semibold">B. PRAANGGAPAN</label>
+                      <label className="text-xs text-white font-bold font-mono tracking-wider block uppercase">B. PRAANGGAPAN</label>
                       <textarea
                         value={praanggapan}
                         onChange={(e) => setPraanggapan(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50"
+                        className="bmw-input w-full font-sans text-xs leading-relaxed"
                         rows={4}
                       />
                     </div>
 
                     {/* FAKTA */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-slate-400 block font-semibold">C. FAKTA YANG MEMPENGARUHI</label>
+                      <label className="text-xs text-white font-bold font-mono tracking-wider block uppercase">C. FAKTA YANG MEMPENGARUHI</label>
                       <textarea
                         value={fakta}
                         onChange={(e) => setFakta(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50"
+                        className="bmw-input w-full font-sans text-xs leading-relaxed"
                         rows={4}
                       />
                     </div>
 
                     {/* ANALISIS */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-slate-400 block font-semibold">D. ANALISIS</label>
+                      <label className="text-xs text-white font-bold font-mono tracking-wider block uppercase">D. ANALISIS</label>
                       <textarea
                         value={analisis}
                         onChange={(e) => setAnalisis(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50"
+                        className="bmw-input w-full font-sans text-xs leading-relaxed"
                         rows={5}
                       />
                     </div>
 
                     {/* KESIMPULAN */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-slate-400 block font-semibold">E. KESIMPULAN</label>
+                      <label className="text-xs text-white font-bold font-mono tracking-wider block uppercase">E. KESIMPULAN</label>
                       <textarea
                         value={kesimpulan}
                         onChange={(e) => setKesimpulan(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50"
+                        className="bmw-input w-full font-sans text-xs leading-relaxed"
                         rows={4}
                       />
                     </div>
 
                     {/* SARAN */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-slate-400 block font-semibold">F. SARAN / REKOMENDASI</label>
+                      <label className="text-xs text-white font-bold font-mono tracking-wider block uppercase">F. SARAN / REKOMENDASI</label>
                       <textarea
                         value={saran}
                         onChange={(e) => setSaran(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50"
+                        className="bmw-input w-full font-sans text-xs leading-relaxed"
                         rows={4}
                       />
                     </div>
@@ -810,10 +810,10 @@ export default function TelaahanStafPanel({
 
               {/* Action Buttons */}
               {judul && !isGenerating && (
-                <div className="flex justify-end gap-3 flex-wrap">
+                <div className="flex justify-end gap-3 flex-wrap pt-2">
                   <button
                     onClick={() => { resetForm(); setActiveView('list'); }}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-lg text-xs tracking-wider transition-all cursor-pointer"
+                    className="bmw-btn-outline px-4 py-2 text-xs font-mono uppercase cursor-pointer"
                   >
                     BATAL
                   </button>
@@ -836,17 +836,17 @@ export default function TelaahanStafPanel({
                       };
                       startPrint(tempTS);
                     }}
-                    className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-lg text-xs tracking-wider transition-all shadow shadow-indigo-500/10 cursor-pointer"
+                    className="bmw-btn-outline px-4 py-2 text-xs font-mono uppercase flex items-center gap-1.5 cursor-pointer"
                     title="Cetak draf naskah ini ke PDF"
                   >
-                    <Printer className="w-4 h-4" />
+                    <Printer className="w-4 h-4 text-[#1c69d4]" />
                     CETAK PDF
                   </button>
                   <button
                     onClick={handleSave}
-                    className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs tracking-wider transition-all shadow shadow-amber-500/10 cursor-pointer"
+                    className="bmw-btn-primary px-5 py-2 text-xs font-mono uppercase flex items-center gap-1.5 cursor-pointer"
                   >
-                    <Save className="w-4 h-4" />
+                    <Save className="w-4 h-4 text-[#1c69d4]" />
                     SIMPAN TELAAHAN STAF
                   </button>
                 </div>

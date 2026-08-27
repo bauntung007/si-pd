@@ -473,31 +473,31 @@ export default function App() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#05070e] text-slate-100 font-sans p-4 relative overflow-hidden">
-        {/* Decorative background gradients */}
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-amber-500/5 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/5 blur-[120px] pointer-events-none" />
+      <div className="min-h-screen flex items-center justify-center bg-[#000000] text-white font-sans p-4 relative overflow-hidden">
+        {/* Top M Stripe */}
+        <div className="absolute top-0 left-0 right-0 m-stripe-bg h-1.5 z-20" />
         
-        <div className="w-full max-w-md bg-[#0e1222] border border-[#1e2444] rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl relative z-10 animate-in fade-in duration-300">
+        <div className="w-full max-w-md bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 sm:p-8 space-y-6 shadow-2xl relative z-10">
+          <div className="m-stripe-bg h-1 w-full -mt-2 mb-4" />
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 mb-2">
-              <FileText className="w-6 h-6" />
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-[#0d0d0d] border border-[#3c3c3c] text-white mb-1">
+              <FileText className="w-6 h-6 text-[#1c69d4]" />
             </div>
-            <h1 className="text-lg font-extrabold tracking-tight text-slate-100">
-              Sistem Penulisan LPD Otomatis
+            <h1 className="text-lg font-bold tracking-wider text-white uppercase font-sans">
+              SIPD LPD PERFORMANCE
             </h1>
-            <p className="text-xs text-amber-400 font-semibold uppercase tracking-wider">
-              BPHL Wilayah XI Banjarbaru
+            <p className="text-xs text-[#1c69d4] font-bold uppercase tracking-widest font-mono">
+              BPHL WILAYAH XI BANJARBARU
             </p>
-            <p className="text-[11px] text-slate-400 max-w-xs mx-auto leading-relaxed">
-              Silakan masuk menggunakan nama akun (role_nama) untuk menguji otorisasi dokumen dan alur kerja verifikasi.
+            <p className="text-xs text-[#bbbbbb] font-light max-w-xs mx-auto leading-relaxed pt-1">
+              Sistem laporan perjalanan dinas berbasis standar kualitas dan presisi engineered.
             </p>
           </div>
 
           <form onSubmit={handleLoginSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                Nama Akun (Username)
+              <label className="text-[10px] font-bold text-[#bbbbbb] uppercase tracking-widest block font-mono">
+                NAMA AKUN (USERNAME)
               </label>
               <input
                 type="text"
@@ -505,13 +505,13 @@ export default function App() {
                 value={loginUsername}
                 onChange={(e) => setLoginUsername(e.target.value)}
                 placeholder="Contoh: user_lia, admin_busran"
-                className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 placeholder:text-slate-600"
+                className="w-full bg-[#0d0d0d] border border-[#3c3c3c] rounded-none px-3 py-2.5 text-xs text-white focus:outline-none focus:border-white placeholder:text-[#7e7e7e] font-sans"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                Kata Sandi (Password)
+              <label className="text-[10px] font-bold text-[#bbbbbb] uppercase tracking-widest block font-mono">
+                KATA SANDI (PASSWORD)
               </label>
               <input
                 type="password"
@@ -519,34 +519,34 @@ export default function App() {
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
                 placeholder="Contoh: lia, busran"
-                className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 placeholder:text-slate-600"
+                className="w-full bg-[#0d0d0d] border border-[#3c3c3c] rounded-none px-3 py-2.5 text-xs text-white focus:outline-none focus:border-white placeholder:text-[#7e7e7e] font-sans"
               />
             </div>
 
             {loginError && (
-              <div className="p-2.5 bg-red-500/10 border border-red-500/25 rounded-lg text-[10px] text-red-400 flex items-center gap-2 font-medium">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+              <div className="p-3 bg-[#e22718]/10 border border-[#e22718] rounded-none text-xs text-[#e22718] flex items-center gap-2 font-mono">
+                <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{loginError}</span>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold py-2.5 px-4 rounded-lg text-xs tracking-wider uppercase transition-all shadow-md cursor-pointer animate-none"
+              className="w-full bmw-btn-primary py-3 px-4 text-xs font-bold tracking-[0.2em] uppercase transition-all cursor-pointer"
             >
-              Masuk ke Aplikasi
+              MASUK KE APLIKASI
             </button>
           </form>
 
           <div className="relative flex py-1 items-center">
-            <div className="flex-grow border-t border-slate-800"></div>
-            <span className="flex-shrink mx-3 text-[10px] text-slate-500 uppercase tracking-wider font-mono">Bypass / Akses Instan</span>
-            <div className="flex-grow border-t border-slate-800"></div>
+            <div className="flex-grow border-t border-[#3c3c3c]"></div>
+            <span className="flex-shrink mx-3 text-[10px] text-[#7e7e7e] uppercase tracking-widest font-mono">AKSES INSTAN</span>
+            <div className="flex-grow border-t border-[#3c3c3c]"></div>
           </div>
 
           <div className="space-y-2.5">
-            <p className="text-[10px] text-center text-slate-500 leading-relaxed">
-              Anda juga dapat masuk secara instan menggunakan opsi peran di bawah ini:
+            <p className="text-[10px] text-center text-[#7e7e7e] font-light">
+              Pilih peran di bawah ini untuk pengujian langsung:
             </p>
             <div className="grid grid-cols-2 gap-2 text-center">
               <button
@@ -555,9 +555,9 @@ export default function App() {
                   const busran = allUsers.find(u => u.username === 'admin_busran');
                   if (busran) handleLogin(busran);
                 }}
-                className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-[10px] text-slate-300 hover:border-amber-500/30 transition-all font-medium cursor-pointer"
+                className="p-2 bg-[#0d0d0d] border border-[#3c3c3c] hover:border-[#1c69d4] rounded-none text-[10px] text-white transition-all font-mono font-bold uppercase cursor-pointer"
               >
-                🔑 Admin (Busran)
+                🔑 ADMIN (BUSRAN)
               </button>
               <button
                 type="button"
@@ -565,9 +565,9 @@ export default function App() {
                   const wahyu = allUsers.find(u => u.username === 'validator_wahyu');
                   if (wahyu) handleLogin(wahyu);
                 }}
-                className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-[10px] text-slate-300 hover:border-amber-500/30 transition-all font-medium cursor-pointer"
+                className="p-2 bg-[#0d0d0d] border border-[#3c3c3c] hover:border-[#1c69d4] rounded-none text-[10px] text-white transition-all font-mono font-bold uppercase cursor-pointer"
               >
-                ✓ Validator (Wahyu)
+                ✓ VALIDATOR (WAHYU)
               </button>
               <button
                 type="button"
@@ -575,9 +575,9 @@ export default function App() {
                   const isma = allUsers.find(u => u.username === 'verifikator_isma');
                   if (isma) handleLogin(isma);
                 }}
-                className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-[10px] text-slate-300 hover:border-amber-500/30 transition-all font-medium cursor-pointer"
+                className="p-2 bg-[#0d0d0d] border border-[#3c3c3c] hover:border-[#1c69d4] rounded-none text-[10px] text-white transition-all font-mono font-bold uppercase cursor-pointer"
               >
-                🛡️ Verifikator (Isma)
+                🛡️ VERIFIKATOR (ISMA)
               </button>
               <button
                 type="button"
@@ -585,9 +585,9 @@ export default function App() {
                   const lia = allUsers.find(u => u.username === 'user_lia');
                   if (lia) handleLogin(lia);
                 }}
-                className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-[10px] text-slate-300 hover:border-amber-500/30 transition-all font-medium cursor-pointer"
+                className="p-2 bg-[#0d0d0d] border border-[#3c3c3c] hover:border-[#1c69d4] rounded-none text-[10px] text-white transition-all font-mono font-bold uppercase cursor-pointer"
               >
-                👤 User (Lia)
+                👤 USER (LIA)
               </button>
             </div>
           </div>
@@ -597,7 +597,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#05070e] text-slate-100 font-sans selection:bg-amber-500/20 selection:text-amber-500">
+    <div className="min-h-screen flex flex-col bg-[#000000] text-white font-sans selection:bg-[#1c69d4] selection:text-white">
       
       {/* Top Header & Navigation Panel */}
       <HeaderAndNav
@@ -620,21 +620,23 @@ export default function App() {
           
           {/* Toast Notification Alerts */}
           {toastMessage && (
-            <div className="fixed bottom-5 right-5 z-50 bg-[#12182b] border border-amber-500/30 text-amber-200 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-bounce font-sans font-semibold text-xs leading-none print:hidden">
-              <CheckCircle2 className="w-4.5 h-4.5 text-amber-500 shrink-0" />
-              <span>{toastMessage}</span>
+            <div className="fixed bottom-6 right-6 z-50 bg-[#1a1a1a] border border-[#1c69d4] text-white px-5 py-3.5 rounded-none shadow-2xl flex items-center gap-3 animate-in fade-in duration-150 font-mono text-xs leading-none print:hidden">
+              <div className="w-2 h-2 bg-[#1c69d4]"></div>
+              <CheckCircle2 className="w-4 h-4 text-[#1c69d4] shrink-0" />
+              <span className="uppercase tracking-wider font-bold">{toastMessage}</span>
             </div>
           )}
 
           {/* Custom Safe Confirmation Dialog Modal */}
           {confirmDialog && (
-            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#020306]/85 backdrop-blur-md animate-in fade-in duration-200 print:hidden">
-              <div className="bg-[#0e1222] border border-[#1e2444] rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-in zoom-in-95 duration-200 relative">
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#000000]/90 backdrop-blur-sm animate-in fade-in duration-150 print:hidden">
+              <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+                <div className="m-stripe-bg h-1 w-full -mt-2 mb-4" />
                 <div className="flex items-start gap-4">
-                  <div className={`p-2.5 rounded-xl shrink-0 ${
+                  <div className={`p-3 rounded-none shrink-0 ${
                     confirmDialog.type === 'danger' 
-                      ? 'bg-red-500/10 text-red-400 border border-red-500/20' 
-                      : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      ? 'bg-[#e22718]/10 text-[#e22718] border border-[#e22718]' 
+                      : 'bg-[#1c69d4]/10 text-[#1c69d4] border border-[#1c69d4]'
                   }`}>
                     {confirmDialog.type === 'danger' ? (
                       <Trash2 className="w-6 h-6" />
@@ -643,33 +645,33 @@ export default function App() {
                     )}
                   </div>
                   <div className="space-y-1.5 flex-1">
-                    <h3 className="text-sm font-extrabold text-slate-100 tracking-wide font-sans">
+                    <h3 className="text-sm font-bold text-white tracking-widest uppercase font-sans">
                       {confirmDialog.title}
                     </h3>
-                    <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                    <p className="text-xs text-[#bbbbbb] leading-relaxed font-light">
                       {confirmDialog.message}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-2.5 pt-3 border-t border-[#1a1f3c] text-xs font-bold font-sans">
+                <div className="flex justify-end gap-3 pt-4 border-t border-[#262626] text-xs font-bold">
                   <button
                     onClick={() => setConfirmDialog(null)}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-750 text-slate-300 rounded-xl transition-all cursor-pointer border border-[#23294c] hover:border-[#303867]"
+                    className="bmw-btn-outline px-4 py-2 text-xs"
                   >
-                    Batal
+                    BATAL
                   </button>
                   <button
                     onClick={() => {
                       confirmDialog.onConfirm();
                     }}
-                    className={`px-4 py-2 text-white rounded-xl transition-all cursor-pointer shadow-lg ${
+                    className={`px-5 py-2 text-white font-bold tracking-widest uppercase rounded-none transition-all cursor-pointer ${
                       confirmDialog.type === 'danger'
-                        ? 'bg-red-600 hover:bg-red-700 shadow-red-600/10'
-                        : 'bg-amber-500 hover:bg-amber-600 !text-slate-950 font-bold shadow-amber-500/10'
+                        ? 'bg-[#e22718] hover:bg-[#e22718]/80'
+                        : 'bg-[#1c69d4] hover:bg-[#1c69d4]/80'
                     }`}
                   >
-                    {confirmDialog.type === 'danger' ? 'Ya, Hapus' : 'Ya, Reset'}
+                    {confirmDialog.type === 'danger' ? 'YA, HAPUS' : 'YA, KONFIRMASI'}
                   </button>
                 </div>
               </div>
@@ -780,20 +782,25 @@ export default function App() {
       </main>
 
       {/* System Footer of Application */}
-      <footer className="bg-[#0b0e1a] border-t border-[#1d233a] py-6 text-center text-slate-500 text-xs mt-12 print:hidden select-none">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2">
-          <p className="font-semibold text-slate-400">
-            Sistem Informasi Laporan Perjalanan Dinas Digital (LPD Online)
+      <footer className="bg-[#0d0d0d] border-t border-[#262626] py-8 text-center text-[#7e7e7e] text-xs mt-16 print:hidden select-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+          <div className="flex justify-center items-center gap-2">
+            <span className="w-2 h-0.5 bg-[#0066b1]"></span>
+            <span className="w-2 h-0.5 bg-[#1c69d4]"></span>
+            <span className="w-2 h-0.5 bg-[#e22718]"></span>
+          </div>
+          <p className="font-bold text-white uppercase tracking-widest font-sans">
+            SIPD LPD ONLINE • BPHL WILAYAH XI BANJARBARU
           </p>
-          <p>
-            Hak Cipta &copy; 2026 Balai Pengelolaan Hutan Lestari Wilayah XI Banjarbaru.
+          <p className="font-light text-[#bbbbbb]">
+            Hak Cipta &copy; 2026 Balai Pengelolaan Hutan Lestari Wilayah XI Banjarbaru. Kementerian Kehutanan RI.
           </p>
-          <div className="pt-2 flex justify-center items-center gap-3">
+          <div className="pt-3 flex justify-center items-center gap-3">
             <button
               onClick={handleResetData}
-              className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-amber-500 rounded text-[10px] font-mono cursor-pointer transition-colors"
+              className="px-3 py-1.5 bg-[#1a1a1a] hover:bg-[#262626] border border-[#3c3c3c] text-white rounded-none text-[10px] font-mono tracking-wider uppercase cursor-pointer transition-colors"
             >
-              Ulangi Basis Data (Reset Seeds)
+              ULANGI BASIS DATA (RESET SEEDS)
             </button>
           </div>
         </div>
@@ -802,3 +809,4 @@ export default function App() {
     </div>
   );
 }
+

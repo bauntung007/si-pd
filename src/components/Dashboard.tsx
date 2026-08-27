@@ -1,5 +1,5 @@
 import { Laporan, User, JenisKegiatan } from '../types';
-import { FileText, CheckCircle2, RefreshCw, AlertCircle, PlusCircle, ArrowRight, TrendingUp, Calendar, MapPin, User as UserIcon } from 'lucide-react';
+import { FileText, CheckCircle2, RefreshCw, AlertCircle, PlusCircle, ArrowRight, TrendingUp } from 'lucide-react';
 
 interface DashboardProps {
   laporanList: Laporan[];
@@ -20,7 +20,7 @@ export default function Dashboard({
   onSelectLaporan,
   onCreateNew,
 }: DashboardProps) {
-  // Filtration based on credentials: User sees only own or where they are a team member (pelaksana), Admin/Verif/Validator sees all
+  // Filtration based on credentials
   const accessibleReports = currentUser.role === 'user'
     ? laporanList.filter(l => l.user_id === currentUser.id || l.pelaksana_ids.includes(currentUser.id))
     : laporanList;
@@ -54,146 +54,134 @@ export default function Dashboard({
   const getStatusBadge = (status: Laporan['status']) => {
     switch (status) {
       case 'approved':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Disetujui ✓</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-none text-[9px] font-bold uppercase tracking-widest bg-[#0fa336]/10 text-[#0fa336] border border-[#0fa336]/30 font-mono">DISETUJUI ✓</span>;
       case 'submitted':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/25">Menunggu Verif</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-none text-[9px] font-bold uppercase tracking-widest bg-[#0066b1]/10 text-[#0066b1] border border-[#0066b1]/40 font-mono">MENUNGGU VERIF</span>;
       case 'verified':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/25">Terverifikasi</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-none text-[9px] font-bold uppercase tracking-widest bg-[#1c69d4]/10 text-[#1c69d4] border border-[#1c69d4]/40 font-mono font-bold">TERVERIFIKASI</span>;
       case 'revision':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">Perlu Revisi</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-none text-[9px] font-bold uppercase tracking-widest bg-[#f4b400]/10 text-[#f4b400] border border-[#f4b400]/30 font-mono">PERLU REVISI</span>;
       case 'rejected':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-500 border border-red-500/20">Ditolak</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-none text-[9px] font-bold uppercase tracking-widest bg-[#e22718]/10 text-[#e22718] border border-[#e22718]/40 font-mono">DITOLAK</span>;
       default:
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-500/10 text-slate-400 border border-slate-500/20">Draft</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-none text-[9px] font-bold uppercase tracking-widest bg-[#262626] text-[#bbbbbb] border border-[#3c3c3c] font-mono">DRAFT</span>;
     }
   };
 
   return (
     <div className="space-y-8 animate-in fade-in-50 duration-200">
       
-      {/* Welcome Banner */}
-      <div className="relative overflow-hidden glass-card border border-[#232b47] rounded-2xl p-6 sm:p-8 shadow-2xl">
+      {/* BMW Executive Cockpit Banner */}
+      <div className="relative overflow-hidden bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 sm:p-8 shadow-2xl">
+        <div className="m-stripe-bg h-1 w-full -mt-6 -mx-6 sm:-mt-8 sm:-mx-8 mb-6" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="max-w-xl space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-amber-500/10 text-amber-500 rounded font-mono text-[10px] font-bold tracking-wide uppercase border border-amber-500/20">
-              Sistem Basis Data Perjalanan Dinas
+          <div className="max-w-xl space-y-3">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#0d0d0d] text-white rounded-none font-mono text-[10px] font-bold tracking-widest uppercase border border-[#3c3c3c]">
+              <span className="w-1.5 h-1.5 bg-[#1c69d4]"></span>
+              EXECUTIVE COCKPIT • BPHL XI
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-figtree">
-              Selamat Datang, <span className="text-amber-500 font-extrabold">{currentUser.nama}</span>!
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase font-sans">
+              SELAMAT DATANG, <span className="text-[#1c69d4]">{currentUser.nama}</span>
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Anda masuk sebagai <span className="text-indigo-300 font-semibold uppercase font-mono">{currentUser.role === 'admin' ? 'admin / validator' : currentUser.role === 'verifikator' ? 'user / verifikator' : currentUser.role}</span>. Gunakan sistem penulisan template LPD otomatis untuk mempercepat administrasi BPHL Wilayah XI Banjarbaru.
+            <p className="text-xs sm:text-sm text-[#bbbbbb] font-light leading-relaxed">
+              Otorisasi Aktif: <span className="text-white font-mono font-bold uppercase bg-[#0d0d0d] px-2 py-0.5 border border-[#3c3c3c]">{currentUser.role === 'admin' ? 'ADMIN / VALIDATOR' : currentUser.role === 'verifikator' ? 'VERIFIKATOR' : currentUser.role}</span>. Kelola dan verifikasi laporan perjalanan dinas dengan standar presisi engineered.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <button
               onClick={onCreateNew}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-lg glow-amber cursor-pointer"
+              className="bmw-btn-primary inline-flex items-center justify-center gap-2 px-5 py-3 text-xs cursor-pointer shadow-xl"
             >
-              <PlusCircle className="w-4 h-4" />
-              Buat Laporan Baru
+              <PlusCircle className="w-4 h-4 text-[#1c69d4]" />
+              BUAT LAPORAN BARU
             </button>
             <button
               onClick={() => onNavigate('laporan')}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700/80 text-white font-bold rounded-xl text-xs transition-all border border-slate-700/80 cursor-pointer"
+              className="bmw-btn-outline inline-flex items-center justify-center gap-2 px-5 py-3 text-xs cursor-pointer"
             >
-              Lihat Daftar Laporan
+              DAFTAR LAPORAN
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
-        {/* Subtle decorative background circles */}
-        <div className="absolute right-0 bottom-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute left-1/3 top-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
       </div>
 
       {/* Info Notice about Simulation Mode */}
-      <div className="p-4 glass-panel rounded-xl text-xs text-slate-300 leading-relaxed flex items-start gap-3 border border-blue-900/40">
-        <div className="p-1.5 bg-blue-500/10 rounded-lg text-blue-400 shrink-0">
+      <div className="p-4 bg-[#0d0d0d] rounded-none text-xs text-[#bbbbbb] font-light leading-relaxed flex items-start gap-3 border border-[#3c3c3c]">
+        <div className="p-2 bg-[#1a1a1a] border border-[#3c3c3c] text-[#1c69d4] shrink-0">
           <TrendingUp className="w-4 h-4" />
         </div>
         <div>
-          <span className="font-bold text-amber-400 font-figtree">Petunjuk Simulasi Alur Verifikasi & Validasi:</span> Untuk menguji siklus hidup laporan secara lengkap, Anda dapat membuat laporan sebagai staf, lalu beralih peran ke <span className="font-semibold text-slate-100">Isma Chairani / Nunung Khusnul (Verifikator)</span> untuk memverifikasi laporan (mengubah status menjadi Terverifikasi), kemudian beralih peran ke <span className="font-semibold text-slate-100">Busran (Admin/Validator) atau Wahyu Nurhidayat (Validator)</span> untuk memberikan pengesahan final, lalu mengunduh cetakan berkas formal berKop Surat resmi yang sudah tertanda tangan digital.
+          <span className="font-bold text-white font-mono uppercase tracking-wider block mb-0.5">PETUNJUK SIMULASI ALUR VERIFIKASI & VALIDASI:</span>
+          Untuk menguji siklus hidup laporan secara lengkap, Anda dapat membuat laporan sebagai staf, lalu beralih peran ke <span className="font-bold text-white">Isma Chairani / Nunung Khusnul (Verifikator)</span> untuk verifikasi, kemudian beralih peran ke <span className="font-bold text-white">Busran / Wahyu Nurhidayat (Validator)</span> untuk mengesahkan dan mencetak dokumen formal berKop Surat resmi.
         </div>
       </div>
 
-      {/* Overview Stats Bento-Grid */}
+      {/* BMW Spec-Cell Metrics Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        <div className="glass-card glass-card-hover rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-bold text-slate-400 font-mono tracking-tight uppercase">Total Dokumen</span>
-            <div className="p-1.5 bg-slate-800 rounded-lg text-slate-300">
-              <FileText className="w-4 h-4" />
-            </div>
+        <div className="bmw-spec-cell flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-[#7e7e7e] font-mono tracking-widest uppercase">TOTAL DOKUMEN</span>
+            <FileText className="w-4 h-4 text-[#1c69d4]" />
           </div>
           <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-white font-figtree">{totalReportsNum}</span>
-            <span className="text-[10px] text-slate-400 block mt-1">LPD terunggah</span>
+            <span className="text-3xl font-bold text-white font-sans tracking-tight">{totalReportsNum}</span>
+            <span className="text-[9px] text-[#7e7e7e] font-mono uppercase block mt-1">LPD Terunggah</span>
           </div>
         </div>
 
-        <div className="bg-[#101426] border border-[#1e233d] rounded-xl p-4 flex flex-col justify-between shadow-sm hover:border-[#2b335a] transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-bold text-slate-400 font-mono tracking-tight uppercase">Draft</span>
-            <div className="p-1.5 bg-indigo-500/10 rounded-lg text-indigo-400">
-              <FileText className="w-4 h-4" />
-            </div>
+        <div className="bmw-spec-cell flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-[#7e7e7e] font-mono tracking-widest uppercase">DRAFT</span>
+            <FileText className="w-4 h-4 text-[#bbbbbb]" />
           </div>
           <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-indigo-400">{draftReports.length}</span>
-            <span className="text-[10px] text-indigo-400 block mt-1">Belum diajukan</span>
+            <span className="text-3xl font-bold text-white font-sans tracking-tight">{draftReports.length}</span>
+            <span className="text-[9px] text-[#7e7e7e] font-mono uppercase block mt-1">Belum Diajukan</span>
           </div>
         </div>
 
-        <div className="bg-[#101426] border border-[#1e233d] rounded-xl p-4 flex flex-col justify-between shadow-sm hover:border-[#2b335a] transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-bold text-slate-400 font-mono tracking-tight uppercase">Menunggu Verif</span>
-            <div className="p-1.5 bg-amber-500/10 rounded-lg text-amber-400 animate-pulse">
-              <RefreshCw className="w-4 h-4" />
-            </div>
+        <div className="bmw-spec-cell flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-[#7e7e7e] font-mono tracking-widest uppercase">MENUNGGU VERIF</span>
+            <RefreshCw className="w-4 h-4 text-[#0066b1]" />
           </div>
           <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-amber-400">{submittedReports.length}</span>
-            <span className="text-[10px] text-amber-500/80 block mt-1">Diajukan staf</span>
+            <span className="text-3xl font-bold text-[#0066b1] font-sans tracking-tight">{submittedReports.length}</span>
+            <span className="text-[9px] text-[#0066b1] font-mono uppercase block mt-1">Diajukan Staf</span>
           </div>
         </div>
 
-        <div className="bg-[#101426] border border-[#1e233d] rounded-xl p-4 flex flex-col justify-between shadow-sm hover:border-[#2b335a] transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-bold text-slate-400 font-mono tracking-tight uppercase">Menunggu Validasi</span>
-            <div className="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
-              <RefreshCw className="w-4 h-4" />
-            </div>
+        <div className="bmw-spec-cell flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-[#7e7e7e] font-mono tracking-widest uppercase">MENUNGGU VALIDASI</span>
+            <RefreshCw className="w-4 h-4 text-[#1c69d4]" />
           </div>
           <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-blue-400">{verifiedReports.length}</span>
-            <span className="text-[10px] text-blue-500/80 block mt-1">Terverifikasi</span>
+            <span className="text-3xl font-bold text-[#1c69d4] font-sans tracking-tight">{verifiedReports.length}</span>
+            <span className="text-[9px] text-[#1c69d4] font-mono uppercase block mt-1">Terverifikasi</span>
           </div>
         </div>
 
-        <div className="bg-[#101426] border border-[#1e233d] rounded-xl p-4 flex flex-col justify-between shadow-sm hover:border-[#2b335a] transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-bold text-slate-400 font-mono tracking-tight uppercase">Disetujui</span>
-            <div className="p-1.5 bg-emerald-500/10 rounded-lg text-emerald-400">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
+        <div className="bmw-spec-cell flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-[#7e7e7e] font-mono tracking-widest uppercase">DISETUJUI</span>
+            <CheckCircle2 className="w-4 h-4 text-[#0fa336]" />
           </div>
           <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-400">{approvedReports.length}</span>
-            <span className="text-[10px] text-emerald-500/80 block mt-1">Selesai disahkan</span>
+            <span className="text-3xl font-bold text-[#0fa336] font-sans tracking-tight">{approvedReports.length}</span>
+            <span className="text-[9px] text-[#0fa336] font-mono uppercase block mt-1">Selesai Disahkan</span>
           </div>
         </div>
 
-        <div className="bg-[#101426] border border-[#1e233d] rounded-xl p-4 flex flex-col justify-between shadow-sm hover:border-[#2b335a] transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-bold text-slate-400 font-mono tracking-tight uppercase">Revisi/Tolak</span>
-            <div className="p-1.5 bg-purple-500/10 rounded-lg text-purple-400">
-              <AlertCircle className="w-4 h-4" />
-            </div>
+        <div className="bmw-spec-cell flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-[#7e7e7e] font-mono tracking-widest uppercase">REVISI / TOLAK</span>
+            <AlertCircle className="w-4 h-4 text-[#e22718]" />
           </div>
           <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-purple-400">{revisionReports.length}</span>
-            <span className="text-[10px] text-purple-400 block mt-1">Butuh perbaikan</span>
+            <span className="text-3xl font-bold text-[#e22718] font-sans tracking-tight">{revisionReports.length}</span>
+            <span className="text-[9px] text-[#e22718] font-mono uppercase block mt-1">Butuh Perbaikan</span>
           </div>
         </div>
       </div>
@@ -202,22 +190,25 @@ export default function Dashboard({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Statistics by Travel Program Type */}
-        <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-5 shadow-md lg:col-span-7 space-y-4">
-          <h3 className="text-xs font-bold text-slate-300 font-mono tracking-tight uppercase border-b border-[#22293f] pb-2.5">
-            Grafik Penugasan Berdasarkan Jenis Kegiatan
-          </h3>
-          <div className="space-y-4 pt-1.5">
+        <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 lg:col-span-7 space-y-4">
+          <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+            <h3 className="text-xs font-bold text-white font-mono tracking-widest uppercase">
+              DISTRIBUSI JENIS KEGIATAN
+            </h3>
+            <span className="text-[10px] font-mono text-[#7e7e7e]">M-PERFORMANCE</span>
+          </div>
+          <div className="space-y-4 pt-1">
             {statsByActivity.map((stat, i) => {
               const percentage = totalReportsNum > 0 ? (stat.count / totalReportsNum) * 100 : 0;
               return (
-                <div key={i} className="space-y-1">
-                  <div className="flex justify-between text-xs">
-                    <span className="font-medium text-slate-200 line-clamp-1">{stat.nama}</span>
-                    <span className="font-bold text-amber-500 font-mono">{stat.count} LPD</span>
+                <div key={i} className="space-y-1.5">
+                  <div className="flex justify-between text-xs font-sans">
+                    <span className="font-bold text-white line-clamp-1 uppercase">{stat.nama}</span>
+                    <span className="font-bold text-[#1c69d4] font-mono">{stat.count} LPD</span>
                   </div>
-                  <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                  <div className="w-full bg-[#0d0d0d] rounded-none h-2 border border-[#262626] overflow-hidden">
                     <div
-                      className="bg-amber-500 h-2.5 rounded-full transition-all duration-500"
+                      className="m-stripe-bg h-2 rounded-none transition-all duration-500"
                       style={{ width: `${Math.max(percentage, 4)}%` }}
                     ></div>
                   </div>
@@ -227,22 +218,25 @@ export default function Dashboard({
           </div>
         </div>
 
-        {/* Travelers Summary (Only visible easily on full view, simulated nicely) */}
-        <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-5 shadow-md lg:col-span-5 space-y-4">
-          <h3 className="text-xs font-bold text-slate-300 font-mono tracking-tight uppercase border-b border-[#22293f] pb-2.5">
-            Statistik Dinas per Personil
-          </h3>
-          <div className="divide-y divide-[#1e233d] max-h-[290px] overflow-y-auto">
+        {/* Travelers Summary */}
+        <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 lg:col-span-5 space-y-4">
+          <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+            <h3 className="text-xs font-bold text-white font-mono tracking-widest uppercase">
+              STATISTIK DINAS PER PERSONIL
+            </h3>
+            <span className="text-[10px] font-mono text-[#7e7e7e]">BPHL XI</span>
+          </div>
+          <div className="divide-y divide-[#262626] max-h-[300px] overflow-y-auto pr-1">
             {statsByUser.map((userStat, i) => (
               <div key={i} className="py-2.5 flex items-center justify-between text-xs first:pt-1">
                 <div className="flex flex-col">
-                  <span className="font-semibold text-slate-200">{userStat.nama}</span>
-                  <span className="text-[10px] text-slate-400 capitalize italic">
-                    {userStat.role === 'admin' ? 'admin / validator' : userStat.role === 'verifikator' ? 'user / verifikator' : userStat.role}
+                  <span className="font-bold text-white uppercase">{userStat.nama}</span>
+                  <span className="text-[10px] text-[#7e7e7e] font-mono uppercase">
+                    {userStat.role === 'admin' ? 'ADMIN/VAL' : userStat.role === 'verifikator' ? 'VERIFIKATOR' : userStat.role}
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="font-mono font-bold text-amber-400 bg-amber-400/5 px-2 py-1 rounded">
+                  <span className="font-mono font-bold text-white bg-[#0d0d0d] border border-[#3c3c3c] px-2.5 py-1 text-[11px]">
                     {userStat.count} LPD
                   </span>
                 </div>
@@ -253,65 +247,65 @@ export default function Dashboard({
       </div>
 
       {/* Recent Travel Logs Reports Area */}
-      <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-5 shadow-md space-y-4">
-        <div className="flex items-center justify-between border-b border-[#22293f] pb-2.5">
-          <h3 className="text-xs font-bold text-slate-300 font-mono tracking-tight uppercase">
-            Laporan Tugas Terbaru
+      <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+          <h3 className="text-xs font-bold text-white font-mono tracking-widest uppercase">
+            LAPORAN PERJALANAN DINAS TERBARU
           </h3>
           <button
             onClick={() => onNavigate('laporan')}
-            className="text-[11px] text-amber-500 hover:text-amber-400 font-bold transition-all focus:outline-none"
+            className="text-xs text-white hover:text-[#1c69d4] font-bold font-mono uppercase tracking-widest transition-all focus:outline-none"
           >
-            Lihat semua LPD →
+            LIHAT SEMUA LPD →
           </button>
         </div>
 
         {accessibleReports.length === 0 ? (
-          <div className="py-8 text-center text-slate-400 text-xs">
-            Belum ada laporan perjalanan dinas yang diajukan. Sisipkan laporan pertama Anda!
+          <div className="py-8 text-center text-[#7e7e7e] text-xs font-light">
+            Belum ada laporan perjalanan dinas yang diajukan.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-[#1e233d] text-slate-400 font-mono text-[11px] uppercase">
-                  <th className="py-2 px-3">No. Surat Tugas</th>
-                  <th className="py-2 px-3">Jenis Kegiatan</th>
-                  <th className="py-2 px-3">Tempat Tujuan</th>
-                  <th className="py-2 px-3">Waktu Pelaksanaan</th>
-                  <th className="py-2 px-3">Status</th>
-                  <th className="py-2 px-3 text-right">Aksi</th>
+                <tr className="border-b border-[#262626] bg-[#0d0d0d] text-[#bbbbbb] font-mono text-[10px] uppercase tracking-wider">
+                  <th className="py-3 px-4">NO. SURAT TUGAS</th>
+                  <th className="py-3 px-4">JENIS KEGIATAN</th>
+                  <th className="py-3 px-4">TEMPAT TUJUAN</th>
+                  <th className="py-3 px-4">WAKTU PELAKSANAAN</th>
+                  <th className="py-3 px-4">STATUS</th>
+                  <th className="py-3 px-4 text-right">AKSI</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#181d33]">
+              <tbody className="divide-y divide-[#262626]">
                 {accessibleReports.slice(0, 5).map((lpd) => {
                   const programName = jenisKegiatanList.find(jk => jk.id === lpd.jenis_kegiatan_id)?.nama_kegiatan || 'Lainnya';
                   return (
-                    <tr key={lpd.id} className="hover:bg-slate-800/20 transition-all font-sans">
-                      <td className="py-3 px-3 font-semibold text-slate-200 font-mono text-[11px] whitespace-nowrap">
-                        {lpd.nomor_surat_tugas || <span className="text-slate-500 italic">No. Surat Kosong</span>}
+                    <tr key={lpd.id} className="hover:bg-[#262626]/50 transition-all">
+                      <td className="py-3.5 px-4 font-bold text-white font-mono text-xs whitespace-nowrap">
+                        {lpd.nomor_surat_tugas || <span className="text-[#7e7e7e] font-light">KOSONG</span>}
                       </td>
-                      <td className="py-3 px-3 text-slate-300 font-medium">
+                      <td className="py-3.5 px-4 text-white font-medium">
                         {programName}
                       </td>
-                      <td className="py-3 px-3 text-slate-400 max-w-[180px] truncate">
+                      <td className="py-3.5 px-4 text-[#bbbbbb] max-w-[200px] truncate font-light">
                         {lpd.tempat_kegiatan}
                       </td>
-                      <td className="py-3 px-3 text-slate-400 whitespace-nowrap">
-                        <span className="text-[10px] font-mono">
-                          {new Date(lpd.tanggal_mulai).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })} s.d.{' '}
+                      <td className="py-3.5 px-4 text-[#bbbbbb] whitespace-nowrap">
+                        <span className="text-[11px] font-mono">
+                          {new Date(lpd.tanggal_mulai).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })} -{' '}
                           {new Date(lpd.tanggal_selesai).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </span>
                       </td>
-                      <td className="py-3 px-3 whitespace-nowrap">
+                      <td className="py-3.5 px-4 whitespace-nowrap">
                         {getStatusBadge(lpd.status)}
                       </td>
-                      <td className="py-3 px-3 text-right whitespace-nowrap">
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <button
                           onClick={() => onSelectLaporan(lpd)}
-                          className="px-2 py-1 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-500/20 text-amber-400 rounded text-[10px] font-bold tracking-wide transition-all"
+                          className="px-3 py-1.5 bg-[#0d0d0d] hover:bg-white hover:text-black border border-[#3c3c3c] text-white rounded-none text-[10px] font-bold font-mono tracking-widest uppercase transition-all"
                         >
-                          Buka Detail
+                          DETAIL
                         </button>
                       </td>
                     </tr>
@@ -326,3 +320,4 @@ export default function Dashboard({
     </div>
   );
 }
+

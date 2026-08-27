@@ -643,32 +643,32 @@ export default function LaporanForm({
         </div>
       )}
 
-      {/* Multi-step progress tracker with Glassmorphism & Progress Bar */}
-      <div className="glass-card rounded-2xl p-4 sm:p-5 shadow-xl border border-[#232b47]">
+      {/* Multi-step progress tracker with BMW M Design */}
+      <div className="bg-[#1a1a1a] rounded-none p-5 shadow-2xl border border-[#3c3c3c]">
         <div className="flex justify-between items-center mb-3">
           <div>
-            <span className="text-[10px] font-mono font-bold tracking-widest text-amber-500 uppercase">
-              Langkah {currentStep} Dari 4
+            <span className="text-[10px] font-mono font-bold tracking-widest text-[#1c69d4] uppercase">
+              LANGKAH {currentStep} DARI 4
             </span>
-            <h4 className="text-xs sm:text-sm font-bold text-white font-figtree">
-              {currentStep === 1 && '1. Jenis Penugasan & Surat Tugas'}
-              {currentStep === 2 && '2. Lokasi & Tim Pelaksana'}
-              {currentStep === 3 && '3. Formulasi & Hasil Kegiatan'}
-              {currentStep === 4 && '4. Dokumentasi & Pengesahan'}
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">
+              {currentStep === 1 && '1. JENIS PENUGASAN & SURAT TUGAS'}
+              {currentStep === 2 && '2. LOKASI & TIM PELAKSANA'}
+              {currentStep === 3 && '3. FORMULASI & HASIL KEGIATAN'}
+              {currentStep === 4 && '4. DOKUMENTASI & PENGESAHAN'}
             </h4>
           </div>
           <div className="text-right">
-            <span className="text-xs font-mono font-bold text-amber-400">
+            <span className="text-xs font-mono font-bold text-white">
               {Math.round((currentStep / 4) * 100)}%
             </span>
-            <span className="text-[10px] text-slate-400 block font-mono">Selesai</span>
+            <span className="text-[9px] text-[#7e7e7e] block font-mono uppercase">SELESAI</span>
           </div>
         </div>
 
-        {/* Progress bar track */}
-        <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden mb-4 border border-slate-800">
+        {/* M Tricolor Progress Bar */}
+        <div className="w-full h-1.5 bg-[#0d0d0d] rounded-none overflow-hidden mb-4 border border-[#262626]">
           <div
-            className="h-full bg-gradient-to-r from-amber-500 via-amber-400 to-emerald-400 transition-all duration-300 ease-out rounded-full"
+            className="h-full m-stripe-bg transition-all duration-300 ease-out rounded-none"
             style={{ width: `${(currentStep / 4) * 100}%` }}
           />
         </div>
@@ -693,30 +693,30 @@ export default function LaporanForm({
                   }
                 }}
                 disabled={s.num > currentStep}
-                className={`flex items-center gap-2.5 p-2 rounded-xl border text-left transition-all ${
+                className={`flex items-center gap-2.5 p-2.5 rounded-none border text-left transition-all ${
                   isCurrent
-                    ? 'bg-amber-500/10 border-amber-500/50 text-amber-400 shadow-md shadow-amber-500/5'
+                    ? 'bg-[#0d0d0d] border-[#1c69d4] text-white shadow-lg'
                     : isPassed
-                    ? 'bg-emerald-500/5 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 cursor-pointer'
-                    : 'bg-slate-900/40 border-slate-800/80 text-slate-500 cursor-not-allowed'
+                    ? 'bg-[#1a1a1a] border-[#3c3c3c] text-white hover:bg-[#262626] cursor-pointer'
+                    : 'bg-[#0d0d0d]/40 border-[#262626] text-[#7e7e7e] cursor-not-allowed'
                 }`}
               >
                 <div
-                  className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 transition-colors ${
+                  className={`w-7 h-7 rounded-none flex items-center justify-center text-xs font-bold shrink-0 transition-colors ${
                     isCurrent
-                      ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
+                      ? 'bg-[#1c69d4] text-white font-mono'
                       : isPassed
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                      : 'bg-slate-800 text-slate-500'
+                      ? 'bg-[#262626] text-white border border-[#3c3c3c]'
+                      : 'bg-[#0d0d0d] text-[#7e7e7e]'
                   }`}
                 >
-                  {isPassed ? <CheckCircle className="w-4 h-4" /> : s.num}
+                  {isPassed ? <CheckCircle className="w-4 h-4 text-[#0fa336]" /> : s.num}
                 </div>
                 <div className="min-w-0 hidden sm:block">
-                  <p className={`text-[11px] font-bold truncate leading-tight ${isCurrent ? 'text-amber-400' : isPassed ? 'text-slate-200' : 'text-slate-500'}`}>
+                  <p className={`text-[11px] font-bold uppercase truncate tracking-wider ${isCurrent ? 'text-white' : isPassed ? 'text-[#bbbbbb]' : 'text-[#7e7e7e]'}`}>
                     {s.label}
                   </p>
-                  <p className="text-[9px] text-slate-500 truncate">{s.desc}</p>
+                  <p className="text-[9px] text-[#7e7e7e] font-mono truncate">{s.desc}</p>
                 </div>
               </button>
             );
@@ -725,75 +725,74 @@ export default function LaporanForm({
       </div>
 
       {/* Form Area panel */}
-      <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-6 shadow-md">
+      <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 shadow-2xl">
         
         {/* ================= STEP 1: BASIS PROGRAM & SURAT TUGAS ================= */}
         {currentStep === 1 && (
           <div className="space-y-6 animate-in slide-in-from-right duration-200">
-            <div className="border-b border-[#22293f] pb-2">
-              <h3 className="text-sm font-bold text-amber-500 uppercase tracking-wider font-mono">
-                Langkah 1: Jenis Penugasan & Dasar Hukum
+            <div className="border-b border-[#262626] pb-3">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest font-mono">
+                LANGKAH 1: JENIS PENUGASAN & DASAR HUKUM
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
-                Pilih jenis penugasan di bawah. Sistem akan secara otomatis mengimpor dan memformat dasar pelaksanaan resmi sesuai peraturan menteri LHK.
+              <p className="text-xs text-[#bbbbbb] font-light mt-1">
+                Pilih jenis penugasan di bawah. Sistem mengimpor dan memformat dasar pelaksanaan resmi secara otomatis.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Jenis Program selector dropdown */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Program / Jenis Kegiatan <span className="text-red-500">*</span>
+                <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                  PROGRAM / JENIS KEGIATAN <span className="text-[#e22718]">*</span>
                 </label>
                 <select
                   name="jenisKegiatanId"
                   value={jenisKegiatanId}
                   onChange={(e) => handleProgramChange(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors cursor-pointer"
+                  className="bmw-input w-full py-3 font-sans text-xs text-white cursor-pointer"
                 >
-                  <option value="" disabled>-- Pilih Kategori Tugas --</option>
+                  <option value="" disabled className="bg-[#1a1a1a]">-- Pilih Kategori Tugas --</option>
                   {jenisKegiatanList.map((jk) => (
-                    <option key={jk.id} value={jk.id}>
+                    <option key={jk.id} value={jk.id} className="bg-[#1a1a1a] text-white">
                       {jk.nama_kegiatan}
                     </option>
                   ))}
                 </select>
                 {errors.jenisKegiatanId && (
-                  <p className="text-[10px] text-red-500">{errors.jenisKegiatanId}</p>
+                  <p className="text-[10px] text-[#e22718] font-mono">{errors.jenisKegiatanId}</p>
                 )}
               </div>
 
               {/* Tips block */}
-              <div className="bg-slate-900/50 p-3 h-fit border border-slate-800 rounded-xl text-[11px] text-slate-400 leading-relaxed self-center">
-                <span className="font-bold text-amber-400 block mb-1">Cascade Template Engine:</span>
-                Setiap kali program diubah, form Dasar Pelaksanaan (Step 3) dan template Hasil Kegiatan (Step 3) akan terisi otomatis secara real-time. Anda tidak perlu menyalin manual undang-undang berulang-ulang.
+              <div className="bg-[#0d0d0d] p-3.5 border border-[#3c3c3c] rounded-none text-xs text-[#bbbbbb] font-light leading-relaxed self-center">
+                <span className="font-bold text-white uppercase tracking-wider block mb-1 font-mono">CASCADE TEMPLATE ENGINE:</span>
+                Setiap kali program diubah, form Dasar Pelaksanaan & template Hasil Kegiatan akan terisi otomatis secara real-time.
               </div>
             </div>
 
             {/* Sasaran Kegiatan Field */}
-            <div className="space-y-2 bg-[#13192f] border border-[#1e233d]/50 rounded-xl p-4">
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Sasaran Kegiatan <span className="text-red-500">*</span>
+            <div className="space-y-2 bg-[#0d0d0d] border border-[#262626] rounded-none p-4">
+              <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                SASARAN KEGIATAN <span className="text-[#e22718]">*</span>
               </label>
               <textarea
                 name="sasaran"
                 value={sasaran}
                 onChange={(e) => setSasaran(e.target.value)}
-                placeholder="Sasaran kegiatan ini terisi otomatis berdasarkan master data jenis kegiatan yang dipilih, dan dapat disesuaikan."
+                placeholder="Sasaran kegiatan ini terisi otomatis berdasarkan master data jenis kegiatan..."
                 rows={2.5}
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors leading-relaxed"
+                className="bmw-input w-full leading-relaxed font-sans"
               />
               {errors.sasaran && (
-                <p className="text-[10px] text-red-500">{errors.sasaran}</p>
+                <p className="text-[10px] text-[#e22718] font-mono">{errors.sasaran}</p>
               )}
-              <span className="text-[10px] text-slate-500 block">Sasaran strategis atau target hasil dari perjalanan dinas</span>
             </div>
 
             {/* Surat Tugas parameters */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Nomor Surat Tugas <span className="text-red-500">*</span>
+                <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                  NOMOR SURAT TUGAS <span className="text-[#e22718]">*</span>
                 </label>
                 <input
                   type="text"
@@ -801,41 +800,38 @@ export default function LaporanForm({
                   value={nomorSurat}
                   onChange={(e) => setNomorSurat(e.target.value)}
                   placeholder="Contoh: ST.108/BPHL-XI/TNL/2026"
-                  className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors font-mono"
+                  className="bmw-input w-full font-mono text-xs"
                 />
                 {errors.nomorSurat && (
-                  <p className="text-[10px] text-red-500">{errors.nomorSurat}</p>
+                  <p className="text-[10px] text-[#e22718] font-mono">{errors.nomorSurat}</p>
                 )}
-                <span className="text-[10px] text-slate-500 block">Surat Tugas sah dari Kepala BPHL XI</span>
               </div>
 
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Tanggal Surat Tugas <span className="text-red-500">*</span>
+                <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                  TANGGAL SURAT TUGAS <span className="text-[#e22718]">*</span>
                 </label>
-                <div className="relative">
-                  <input
-                    type="date"
-                    name="tanggalSurat"
-                    value={tanggalSurat}
-                    onChange={(e) => setTanggalSurat(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors"
-                  />
-                </div>
+                <input
+                  type="date"
+                  name="tanggalSurat"
+                  value={tanggalSurat}
+                  onChange={(e) => setTanggalSurat(e.target.value)}
+                  className="bmw-input w-full font-mono text-xs"
+                />
                 {errors.tanggalSurat && (
-                  <p className="text-[10px] text-red-500">{errors.tanggalSurat}</p>
+                  <p className="text-[10px] text-[#e22718] font-mono">{errors.tanggalSurat}</p>
                 )}
               </div>
             </div>
 
             {/* Real-time preview of Laws generation */}
-            <div className="space-y-2 bg-[#14182e] border border-blue-900/20 rounded-xl p-4">
-              <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider font-mono">
-                Pratinjau Dasar Pelaksanaan LPD Ter-generate Secara Live:
+            <div className="space-y-2 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none p-4">
+              <span className="text-[10px] text-white font-bold uppercase tracking-widest font-mono block mb-1">
+                PRATINJAU DASAR PELAKSANAAN LPD:
               </span>
-              <ul className="space-y-1.5 list-decimal list-inside text-xs text-slate-300">
+              <ul className="space-y-1.5 list-decimal list-inside text-xs text-[#bbbbbb] font-light">
                 {generatedRegulations.map((reg, index) => (
-                  <li key={index} className={`leading-relaxed ${index === 0 ? 'text-amber-400 font-mono font-medium' : ''}`}>
+                  <li key={index} className={`leading-relaxed ${index === 0 ? 'text-white font-mono font-bold' : ''}`}>
                     {reg}
                   </li>
                 ))}
@@ -847,101 +843,98 @@ export default function LaporanForm({
         {/* ================= STEP 2: LOKUS (LOCATION) & TIM PELAKSANA ================= */}
         {currentStep === 2 && (
           <div className="space-y-6 animate-in slide-in-from-right duration-200">
-            <div className="border-b border-[#22293f] pb-2">
-              <h3 className="text-sm font-bold text-amber-500 uppercase tracking-wider font-mono">
-                Langkah 2: Lokasi Penugasan & Tim Pelaksana
+            <div className="border-b border-[#262626] pb-3">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest font-mono">
+                LANGKAH 2: LOKASI PENUGASAN & TIM PELAKSANA
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
-                Petakan koordinat/institusi target serta tentukan siapa saja staf kementerian yang berangkat.
+              <p className="text-xs text-[#bbbbbb] font-light mt-1">
+                Petakan lokasi target serta tentukan staf kementerian yang berangkat.
               </p>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Tempat / Lokasi Kegiatan <span className="text-red-500">*</span>
+              <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                TEMPAT / LOKASI KEGIATAN <span className="text-[#e22718]">*</span>
               </label>
               <div className="relative">
-                <MapPin className="absolute left-3 top-3 w-4.5 h-4.5 text-slate-500" />
+                <MapPin className="absolute left-3 top-3.5 w-4 h-4 text-[#7e7e7e]" />
                 <textarea
                   name="tempat"
                   value={tempat}
                   onChange={(e) => setTempat(e.target.value)}
                   placeholder="Contoh: Kantor Utama PBPH PT. Kayu Rimba Sejahtera, Tapin, Kalimantan Selatan"
                   rows={2}
-                  className="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-10 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+                  className="bmw-input w-full pl-9 leading-relaxed font-sans"
                 />
               </div>
               {errors.tempat && (
-                <p className="text-[10px] text-red-500">{errors.tempat}</p>
+                <p className="text-[10px] text-[#e22718] font-mono">{errors.tempat}</p>
               )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Tanggal Berangkat <span className="text-red-500">*</span>
+                <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                  TANGGAL BERANGKAT <span className="text-[#e22718]">*</span>
                 </label>
                 <input
                   type="date"
                   name="tglMulai"
                   value={tglMulai}
                   onChange={(e) => setTglMulai(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors"
+                  className="bmw-input w-full font-mono text-xs"
                 />
                 {errors.tglMulai && (
-                  <p className="text-[10px] text-red-500">{errors.tglMulai}</p>
+                  <p className="text-[10px] text-[#e22718] font-mono">{errors.tglMulai}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Tanggal Kembali <span className="text-red-500">*</span>
+                <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                  TANGGAL KEMBALI <span className="text-[#e22718]">*</span>
                 </label>
                 <input
                   type="date"
                   name="tglSelesai"
                   value={tglSelesai}
                   onChange={(e) => setTglSelesai(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors"
+                  className="bmw-input w-full font-mono text-xs"
                 />
                 {errors.tglSelesai && (
-                  <p className="text-[10px] text-red-500">{errors.tglSelesai}</p>
+                  <p className="text-[10px] text-[#e22718] font-mono">{errors.tglSelesai}</p>
                 )}
               </div>
             </div>
 
             {/* Tim Pelaksana (Multi-Select) */}
             <div className="space-y-3">
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Tim Pelaksana (Multi-Pilih) <span className="text-red-500">*</span>
+              <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                TIM PELAKSANA (MULTI-PILIH) <span className="text-[#e22718]">*</span>
               </label>
-              <p className="text-[11px] text-slate-500">
-                Pilih satu atau beberapa staf yang ditugaskan dalam Surat Tugas. Pemilik laporan wajib dicentang.
-              </p>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-52 overflow-y-auto pr-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-56 overflow-y-auto pr-1">
                 {sortPelaksana(allUsers).map((u) => {
                   const isChecked = pelaksanaIds.includes(u.id);
                   return (
                     <div
                       key={u.id}
                       onClick={() => togglePelaksana(u.id)}
-                      className={`flex items-start gap-3 p-2.5 rounded-xl border cursor-pointer transition-all ${
+                      className={`flex items-start gap-3 p-3 rounded-none border cursor-pointer transition-all ${
                         isChecked 
-                          ? 'bg-amber-400/5 border-amber-500/25 text-amber-300 shadow-sm'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700/80 hover:text-slate-200'
+                          ? 'bg-[#0d0d0d] border-[#1c69d4] text-white shadow-md'
+                          : 'bg-[#1a1a1a] border-[#262626] text-[#bbbbbb] hover:border-[#3c3c3c]'
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
-                        onChange={() => {}} // toggled by overlay click
-                        className="mt-0.5 pointer-events-none rounded border-slate-700 text-amber-500 focus:ring-amber-500/20"
+                        onChange={() => {}}
+                        className="mt-0.5 pointer-events-none rounded-none accent-[#1c69d4]"
                       />
                       <div className="flex flex-col text-xs leading-none space-y-1">
-                        <span className="font-bold">{u.nama}</span>
-                        <span className="font-mono text-[9px] text-slate-400">NIP. {u.nip}</span>
-                        <span className="text-[9px] text-slate-500 leading-snug">
+                        <span className="font-bold uppercase font-sans text-white">{u.nama}</span>
+                        <span className="font-mono text-[9px] text-[#7e7e7e]">NIP. {u.nip}</span>
+                        <span className="text-[9px] text-[#bbbbbb] font-light">
                           {u.pangkat && u.pangkat !== '-' ? `${u.pangkat} (${u.golongan}) — ` : ''}{u.jabatan}
                         </span>
                       </div>
@@ -950,7 +943,7 @@ export default function LaporanForm({
                 })}
               </div>
               {errors.pelaksana && (
-                <p className="text-[10px] text-red-500">{errors.pelaksana}</p>
+                <p className="text-[10px] text-[#e22718] font-mono">{errors.pelaksana}</p>
               )}
             </div>
           </div>
@@ -959,97 +952,83 @@ export default function LaporanForm({
         {/* ================= STEP 3: ISI & DYNAMIC FORMULASI ================= */}
         {currentStep === 3 && (
           <div className="space-y-6 animate-in slide-in-from-right duration-200">
-            <div className="border-b border-[#22293f] pb-2">
-              <h3 className="text-sm font-bold text-amber-500 uppercase tracking-wider font-mono">
-                Langkah 3: Formulasi & Penulisan Hasil Kegiatan
+            <div className="border-b border-[#262626] pb-3">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest font-mono">
+                LANGKAH 3: FORMULASI & HASIL KEGIATAN
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
-                Kandungan deskriptif LPD disarikan di bawah. Anda bisa menyesuaikan maksud kerja dan mengedit hasil di lapangan dari template.
+              <p className="text-xs text-[#bbbbbb] font-light mt-1">
+                Kandungan deskriptif LPD disarikan di bawah sesuai standar kementerian.
               </p>
             </div>
 
             {/* Maksud & Tujuan */}
             <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Maksud & Tujuan <span className="text-red-500">*</span>
-                </label>
-                <span className="text-[9px] text-emerald-400 bg-emerald-400/5 px-2 py-0.5 rounded font-mono">
-                  Membaca Kategori Otomatis
-                </span>
-              </div>
+              <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                MAKSUD & TUJUAN <span className="text-[#e22718]">*</span>
+              </label>
               <textarea
                 name="maksudTujuan"
                 value={maksudTujuan}
                 onChange={(e) => setMaksudTujuan(e.target.value)}
                 rows={3}
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors leading-relaxed"
+                className="bmw-input w-full leading-relaxed font-sans"
               />
               {errors.maksudTujuan && (
-                <p className="text-[10px] text-red-500">{errors.maksudTujuan}</p>
+                <p className="text-[10px] text-[#e22718] font-mono">{errors.maksudTujuan}</p>
               )}
             </div>
 
             {/* Metode Pelaksanaan */}
             <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Metode Pelaksanaan <span className="text-red-500">*</span>
+              <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                METODE PELAKSANAAN <span className="text-[#e22718]">*</span>
               </label>
-              <span className="text-[10px] text-slate-500 block">
-                Tata cara atau metodologi pengerjaan kegiatan di bawah ini.
-              </span>
               <textarea
                 value={metodePelaksanaan}
                 onChange={(e) => setMetodePelaksanaan(e.target.value)}
                 rows={3}
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors leading-relaxed"
+                className="bmw-input w-full leading-relaxed font-sans"
               />
             </div>
 
             {/* Pelaku Usaha Selector & Dynamic Template Compiler */}
             {currentProgram && (currentProgram.template_hasil_data_umum || currentProgram.template_hasil_poin_penting) && (
-              <div className="p-4 bg-[#14182e] border border-amber-500/10 rounded-xl space-y-4">
-                <div className="border-b border-[#22293f] pb-2">
-                  <span className="text-xs font-bold text-amber-400 font-mono uppercase tracking-wider block">
-                    Modul Pengisian Form Dinamis Kehutanan
-                  </span>
-                  <span className="text-[10px] text-slate-400 block mt-0.5">
-                    Isian di bawah akan secara otomatis memformat Laporan Hasil sesuai standard Kementerian Kehutanan.
+              <div className="p-4 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none space-y-4">
+                <div className="border-b border-[#262626] pb-2">
+                  <span className="text-xs font-bold text-white font-mono uppercase tracking-widest block">
+                    MODUL FORMULASI KEHUTANAN (AUTOMATED TEMPLATE)
                   </span>
                 </div>
 
                 {/* Dropdown Pelaku Usaha */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-slate-300">
-                    Pilih Target Pelaku Usaha (PBPH/PBPHH/IPKR)
+                  <label className="block text-xs font-bold text-[#bbbbbb] font-mono uppercase">
+                    PILIH TARGET PELAKU USAHA (PBPH/PBPHH/IPKR)
                   </label>
                   <select
                     value={pelakuUsahaId}
                     onChange={(e) => handlePelakuUsahaChange(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors cursor-pointer"
+                    className="bmw-input w-full py-2.5 font-mono text-xs cursor-pointer"
                   >
-                    <option value="">-- Hubungkan dengan Pelaku Usaha --</option>
+                    <option value="" className="bg-[#1a1a1a]">-- Hubungkan dengan Pelaku Usaha --</option>
                     {pelakuUsahaList.filter(p => p.is_active).map(pu => (
-                      <option key={pu.id} value={pu.id}>
+                      <option key={pu.id} value={pu.id} className="bg-[#1a1a1a] text-white">
                         {pu.nama} ({pu.jenis_usaha} - SLK: {pu.slk_no})
                       </option>
                     ))}
                   </select>
-                  <span className="text-[10px] text-slate-500 block">
-                    Menghubungkan laporan ini dengan legalitas SLK dan alamat pelaku usaha di database.
-                  </span>
                 </div>
 
                 {/* Dynamic fields from templates (placeholders) */}
                 {getPlaceholdersFromTemplates(currentProgram).length > 0 && (
                   <div className="space-y-3 pt-2">
-                    <label className="block text-xs font-bold text-slate-300">
-                      Variabel Tambahan Laporan (Input Manual)
+                    <label className="block text-xs font-bold text-[#bbbbbb] font-mono uppercase">
+                      VARIABEL TAMBAHAN LAPORAN
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {getPlaceholdersFromTemplates(currentProgram).map(ph => (
                         <div key={ph} className="space-y-1">
-                          <label className="text-[11px] font-bold text-slate-400 capitalize">
+                          <label className="text-[10px] font-bold text-[#bbbbbb] uppercase font-mono">
                             {ph.replace(/_/g, ' ')}
                           </label>
                           <input
@@ -1062,7 +1041,7 @@ export default function LaporanForm({
                               }));
                             }}
                             placeholder={`Masukkan nilai (${ph})...`}
-                            className="w-full bg-slate-900 border border-slate-850 rounded-lg px-2.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-amber-500"
+                            className="bmw-input w-full font-mono text-xs py-2"
                           />
                         </div>
                       ))}
@@ -1074,26 +1053,18 @@ export default function LaporanForm({
 
             {/* Hasil Kegiatan (Pembahasan Hasil) */}
             <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Hasil Kegiatan / Pembahasan Akhir <span className="text-red-500">*</span>
-                </label>
-                <span className="text-[9px] text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded font-mono">
-                  Review Akhir Hasil Laporan
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-500">
-                Teks di bawah di-generate otomatis dari isian template di atas. Anda masih bisa melakukan perubahan manual langsung jika diperlukan.
-              </p>
+              <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                HASIL KEGIATAN / PEMBAHASAN AKHIR <span className="text-[#e22718]">*</span>
+              </label>
               <textarea
                 name="hasil"
                 value={hasil}
                 onChange={(e) => setHasil(e.target.value)}
                 rows={10}
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors font-sans leading-relaxed"
+                className="bmw-input w-full font-sans leading-relaxed text-xs"
               />
               {errors.hasil && (
-                <p className="text-[10px] text-red-500">{errors.hasil}</p>
+                <p className="text-[10px] text-[#e22718] font-mono">{errors.hasil}</p>
               )}
             </div>
           </div>
@@ -1102,78 +1073,77 @@ export default function LaporanForm({
         {/* ================= STEP 4: KESIMPULAN, SARAN & FOTO ================= */}
         {currentStep === 4 && (
           <div className="space-y-6 animate-in slide-in-from-right duration-200">
-            <div className="border-b border-[#22293f] pb-2">
-              <h3 className="text-sm font-bold text-amber-500 uppercase tracking-wider font-mono">
-                Langkah 4: Kesimpulan, Saran & Lampiran Foto
+            <div className="border-b border-[#262626] pb-3">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest font-mono">
+                LANGKAH 4: KESIMPULAN, SARAN & LAMPIRAN FOTO
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
-                Lengkapi berkas dengan analisis akhir, usulan, serta unggahan bukti dokumentasi pendukung.
+              <p className="text-xs text-[#bbbbbb] font-light mt-1">
+                Lengkapi berkas dengan analisis akhir, usulan, serta bukti dokumentasi pendukung.
               </p>
             </div>
 
             {/* Kesimpulan */}
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Kesimpulan LPD <span className="text-red-500">*</span>
+                <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                  KESIMPULAN LPD <span className="text-[#e22718]">*</span>
                 </label>
                 <button
                   type="button"
                   onClick={handleGenerateKesimpulanAi}
                   disabled={isGeneratingAi}
-                  className="px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 text-[10px] font-bold rounded flex items-center gap-1 cursor-pointer focus:outline-none disabled:opacity-50"
+                  className="bmw-btn-outline px-3 py-1 text-[10px] flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
-                  <Sparkles className={`w-3 h-3 ${isGeneratingAi ? 'animate-spin' : ''}`} />
-                  {isGeneratingAi ? 'Membuat...' : 'Hasilkan dengan AI'}
+                  <Sparkles className={`w-3 h-3 text-[#1c69d4] ${isGeneratingAi ? 'animate-spin' : ''}`} />
+                  {isGeneratingAi ? 'MEMBUAT...' : 'GENERASI AI'}
                 </button>
               </div>
               <textarea
                 name="kesimpulan"
                 value={kesimpulan}
                 onChange={(e) => setKesimpulan(e.target.value)}
-                placeholder="Tulis kalimat kesimpulan singkat dari seluruh perjalanan dinas atau klik tombol AI..."
+                placeholder="Tulis kesimpulan..."
                 rows={3}
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors leading-relaxed"
+                className="bmw-input w-full leading-relaxed font-sans"
               />
               {errors.kesimpulan && (
-                <p className="text-[10px] text-red-500">{errors.kesimpulan}</p>
+                <p className="text-[10px] text-[#e22718] font-mono">{errors.kesimpulan}</p>
               )}
             </div>
 
             {/* Saran */}
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Saran / Usulan Tindak Lanjut
+                <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                  SARAN / USULAN TINDAK LANJUT
                 </label>
                 <button
                   type="button"
                   onClick={handleGenerateRekomendasiAi}
                   disabled={isGeneratingAi}
-                  className="px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 text-[10px] font-bold rounded flex items-center gap-1 cursor-pointer focus:outline-none disabled:opacity-50"
+                  className="bmw-btn-outline px-3 py-1 text-[10px] flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
-                  <Brain className={`w-3 h-3 ${isGeneratingAi ? 'animate-spin' : ''}`} />
-                  {isGeneratingAi ? 'Membuat...' : 'Hasilkan dengan AI'}
+                  <Brain className={`w-3 h-3 text-[#1c69d4] ${isGeneratingAi ? 'animate-spin' : ''}`} />
+                  {isGeneratingAi ? 'MEMBUAT...' : 'GENERASI AI'}
                 </button>
               </div>
               <textarea
                 name="saran"
                 value={saran}
                 onChange={(e) => setSaran(e.target.value)}
-                placeholder="Tulis usulan perbaikan atau klik tombol AI..."
+                placeholder="Tulis saran tindak lanjut..."
                 rows={3}
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors leading-relaxed"
+                className="bmw-input w-full leading-relaxed font-sans"
               />
             </div>
 
             {/* Upload Attachment Panel */}
             <div className="space-y-3">
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Dokumentasi & Lampiran Pendukung
+              <label className="block text-xs font-bold text-white uppercase tracking-widest font-mono">
+                DOKUMENTASI & LAMPIRAN PENDUKUNG
               </label>
               
-              {/* Drag drop zone simulated */}
-              <div className="border-2 border-dashed border-slate-700 hover:border-amber-500/40 rounded-2xl p-6 text-center transition-colors bg-slate-900/45 cursor-pointer relative">
+              <div className="border border-dashed border-[#3c3c3c] hover:border-white rounded-none p-6 text-center transition-colors bg-[#0d0d0d] cursor-pointer relative">
                 <input
                   type="file"
                   multiple
@@ -1182,14 +1152,12 @@ export default function LaporanForm({
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
                 <div className="flex flex-col items-center justify-center space-y-2">
-                  <div className="p-3 bg-slate-800 rounded-full text-slate-300">
-                    <ImageIcon className="w-6 h-6 text-amber-500" />
-                  </div>
-                  <p className="text-xs text-slate-200 font-semibold">
-                    Klik atau Seret Berkas ke Area Ini
+                  <ImageIcon className="w-8 h-8 text-[#1c69d4]" />
+                  <p className="text-xs text-white font-bold uppercase tracking-wider font-mono">
+                    KLIK ATAU SERET BERKAS KE SINI
                   </p>
-                  <p className="text-[10px] text-slate-400">
-                    Mendukung JPG, PNG, PDF (Maksimal 5MB per berkas)
+                  <p className="text-[10px] text-[#7e7e7e] font-mono">
+                    JPG, PNG, PDF (Maksimal 5MB)
                   </p>
                 </div>
               </div>
@@ -1197,33 +1165,33 @@ export default function LaporanForm({
               {/* Uploaded List with Preview */}
               {lampiranList.length > 0 && (
                 <div className="space-y-2">
-                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-                    Berkas Terlampir ({lampiranList.length}):
+                  <span className="text-[10px] text-[#7e7e7e] font-bold uppercase tracking-widest font-mono block">
+                    BERKAS TERLAMPIR ({lampiranList.length}):
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {lampiranList.map((lamp) => (
                       <div
                         key={lamp.id}
-                        className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-xl flex items-center justify-between gap-3 text-xs"
+                        className="p-3 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none flex items-center justify-between gap-3 text-xs"
                       >
-                        <div className="flex items-center gap-2.5 overflow-hidden">
+                        <div className="flex items-center gap-3 overflow-hidden">
                           {lamp.tipe === 'foto' ? (
                             <img
                               src={lamp.dataUrl}
                               alt={lamp.nama_file}
                               referrerPolicy="no-referrer"
-                              className="w-10 h-10 object-cover rounded bg-slate-800 border border-slate-700/30 grow-0 shrink-0"
+                              className="w-10 h-10 object-cover rounded-none bg-[#1a1a1a] border border-[#3c3c3c] shrink-0"
                             />
                           ) : (
-                            <div className="w-10 h-10 bg-indigo-500/10 text-indigo-400 rounded flex items-center justify-center font-bold text-[10px] shrink-0">
+                            <div className="w-10 h-10 bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-none flex items-center justify-center font-bold text-[10px] shrink-0 font-mono">
                               PDF
                             </div>
                           )}
                           <div className="flex flex-col leading-tight overflow-hidden">
-                            <span className="font-semibold text-slate-200 truncate pr-2">
+                            <span className="font-bold text-white truncate font-sans">
                               {lamp.nama_file}
                             </span>
-                            <span className="text-[9px] text-slate-500 font-mono">
+                            <span className="text-[9px] text-[#7e7e7e] font-mono">
                               {lamp.ukuran}
                             </span>
                           </div>
@@ -1232,9 +1200,9 @@ export default function LaporanForm({
                         <button
                           type="button"
                           onClick={() => removeLampiran(lamp.id)}
-                          className="p-1 hover:bg-red-500/10 rounded text-slate-500 hover:text-red-400 transition-colors focus:outline-none"
+                          className="p-1.5 bg-[#e22718]/10 text-[#e22718] border border-[#e22718]/30 hover:bg-[#e22718] hover:text-white transition-colors cursor-pointer"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     ))}
@@ -1248,15 +1216,15 @@ export default function LaporanForm({
       </div>
 
       {/* Footer navigation between steps */}
-      <div className="flex justify-between items-center pt-2">
+      <div className="flex justify-between items-center pt-3">
         <div>
           {currentStep > 1 && (
             <button
               onClick={handlePrevStep}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs transition-colors flex items-center gap-2 cursor-pointer"
+              className="bmw-btn-outline px-5 py-2.5 text-xs flex items-center gap-2 cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              Kembali
+              KEMBALI
             </button>
           )}
         </div>
@@ -1265,26 +1233,26 @@ export default function LaporanForm({
           {currentStep < 4 ? (
             <button
               onClick={handleNextStep}
-              className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-amber-500/5"
+              className="bmw-btn-primary px-6 py-2.5 text-xs flex items-center gap-2 cursor-pointer"
             >
-              Lanjutkan
+              LANJUTKAN
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
             <>
               <button
                 onClick={() => handleSubmitForm('draft')}
-                className="px-4 py-2.5 bg-[#171c31] hover:bg-[#1f2642] text-slate-300 font-bold rounded-xl text-xs border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
+                className="bmw-btn-outline px-5 py-2.5 text-xs flex items-center gap-2 cursor-pointer"
               >
                 <Save className="w-4 h-4" />
-                Simpan Draft
+                SIMPAN DRAFT
               </button>
               <button
                 onClick={() => handleSubmitForm('submitted')}
-                className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold rounded-xl text-xs transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-emerald-900/20"
+                className="bmw-btn-primary px-6 py-2.5 text-xs flex items-center gap-2 cursor-pointer"
               >
-                <Send className="w-4 h-4" />
-                Kirim Laporan
+                <Send className="w-4 h-4 text-[#1c69d4]" />
+                KIRIM KE ATASAN
               </button>
             </>
           )}
@@ -1294,3 +1262,4 @@ export default function LaporanForm({
     </div>
   );
 }
+

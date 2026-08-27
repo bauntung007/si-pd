@@ -417,28 +417,28 @@ export default function MasterDataPanel({
     <div className="space-y-6 animate-in fade-in-50 duration-200">
       
       {/* Header Panel */}
-      <div className="border-b border-[#22293f] pb-3 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+      <div className="border-b border-[#3c3c3c] pb-3 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
         <div>
-          <h2 className="text-lg font-bold text-white">Konsol Administrasi Master Data</h2>
-          <p className="text-xs text-slate-400 font-mono mt-0.5">
-            Manajemen parameter program kedinasan kementerian dan rekrutmen staf lapangan
+          <h2 className="text-lg font-bold text-white uppercase tracking-wider font-sans">KONSOL ADMINISTRASI MASTER DATA</h2>
+          <p className="text-xs text-[#7e7e7e] font-mono mt-0.5 uppercase tracking-wide">
+            MANAJEMEN PARAMETER PROGRAM KEDINASAN & REKRUTMEN STAF BPHL XI
           </p>
         </div>
 
         {/* Tab triggers */}
-        <div className="bg-[#121626] border border-[#232a49] p-1 rounded-xl flex gap-1 self-start">
+        <div className="bg-[#1a1a1a] border border-[#3c3c3c] p-1 rounded-none flex gap-1 self-start shadow-xl">
           <button
             onClick={() => {
               setActiveTab('kegiatan');
               setIsAddingProgram(false);
               setEditingProgramId(null);
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors focus:outline-none cursor-pointer ${
-              activeTab === 'kegiatan' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded-none text-xs font-bold font-mono uppercase flex items-center gap-1.5 transition-colors focus:outline-none cursor-pointer ${
+              activeTab === 'kegiatan' ? 'bg-[#0d0d0d] border border-[#1c69d4] text-white' : 'text-[#7e7e7e] hover:text-white'
             }`}
           >
-            <Briefcase className="w-3.5 h-3.5" />
-            Perjalanan Dinas
+            <Briefcase className="w-3.5 h-3.5 text-[#1c69d4]" />
+            PERJALANAN DINAS
           </button>
           <button
             onClick={() => {
@@ -446,12 +446,12 @@ export default function MasterDataPanel({
               setIsAddingPelaku(false);
               setEditingPelakuId(null);
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors focus:outline-none cursor-pointer ${
-              activeTab === 'pelaku_usaha' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded-none text-xs font-bold font-mono uppercase flex items-center gap-1.5 transition-colors focus:outline-none cursor-pointer ${
+              activeTab === 'pelaku_usaha' ? 'bg-[#0d0d0d] border border-[#1c69d4] text-white' : 'text-[#7e7e7e] hover:text-white'
             }`}
           >
-            <Database className="w-3.5 h-3.5" />
-            Database Pelaku Usaha
+            <Database className="w-3.5 h-3.5 text-[#1c69d4]" />
+            PELAKU USAHA
           </button>
           <button
             onClick={() => {
@@ -459,12 +459,12 @@ export default function MasterDataPanel({
               setIsAddingStaf(false);
               setEditingStafId(null);
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors focus:outline-none cursor-pointer ${
-              activeTab === 'staf' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded-none text-xs font-bold font-mono uppercase flex items-center gap-1.5 transition-colors focus:outline-none cursor-pointer ${
+              activeTab === 'staf' ? 'bg-[#0d0d0d] border border-[#1c69d4] text-white' : 'text-[#7e7e7e] hover:text-white'
             }`}
           >
-            <Users className="w-3.5 h-3.5" />
-            Daftar Staf
+            <Users className="w-3.5 h-3.5 text-[#1c69d4]" />
+            DAFTAR STAF
           </button>
         </div>
       </div>
@@ -474,38 +474,38 @@ export default function MasterDataPanel({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
           {/* Programs Selector Column of List */}
-          <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-4 lg:col-span-5 space-y-4 shadow-sm">
-            <div className="flex items-center justify-between border-b border-[#22293f] pb-2.5">
-              <span className="text-xs font-bold text-slate-300 font-mono uppercase tracking-wider">
-                Jenis Perjalanan Dinas ({jenisKegiatanList.length})
+          <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-4 lg:col-span-5 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+              <span className="text-xs font-bold text-white font-mono uppercase tracking-widest">
+                JENIS PERJALANAN DINAS ({jenisKegiatanList.length})
               </span>
               <button
                 onClick={handleAddNewProgramClick}
-                className="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 hover:text-slate-900 text-[10px] font-bold rounded flex items-center gap-1 cursor-pointer focus:outline-none"
+                className="bmw-btn-primary px-3 py-1.5 text-[10px] flex items-center gap-1 cursor-pointer"
               >
-                <Plus className="w-3 h-3" />
-                Tambah Baru
+                <Plus className="w-3 h-3 text-[#1c69d4]" />
+                TAMBAH BARU
               </button>
             </div>
 
-            <div className="divide-y divide-[#1e233d] max-h-[500px] overflow-y-auto pr-1">
+            <div className="divide-y divide-[#262626] max-h-[520px] overflow-y-auto pr-1">
               {jenisKegiatanList.map((prog) => (
                 <div 
                   key={prog.id}
-                  className={`py-3 flex flex-col justify-between gap-2.5 first:pt-1 last:pb-1 ${!prog.is_active ? 'opacity-65' : ''}`}
+                  className={`py-3.5 flex flex-col justify-between gap-2.5 first:pt-1 last:pb-1 ${!prog.is_active ? 'opacity-50' : ''}`}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-bold text-xs text-slate-200 line-clamp-1">
+                      <span className="font-bold text-xs text-white uppercase font-sans line-clamp-1">
                         {prog.nama_kegiatan}
                       </span>
-                      <span className={`text-[8px] font-mono font-bold px-1 py-0.5 rounded uppercase ${
-                        prog.is_active ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-400/15 text-red-400'
+                      <span className={`text-[8px] font-mono font-bold px-2 py-0.5 rounded-none uppercase border ${
+                        prog.is_active ? 'bg-[#0fa336]/10 border-[#0fa336]/30 text-[#0fa336]' : 'bg-[#e22718]/10 border-[#e22718]/30 text-[#e22718]'
                       }`}>
-                        {prog.is_active ? 'Aktif' : 'Non-aktif'}
+                        {prog.is_active ? 'AKTIF' : 'NON-AKTIF'}
                       </span>
                     </div>
-                    <p className="text-[10px] text-slate-400 line-clamp-2 leading-normal">
+                    <p className="text-[10px] text-[#bbbbbb] font-light line-clamp-2 leading-relaxed">
                       {prog.maksud_tujuan}
                     </p>
                   </div>
@@ -513,15 +513,15 @@ export default function MasterDataPanel({
                   <div className="flex gap-2 justify-end">
                     <button
                       onClick={() => handleEditProgramClick(prog)}
-                      className="px-2 py-0.5 text-[10px] font-bold text-amber-500 hover:text-amber-400 bg-amber-400/5 hover:bg-amber-400/10 rounded border border-amber-500/15 cursor-pointer focus:outline-none"
+                      className="bmw-btn-outline px-2.5 py-1 text-[9px] cursor-pointer"
                     >
-                      Buka Edit
+                      BUKA EDIT
                     </button>
                     <button
                       onClick={() => handleDeleteProgram(prog.id)}
-                      className="px-2 py-0.5 text-[10px] font-bold text-slate-400 hover:text-red-400 hover:bg-red-400/5 rounded border border-transparent cursor-pointer focus:outline-none"
+                      className="px-2.5 py-1 bg-[#0d0d0d] border border-[#3c3c3c] text-[#7e7e7e] hover:text-[#e22718] hover:border-[#e22718] text-[9px] font-mono font-bold uppercase transition-colors cursor-pointer"
                     >
-                      {prog.is_active ? 'Matikan' : 'Aktifkan'}
+                      {prog.is_active ? 'MATIKAN' : 'AKTIFKAN'}
                     </button>
                   </div>
                 </div>
@@ -530,25 +530,27 @@ export default function MasterDataPanel({
           </div>
 
           {/* Program Form Editor Column Panel */}
-          <div className="lg:col-span-7 bg-[#101426] border border-[#1e233d] rounded-2xl p-5 shadow-sm space-y-4">
+          <div className="lg:col-span-7 bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 shadow-2xl space-y-4">
             
             {!(isAddingProgram || editingProgramId) ? (
-              <div className="py-24 text-center text-slate-400 text-xs flex flex-col items-center justify-center space-y-2.5">
-                <Settings className="w-8 h-8 text-slate-600 animate-spin-slow" />
-                <span>Pilih salah satu program dinas di kiri atau klik Tambah Baru untuk merombak hukum dan template.</span>
+              <div className="py-28 text-center text-[#7e7e7e] text-xs flex flex-col items-center justify-center space-y-3 font-mono">
+                <Settings className="w-8 h-8 text-[#3c3c3c]" />
+                <span className="uppercase tracking-wider font-bold text-white">
+                  PILIH SALAH SATU PROGRAM DINAS DI KIRI ATAU KLIK TAMBAH BARU
+                </span>
               </div>
             ) : (
               <div className="space-y-4 animate-in fade-in-50 duration-200">
-                <div className="border-b border-[#22293f] pb-2 flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-400 font-mono uppercase tracking-wider">
-                    {isAddingProgram ? 'Buat Perjalanan Dinas Baru' : 'Edit Parameter Perjalanan Dinas'}
+                <div className="border-b border-[#262626] pb-3 flex items-center justify-between">
+                  <span className="text-xs font-bold text-white font-mono uppercase tracking-widest">
+                    {isAddingProgram ? 'BUAT PERJALANAN DINAS BARU' : 'EDIT PARAMETER PERJALANAN DINAS'}
                   </span>
                   <button
                     onClick={() => {
                       setEditingProgramId(null);
                       setIsAddingProgram(false);
                     }}
-                    className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded focus:outline-none"
+                    className="p-1 text-[#7e7e7e] hover:text-white bg-[#0d0d0d] border border-[#3c3c3c] rounded-none focus:outline-none"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -557,103 +559,100 @@ export default function MasterDataPanel({
                 {/* Form inputs */}
                 <div className="space-y-3 text-xs">
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Nama Kegiatan</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">NAMA KEGIATAN</label>
                     <input
                       type="text"
                       value={progNama}
                       onChange={(e) => setProgNama(e.target.value)}
                       placeholder="Contoh: Pengujian Laboratorium Mutu Kayu"
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                      className="bmw-input w-full font-sans text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Default Maksud & Tujuan</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">DEFAULT MAKSUD & TUJUAN</label>
                     <textarea
                       value={progMaksud}
                       onChange={(e) => setProgMaksud(e.target.value)}
                       rows={3}
                       placeholder="Maksud standard kementerian..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 leading-normal"
+                      className="bmw-input w-full font-sans leading-relaxed text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Default Sasaran Kegiatan</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">DEFAULT SASARAN KEGIATAN</label>
                     <textarea
                       value={progSasaran}
                       onChange={(e) => setProgSasaran(e.target.value)}
                       rows={3}
                       placeholder="Sasaran Kegiatan standard..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 leading-normal"
+                      className="bmw-input w-full font-sans leading-relaxed text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Template Metode Pelaksanaan</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">TEMPLATE METODE PELAKSANAAN</label>
                     <textarea
                       value={progMetode}
                       onChange={(e) => setProgMetode(e.target.value)}
                       rows={3}
                       placeholder="Langkah-langkah metodologi pelaksanaan..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 leading-normal"
+                      className="bmw-input w-full font-sans leading-relaxed text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Template Hasil: Data Umum Obyek</label>
-                    <span className="text-[10px] text-amber-500 font-mono block">
-                      Gunakan kurung seperti (pelaku_usaha), (lokasi), (slk_no), (slk_tanggal) untuk auto-replace atau input manual!
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">TEMPLATE HASIL: DATA UMUM OBYEK</label>
+                    <span className="text-[10px] text-[#1c69d4] font-mono block uppercase">
+                      Gunakan kurung (pelaku_usaha), (lokasi), (slk_no), (slk_tanggal) untuk auto-replace!
                     </span>
                     <textarea
                       value={progDataUmum}
                       onChange={(e) => setProgDataUmum(e.target.value)}
                       rows={3}
                       placeholder="Narasi umum obyek kegiatan..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 leading-normal"
+                      className="bmw-input w-full font-sans leading-relaxed text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Template Hasil: Poin Penting Kegiatan</label>
-                    <span className="text-[10px] text-amber-500 font-mono block">
-                      Gunakan kurung seperti (akurasi_persen) atau (kendala) untuk menghasilkan kolom isian otomatis di form!
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">TEMPLATE HASIL: POIN PENTING KEGIATAN</label>
+                    <span className="text-[10px] text-[#1c69d4] font-mono block uppercase">
+                      Gunakan kurung (akurasi_persen) atau (kendala) untuk input variabel otomatis!
                     </span>
                     <textarea
                       value={progPoinPenting}
                       onChange={(e) => setProgPoinPenting(e.target.value)}
                       rows={3}
                       placeholder="Temuan penting di lapangan..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 leading-normal"
+                      className="bmw-input w-full font-sans leading-relaxed text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Template Hasil (Legacy Fallback)</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">TEMPLATE HASIL (LEGACY FALLBACK)</label>
                     <textarea
                       value={progTemplate}
                       onChange={(e) => setProgTemplate(e.target.value)}
                       rows={3}
-                      placeholder="1. Isi kuesioner kuantitas: [___]&#10;2. Sampling kayu..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 font-mono leading-normal"
+                      placeholder="1. Isi kuesioner kuantitas..."
+                      className="bmw-input w-full font-mono leading-relaxed text-xs"
                     />
                   </div>
 
                   {/* Laws Array setup */}
                   <div className="space-y-2 pt-1">
-                    <label className="font-bold text-slate-300 block">Daftar Dasar Hukum / Peraturan Perundangan</label>
-                    <span className="text-[10px] text-slate-500 block">
-                      Baris ke-1 akan diisi metadata Surat Tugas dinas secara otomatis. Daftarkan hukum tambahan (Permenhut/PP) di bawah.
-                    </span>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">DAFTAR DASAR HUKUM / PERATURAN PERUNDANGAN</label>
 
-                    <div className="space-y-1.5 max-h-40 overflow-y-auto bg-slate-950 p-2.5 border border-slate-800 rounded-lg">
+                    <div className="space-y-1.5 max-h-40 overflow-y-auto bg-[#0d0d0d] p-3 border border-[#3c3c3c] rounded-none">
                       {progLaws.map((law, idx) => (
-                        <div key={idx} className="flex justify-between items-start gap-3 p-1.5 bg-slate-900 border border-slate-800/40 rounded text-[11px] text-slate-300 leading-snug">
+                        <div key={idx} className="flex justify-between items-start gap-3 p-2 bg-[#1a1a1a] border border-[#262626] rounded-none text-xs text-[#bbbbbb] leading-relaxed">
                           <span className="line-clamp-2">{law}</span>
                           <button
                             type="button"
                             onClick={() => handleRemoveLaw(idx)}
-                            className="p-0.5 hover:bg-red-500/10 text-slate-400 hover:text-red-400 rounded cursor-pointer"
+                            className="p-1 bg-[#e22718]/10 text-[#e22718] border border-[#e22718]/30 hover:bg-[#e22718] hover:text-white transition-colors cursor-pointer"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -668,36 +667,36 @@ export default function MasterDataPanel({
                         value={lawInput}
                         onChange={(e) => setLawInput(e.target.value)}
                         placeholder="Ketik dasar hukum baru..."
-                        className="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                        className="bmw-input flex-1 font-sans text-xs"
                       />
                       <button
                         type="button"
                         onClick={handleAddLaw}
-                        className="px-3 bg-slate-800 text-slate-200 font-bold rounded-lg border border-slate-700 hover:bg-slate-700 cursor-pointer"
+                        className="bmw-btn-outline px-4 py-2 text-xs font-mono uppercase cursor-pointer"
                       >
-                        Tambah
+                        TAMBAH
                       </button>
                     </div>
                   </div>
                 </div>
 
                 {/* Submit panel buttons */}
-                <div className="flex justify-end gap-2.5 pt-3 border-t border-[#22293f]">
+                <div className="flex justify-end gap-3 pt-3 border-t border-[#262626]">
                   <button
                     onClick={() => {
                       setEditingProgramId(null);
                       setIsAddingProgram(false);
                     }}
-                    className="px-3.5 py-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                    className="bmw-btn-outline px-4 py-2 text-xs font-mono uppercase cursor-pointer"
                   >
-                    Batal
+                    BATAL
                   </button>
                   <button
                     onClick={handleSaveProgram}
-                    className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                    className="bmw-btn-primary px-5 py-2 text-xs font-mono uppercase flex items-center gap-1.5 cursor-pointer"
                   >
-                    <Check className="w-3.5 h-3.5" />
-                    Simpan Perubahan
+                    <Check className="w-3.5 h-3.5 text-[#1c69d4]" />
+                    SIMPAN PERUBAHAN
                   </button>
                 </div>
               </div>
@@ -713,47 +712,47 @@ export default function MasterDataPanel({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
           {/* Staff registry column list */}
-          <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-4 lg:col-span-5 space-y-4 shadow-sm">
-            <div className="flex items-center justify-between border-b border-[#22293f] pb-2.5">
-              <span className="text-xs font-bold text-slate-300 font-mono uppercase tracking-wider">
-                Staf Kehutanan BPHL XI ({allUsers.length})
+          <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-4 lg:col-span-5 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+              <span className="text-xs font-bold text-white font-mono uppercase tracking-widest">
+                STAF KEHUTANAN BPHL XI ({allUsers.length})
               </span>
               <button
                 onClick={handleAddNewStafClick}
-                className="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 hover:text-slate-900 text-[10px] font-bold rounded flex items-center gap-1 cursor-pointer focus:outline-none"
+                className="bmw-btn-primary px-3 py-1.5 text-[10px] flex items-center gap-1 cursor-pointer"
               >
-                <Plus className="w-3 h-3" />
-                Tambah Staf
+                <Plus className="w-3 h-3 text-[#1c69d4]" />
+                TAMBAH STAF
               </button>
             </div>
 
-            <div className="divide-y divide-[#1e233d] max-h-[500px] overflow-y-auto pr-1">
+            <div className="divide-y divide-[#262626] max-h-[520px] overflow-y-auto pr-1">
               {allUsers.map((staf) => (
                 <div 
                   key={staf.id}
-                  className={`py-3 flex flex-col justify-between gap-1 first:pt-1 last:pb-1 ${!staf.is_active ? 'opacity-65' : ''}`}
+                  className={`py-3.5 flex flex-col justify-between gap-1 first:pt-1 last:pb-1 ${!staf.is_active ? 'opacity-50' : ''}`}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs text-slate-200">
+                      <span className="font-bold text-xs text-white uppercase font-sans">
                         {staf.nama}
                       </span>
-                      <span className={`text-[8px] font-mono font-bold px-1.5 py-0.5 rounded uppercase ${
+                      <span className={`text-[8px] font-mono font-bold px-2 py-0.5 rounded-none uppercase border ${
                         staf.role === 'admin' 
-                          ? 'bg-red-400/10 text-red-400' 
+                          ? 'bg-[#e22718]/10 border-[#e22718]/30 text-[#e22718]' 
                           : staf.role === 'verifikator'
-                          ? 'bg-purple-400/10 text-purple-400'
+                          ? 'bg-[#1c69d4]/10 border-[#1c69d4]/30 text-[#1c69d4]'
                           : staf.role === 'validator'
-                          ? 'bg-blue-400/10 text-blue-400'
-                          : 'bg-emerald-400/10 text-emerald-400'
+                          ? 'bg-[#0066b1]/10 border-[#0066b1]/30 text-[#0066b1]'
+                          : 'bg-[#0fa336]/10 border-[#0fa336]/30 text-[#0fa336]'
                       }`}>
-                        {staf.role === 'admin' ? 'admin / validator' : staf.role}
+                        {staf.role === 'admin' ? 'ADMIN / VALIDATOR' : staf.role.toUpperCase()}
                       </span>
                     </div>
-                    <p className="text-[10px] text-slate-400 font-mono">
+                    <p className="text-[10px] text-[#bbbbbb] font-mono">
                       NIP. {staf.nip}
                     </p>
-                    <p className="text-[10px] text-slate-500 truncate italic">
+                    <p className="text-[10px] text-[#7e7e7e] truncate font-light">
                       {staf.jabatan}
                     </p>
                   </div>
@@ -761,15 +760,15 @@ export default function MasterDataPanel({
                   <div className="flex gap-2 justify-end pt-1">
                     <button
                       onClick={() => handleEditStafClick(staf)}
-                      className="px-2 py-0.5 text-[10px] font-bold text-amber-500 hover:text-amber-400 bg-amber-400/5 rounded border border-amber-500/15 cursor-pointer focus:outline-none"
+                      className="bmw-btn-outline px-2.5 py-1 text-[9px] cursor-pointer"
                     >
-                      Ubah Data
+                      UBAH DATA
                     </button>
                     <button
                       onClick={() => handleToggleStafActive(staf.id)}
-                      className="px-2 py-0.5 text-[10px] font-bold text-slate-400 hover:text-red-400 hover:bg-red-400/5 rounded border border-transparent cursor-pointer focus:outline-none"
+                      className="px-2.5 py-1 bg-[#0d0d0d] border border-[#3c3c3c] text-[#7e7e7e] hover:text-[#e22718] hover:border-[#e22718] text-[9px] font-mono font-bold uppercase transition-colors cursor-pointer"
                     >
-                      {staf.is_active ? 'Matikan' : 'Aktifkan'}
+                      {staf.is_active ? 'MATIKAN' : 'AKTIFKAN'}
                     </button>
                   </div>
                 </div>
@@ -778,25 +777,27 @@ export default function MasterDataPanel({
           </div>
 
           {/* Staf Form Editor Column Panel */}
-          <div className="lg:col-span-7 bg-[#101426] border border-[#1e233d] rounded-2xl p-5 shadow-sm space-y-4">
+          <div className="lg:col-span-7 bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 shadow-2xl space-y-4">
             
             {!(isAddingStaf || editingStafId) ? (
-              <div className="py-24 text-center text-slate-400 text-xs flex flex-col items-center justify-center space-y-2.5">
-                <Users className="w-8 h-8 text-slate-600 animate-pulse" />
-                <span>Pilih salah satu personil di kiri atau daftarkan anggota baru ke instansi.</span>
+              <div className="py-28 text-center text-[#7e7e7e] text-xs flex flex-col items-center justify-center space-y-3 font-mono">
+                <Users className="w-8 h-8 text-[#3c3c3c]" />
+                <span className="uppercase tracking-wider font-bold text-white">
+                  PILIH SALAH SATU PERSONIL DI KIRI ATAU DAFTARKAN STAF BARU
+                </span>
               </div>
             ) : (
               <div className="space-y-4 animate-in fade-in-50 duration-200">
-                <div className="border-b border-[#22293f] pb-2 flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-400 font-mono uppercase tracking-wider">
-                    {isAddingStaf ? 'Daftarkan Staf Baru' : 'Ubah Data Personil'}
+                <div className="border-b border-[#262626] pb-3 flex items-center justify-between">
+                  <span className="text-xs font-bold text-white font-mono uppercase tracking-widest">
+                    {isAddingStaf ? 'DAFTARKAN STAF BARU' : 'UBAH DATA PERSONIL'}
                   </span>
                   <button
                     onClick={() => {
                       setEditingStafId(null);
                       setIsAddingStaf(false);
                     }}
-                    className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded focus:outline-none"
+                    className="p-1 text-[#7e7e7e] hover:text-white bg-[#0d0d0d] border border-[#3c3c3c] rounded-none focus:outline-none"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -805,83 +806,83 @@ export default function MasterDataPanel({
                 {/* Form Inputs */}
                 <div className="space-y-3 text-xs">
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Nomor Induk Pegawai (NIP)</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">NOMOR INDUK PEGAWAI (NIP)</label>
                     <input
                       type="text"
                       value={stafNip}
                       onChange={(e) => setStafNip(e.target.value)}
                       placeholder="18 digit angka, contoh: 199406072022031000"
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white font-mono placeholder-slate-600 focus:outline-none focus:border-amber-500"
+                      className="bmw-input w-full font-mono text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Nama Lengkap & Gelar Akademik</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">NAMA LENGKAP & GELAR AKADEMIK</label>
                     <input
                       type="text"
                       value={stafNama}
                       onChange={(e) => setStafNama(e.target.value)}
                       placeholder="Contoh: Iman Tochid, S.Hut."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                      className="bmw-input w-full font-sans text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Pangkat / Jabatan Dinas</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">PANGKAT / JABATAN DINAS</label>
                     <input
                       type="text"
                       value={stafJabatan}
                       onChange={(e) => setStafJabatan(e.target.value)}
                       placeholder="Contoh: Pengendali Ekosistem Hutan Pertama"
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                      className="bmw-input w-full font-sans text-xs"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">E-mail Resmi</label>
+                      <label className="font-bold text-white uppercase font-mono tracking-wider block">E-MAIL RESMI</label>
                       <input
                         type="email"
                         value={stafEmail}
                         onChange={(e) => setStafEmail(e.target.value)}
                         placeholder="user@menlhk.go.id"
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                        className="bmw-input w-full font-mono text-xs"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">Hak Akses / Peran</label>
+                      <label className="font-bold text-white uppercase font-mono tracking-wider block">HAK AKSES / PERAN</label>
                       <select
                         value={stafRole}
                         onChange={(e) => setStafRole(e.target.value as any)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white cursor-pointer focus:outline-none focus:border-amber-500"
+                        className="bmw-input w-full font-mono text-xs cursor-pointer py-2.5"
                       >
-                        <option value="user">User (Staf Pelaksana)</option>
-                        <option value="verifikator">Verifikator (Kasi / User & Verifikator)</option>
-                        <option value="validator">Validator (Kepala Balai / Kaur TU & Validator)</option>
-                        <option value="admin">Administrator (Superuser, Admin & Validator)</option>
+                        <option value="user" className="bg-[#1a1a1a]">User (Staf Pelaksana)</option>
+                        <option value="verifikator" className="bg-[#1a1a1a]">Verifikator (Verifikator TU)</option>
+                        <option value="validator" className="bg-[#1a1a1a]">Validator (Kepala Balai)</option>
+                        <option value="admin" className="bg-[#1a1a1a]">Administrator (Superuser)</option>
                       </select>
                     </div>
                   </div>
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex justify-end gap-2.5 pt-3 border-t border-[#22293f]">
+                <div className="flex justify-end gap-3 pt-3 border-t border-[#262626]">
                   <button
                     onClick={() => {
                       setEditingStafId(null);
                       setIsAddingStaf(false);
                     }}
-                    className="px-3.5 py-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                    className="bmw-btn-outline px-4 py-2 text-xs font-mono uppercase cursor-pointer"
                   >
-                    Batal
+                    BATAL
                   </button>
                   <button
                     onClick={handleSaveStaf}
-                    className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                    className="bmw-btn-primary px-5 py-2 text-xs font-mono uppercase flex items-center gap-1.5 cursor-pointer"
                   >
-                    <Check className="w-3.5 h-3.5" />
-                    Simpan Staf
+                    <Check className="w-3.5 h-3.5 text-[#1c69d4]" />
+                    SIMPAN STAF
                   </button>
                 </div>
               </div>
@@ -897,72 +898,72 @@ export default function MasterDataPanel({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
           {/* Pelaku Usaha List Column */}
-          <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-4 lg:col-span-5 space-y-4 shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#22293f] pb-2.5">
-              <span className="text-xs font-bold text-slate-300 font-mono uppercase tracking-wider flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-amber-500" />
-                Daftar Pelaku Usaha ({pelakuUsahaList.length})
+          <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-4 lg:col-span-5 space-y-4 shadow-2xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#262626] pb-3">
+              <span className="text-xs font-bold text-white font-mono uppercase tracking-widest flex items-center gap-1.5">
+                <Database className="w-3.5 h-3.5 text-[#1c69d4]" />
+                PELAKU USAHA ({pelakuUsahaList.length})
               </span>
               <div className="flex gap-2">
                 <button
                   onClick={handleSyncSipakPhl}
                   disabled={isSyncing}
-                  className="px-2 py-1 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white text-[10px] font-bold rounded flex items-center gap-1 cursor-pointer focus:outline-none disabled:opacity-50"
+                  className="bmw-btn-outline px-2.5 py-1 text-[9px] font-mono flex items-center gap-1 cursor-pointer disabled:opacity-50"
                 >
-                  <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin' : ''}`} />
-                  {isSyncing ? 'Syncing...' : 'SIPAK-PHL'}
+                  <RefreshCw className={`w-3 h-3 text-[#1c69d4] ${isSyncing ? 'animate-spin' : ''}`} />
+                  {isSyncing ? 'SYNCING...' : 'SIPAK-PHL'}
                 </button>
                 <button
                   onClick={handleAddNewPelakuClick}
-                  className="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 hover:text-slate-900 text-[10px] font-bold rounded flex items-center gap-1 cursor-pointer focus:outline-none"
+                  className="bmw-btn-primary px-3 py-1 text-[9px] flex items-center gap-1 cursor-pointer"
                 >
-                  <Plus className="w-3 h-3" />
-                  Baru
+                  <Plus className="w-3 h-3 text-[#1c69d4]" />
+                  BARU
                 </button>
               </div>
             </div>
 
-            <div className="divide-y divide-[#1e233d] max-h-[500px] overflow-y-auto pr-1">
+            <div className="divide-y divide-[#262626] max-h-[520px] overflow-y-auto pr-1">
               {pelakuUsahaList.map((pu) => (
                 <div 
                   key={pu.id}
-                  className={`py-3 flex flex-col justify-between gap-1 first:pt-1 last:pb-1 ${!pu.is_active ? 'opacity-65' : ''}`}
+                  className={`py-3.5 flex flex-col justify-between gap-1 first:pt-1 last:pb-1 ${!pu.is_active ? 'opacity-50' : ''}`}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs text-slate-200">
+                      <span className="font-bold text-xs text-white uppercase font-sans">
                         {pu.nama}
                       </span>
-                      <span className={`text-[8px] font-mono font-bold px-1.5 py-0.5 rounded uppercase ${
+                      <span className={`text-[8px] font-mono font-bold px-2 py-0.5 rounded-none uppercase border ${
                         pu.jenis_usaha === 'PBPHH' 
-                          ? 'bg-blue-400/10 text-blue-400' 
+                          ? 'bg-[#0066b1]/10 border-[#0066b1]/30 text-[#0066b1]' 
                           : pu.jenis_usaha === 'PBPH'
-                          ? 'bg-emerald-400/10 text-emerald-400'
-                          : 'bg-purple-400/10 text-purple-400'
+                          ? 'bg-[#0fa336]/10 border-[#0fa336]/30 text-[#0fa336]'
+                          : 'bg-[#1c69d4]/10 border-[#1c69d4]/30 text-[#1c69d4]'
                       }`}>
                         {pu.jenis_usaha}
                       </span>
                     </div>
-                    <p className="text-[10px] text-slate-400 font-mono">
+                    <p className="text-[10px] text-[#bbbbbb] font-mono">
                       SLK: {pu.slk_no} ({pu.slk_tanggal})
                     </p>
-                    <p className="text-[10px] text-slate-500 truncate italic">
-                      Pimp: {pu.pimpinan} | {pu.alamat}
+                    <p className="text-[10px] text-[#7e7e7e] truncate font-light">
+                      PIMP: {pu.pimpinan} | {pu.alamat}
                     </p>
                   </div>
 
                   <div className="flex gap-2 justify-end pt-1">
                     <button
                       onClick={() => handleEditPelakuClick(pu)}
-                      className="px-2 py-0.5 text-[10px] font-bold text-amber-500 hover:text-amber-400 bg-amber-400/5 rounded border border-amber-500/15 cursor-pointer focus:outline-none"
+                      className="bmw-btn-outline px-2.5 py-1 text-[9px] cursor-pointer"
                     >
-                      Ubah Data
+                      UBAH DATA
                     </button>
                     <button
                       onClick={() => handleTogglePelakuActive(pu.id)}
-                      className="px-2 py-0.5 text-[10px] font-bold text-slate-400 hover:text-red-400 hover:bg-red-400/5 rounded border border-transparent cursor-pointer focus:outline-none"
+                      className="px-2.5 py-1 bg-[#0d0d0d] border border-[#3c3c3c] text-[#7e7e7e] hover:text-[#e22718] hover:border-[#e22718] text-[9px] font-mono font-bold uppercase transition-colors cursor-pointer"
                     >
-                      {pu.is_active ? 'Matikan' : 'Aktifkan'}
+                      {pu.is_active ? 'MATIKAN' : 'AKTIFKAN'}
                     </button>
                   </div>
                 </div>
@@ -971,25 +972,27 @@ export default function MasterDataPanel({
           </div>
 
           {/* Pelaku Usaha Form Editor Panel */}
-          <div className="lg:col-span-7 bg-[#101426] border border-[#1e233d] rounded-2xl p-5 shadow-sm space-y-4">
+          <div className="lg:col-span-7 bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-6 shadow-2xl space-y-4">
             
             {!(isAddingPelaku || editingPelakuId) ? (
-              <div className="py-24 text-center text-slate-400 text-xs flex flex-col items-center justify-center space-y-2.5">
-                <Database className="w-8 h-8 text-slate-600 animate-pulse" />
-                <span>Pilih salah satu pelaku usaha di kiri atau buat baru untuk menambahkan ke database kementerian.</span>
+              <div className="py-28 text-center text-[#7e7e7e] text-xs flex flex-col items-center justify-center space-y-3 font-mono">
+                <Database className="w-8 h-8 text-[#3c3c3c]" />
+                <span className="uppercase tracking-wider font-bold text-white">
+                  PILIH SALAH SATU PELAKU USAHA DI KIRI ATAU KLIK BARU
+                </span>
               </div>
             ) : (
               <div className="space-y-4 animate-in fade-in-50 duration-200">
-                <div className="border-b border-[#22293f] pb-2 flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-400 font-mono uppercase tracking-wider">
-                    {isAddingPelaku ? 'Tambah Pelaku Usaha Baru' : 'Ubah Data Pelaku Usaha'}
+                <div className="border-b border-[#262626] pb-3 flex items-center justify-between">
+                  <span className="text-xs font-bold text-white font-mono uppercase tracking-widest">
+                    {isAddingPelaku ? 'TAMBAH PELAKU USAHA BARU' : 'UBAH DATA PELAKU USAHA'}
                   </span>
                   <button
                     onClick={() => {
                       setEditingPelakuId(null);
                       setIsAddingPelaku(false);
                     }}
-                    className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded focus:outline-none"
+                    className="p-1 text-[#7e7e7e] hover:text-white bg-[#0d0d0d] border border-[#3c3c3c] rounded-none focus:outline-none"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -998,226 +1001,226 @@ export default function MasterDataPanel({
                 {/* Form Inputs */}
                 <div className="space-y-3 text-xs">
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Nama Pelaku Usaha (Perusahaan/Masyarakat)</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">NAMA PELAKU USAHA (PERUSAHAAN/MASYARAKAT)</label>
                     <input
                       type="text"
                       value={pelakuNama}
                       onChange={(e) => setPelakuNama(e.target.value)}
                       placeholder="Contoh: PBPHH PT Wijaya Tri Utama Plywood"
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                      className="bmw-input w-full font-sans text-xs"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">Jenis Usaha Kehutanan</label>
+                      <label className="font-bold text-white uppercase font-mono tracking-wider block">JENIS USAHA KEHUTANAN</label>
                       <select
                         value={pelakuJenis}
                         onChange={(e) => setPelakuJenis(e.target.value as any)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white cursor-pointer focus:outline-none focus:border-amber-500"
+                        className="bmw-input w-full font-mono text-xs cursor-pointer py-2.5"
                       >
-                        <option value="PBPH">PBPH (Pemanfaatan Hutan)</option>
-                        <option value="PBPHH">PBPHH (Pemanfaatan Hasil Hutan)</option>
-                        <option value="IPKR">IPKR (Industri Primer Kayu Rakyat)</option>
-                        <option value="Lainnya">Lainnya / Umum</option>
+                        <option value="PBPH" className="bg-[#1a1a1a]">PBPH (Pemanfaatan Hutan)</option>
+                        <option value="PBPHH" className="bg-[#1a1a1a]">PBPHH (Pemanfaatan Hasil Hutan)</option>
+                        <option value="IPKR" className="bg-[#1a1a1a]">IPKR (Industri Primer Kayu Rakyat)</option>
+                        <option value="Lainnya" className="bg-[#1a1a1a]">Lainnya / Umum</option>
                       </select>
                     </div>
 
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">Nama Pimpinan / Penanggung Jawab</label>
+                      <label className="font-bold text-white uppercase font-mono tracking-wider block">NAMA PIMPINAN / PENANGGUNG JAWAB</label>
                       <input
                         type="text"
                         value={pelakuPimpinan}
                         onChange={(e) => setPelakuPimpinan(e.target.value)}
                         placeholder="Contoh: Ir. Hendra Gunawan"
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                        className="bmw-input w-full font-sans text-xs"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">Nomor Sertifikat Legalitas (SLK)</label>
+                      <label className="font-bold text-white uppercase font-mono tracking-wider block">NOMOR SERTIFIKAT LEGALITAS (SLK)</label>
                       <input
                         type="text"
                         value={pelakuSlkNo}
                         onChange={(e) => setPelakuSlkNo(e.target.value)}
                         placeholder="Contoh: 12/S-LK/01/2025"
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 font-mono"
+                        className="bmw-input w-full font-mono text-xs"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">Tanggal Terbit SLK</label>
+                      <label className="font-bold text-white uppercase font-mono tracking-wider block">TANGGAL TERBIT SLK</label>
                       <input
                         type="date"
                         value={pelakuSlkTanggal}
                         onChange={(e) => setPelakuSlkTanggal(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500"
+                        className="bmw-input w-full font-mono text-xs"
                       />
                     </div>
                   </div>
 
                   {/* Conditional Licensing Subforms */}
                   {pelakuJenis === 'PBPH' && (
-                    <div className="p-3 bg-amber-500/5 border border-amber-500/10 rounded-xl space-y-3">
-                      <h4 className="text-amber-400 font-bold font-mono tracking-wide">DETAIL PERIZINAN PBPH</h4>
+                    <div className="p-4 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none space-y-3">
+                      <h4 className="text-white font-bold font-mono tracking-widest uppercase">DETAIL PERIZINAN PBPH</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Nomor SK PBPH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Nomor SK PBPH</label>
                           <input
                             type="text"
                             value={skPbphNo}
                             onChange={(e) => setSkPbphNo(e.target.value)}
                             placeholder="SK.99/MENLHK-PH/..."
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none focus:border-amber-500"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Tanggal SK PBPH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Tanggal SK PBPH</label>
                           <input
                             type="date"
                             value={skPbphTanggal}
                             onChange={(e) => setSkPbphTanggal(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div className="space-y-1 col-span-1">
-                          <label className="font-bold text-slate-300">Luas Areal (Ha)</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Luas Areal (Ha)</label>
                           <input
                             type="text"
                             value={luasAreal}
                             onChange={(e) => setLuasAreal(e.target.value)}
                             placeholder="Contoh: 15430"
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                         <div className="space-y-1 col-span-1">
-                          <label className="font-bold text-slate-300">Masa Berlaku S-LK</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Masa Berlaku S-LK</label>
                           <input
                             type="date"
                             value={slkMasaBerlaku}
                             onChange={(e) => setSlkMasaBerlaku(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                         <div className="space-y-1 col-span-1">
-                          <label className="font-bold text-slate-300">Penerbit S-LK</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Penerbit S-LK</label>
                           <input
                             type="text"
                             value={slkPenerbit}
                             onChange={(e) => setSlkPenerbit(e.target.value)}
                             placeholder="PT. Mutuagung..."
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-sans text-xs py-1.5"
                           />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Nomor SK RKUPH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Nomor SK RKUPH</label>
                           <input
                             type="text"
                             value={skRkuphNo}
                             onChange={(e) => setSkRkuphNo(e.target.value)}
                             placeholder="SK.12/MENLHK-PH/..."
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Tanggal SK RKUPH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Tanggal SK RKUPH</label>
                           <input
                             type="date"
                             value={skRkuphTanggal}
                             onChange={(e) => setSkRkuphTanggal(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                       </div>
 
-                      <h5 className="text-[11px] font-bold text-amber-500/80 border-b border-slate-800/60 pb-1 pt-1">Rencana Kerja Tahunan (RKTPH)</h5>
+                      <h5 className="text-[11px] font-bold text-white font-mono uppercase tracking-wider border-b border-[#262626] pb-1 pt-1">RENCANA KERJA TAHUNAN (RKTPH)</h5>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Tahun RKTPH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Tahun RKTPH</label>
                           <select
                             value={rktphTahun}
                             onChange={(e) => setRktphTahun(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white cursor-pointer"
+                            className="bmw-input w-full font-mono text-xs py-1.5 cursor-pointer"
                           >
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                            <option value="2027">2027</option>
-                            <option value="2028">2028</option>
-                            <option value="2029">2029</option>
-                            <option value="2030">2030</option>
+                            <option value="2025" className="bg-[#1a1a1a]">2025</option>
+                            <option value="2026" className="bg-[#1a1a1a]">2026</option>
+                            <option value="2027" className="bg-[#1a1a1a]">2027</option>
+                            <option value="2028" className="bg-[#1a1a1a]">2028</option>
+                            <option value="2029" className="bg-[#1a1a1a]">2029</option>
+                            <option value="2030" className="bg-[#1a1a1a]">2030</option>
                           </select>
                         </div>
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Luas RKTPH (Ha)</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Luas RKTPH (Ha)</label>
                           <input
                             type="text"
                             value={luasRktph}
                             onChange={(e) => setLuasRktph(e.target.value)}
                             placeholder="Contoh: 2500"
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Nomor SK RKTPH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Nomor SK RKTPH</label>
                           <input
                             type="text"
                             value={skRktphNo}
                             onChange={(e) => setSkRktphNo(e.target.value)}
                             placeholder="SK.88/MENLHK-PH/..."
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Tanggal SK RKTPH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Tanggal SK RKTPH</label>
                           <input
                             type="date"
                             value={skRktphTanggal}
                             onChange={(e) => setSkRktphTanggal(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Target RKTPH (Jenis)</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Target RKTPH (Jenis)</label>
                           <select
                             value={targetRktphJenis}
                             onChange={(e) => setTargetRktphJenis(e.target.value as any)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white cursor-pointer"
+                            className="bmw-input w-full font-mono text-xs py-1.5 cursor-pointer"
                           >
-                            <option value="">-- Pilih Target --</option>
-                            <option value="Penanaman">Penanaman</option>
-                            <option value="Produksi HHK">Produksi HHK</option>
-                            <option value="Produksi HHBK">Produksi HHBK</option>
-                            <option value="Pembayaran PSDH">Pembayaran PSDH</option>
-                            <option value="Pembayaran DR">Pembayaran DR</option>
+                            <option value="" className="bg-[#1a1a1a]">-- Pilih Target --</option>
+                            <option value="Penanaman" className="bg-[#1a1a1a]">Penanaman</option>
+                            <option value="Produksi HHK" className="bg-[#1a1a1a]">Produksi HHK</option>
+                            <option value="Produksi HHBK" className="bg-[#1a1a1a]">Produksi HHBK</option>
+                            <option value="Pembayaran PSDH" className="bg-[#1a1a1a]">Pembayaran PSDH</option>
+                            <option value="Pembayaran DR" className="bg-[#1a1a1a]">Pembayaran DR</option>
                           </select>
                         </div>
                         {targetRktphJenis === 'Produksi HHBK' && (
                           <div className="space-y-1">
-                            <label className="font-bold text-slate-300">Jenis HHBK</label>
+                            <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Jenis HHBK</label>
                             <select
                               value={targetRktphHhbkJenis}
                               onChange={(e) => setTargetRktphHhbkJenis(e.target.value as any)}
-                              className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white cursor-pointer"
+                              className="bmw-input w-full font-mono text-xs py-1.5 cursor-pointer"
                             >
-                              <option value="">-- Pilih Jenis HHBK --</option>
-                              <option value="Buah">Buah</option>
-                              <option value="Biji">Biji</option>
-                              <option value="Daun">Daun</option>
-                              <option value="Rimpang">Rimpang</option>
+                              <option value="" className="bg-[#1a1a1a]">-- Pilih Jenis HHBK --</option>
+                              <option value="Buah" className="bg-[#1a1a1a]">Buah</option>
+                              <option value="Biji" className="bg-[#1a1a1a]">Biji</option>
+                              <option value="Daun" className="bg-[#1a1a1a]">Daun</option>
+                              <option value="Rimpang" className="bg-[#1a1a1a]">Rimpang</option>
                             </select>
                           </div>
                         )}
@@ -1226,63 +1229,63 @@ export default function MasterDataPanel({
                   )}
 
                   {pelakuJenis === 'PBPHH' && (
-                    <div className="p-3 bg-indigo-950/20 border border-indigo-500/10 rounded-xl space-y-3">
-                      <h4 className="text-amber-400 font-bold font-mono tracking-wide">DETAIL PERIZINAN PBPHH</h4>
+                    <div className="p-4 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none space-y-3">
+                      <h4 className="text-white font-bold font-mono tracking-widest uppercase">DETAIL PERIZINAN PBPHH</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Nomor SK PBPHH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Nomor SK PBPHH</label>
                           <input
                             type="text"
                             value={skPbphhNo}
                             onChange={(e) => setSkPbphhNo(e.target.value)}
                             placeholder="SK.512/MENLHK-PHL/..."
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="font-bold text-slate-300">Tanggal SK PBPHH</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Tanggal SK PBPHH</label>
                           <input
                             type="date"
                             value={skPbphhTanggal}
                             onChange={(e) => setSkPbphhTanggal(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div className="space-y-1 col-span-1">
-                          <label className="font-bold text-slate-300">Kapasitas Produksi (Jenis)</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Kapasitas Produksi (Jenis)</label>
                           <select
                             value={kapasitasProduksiJenis}
                             onChange={(e) => setKapasitasProduksiJenis(e.target.value as any)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white cursor-pointer"
+                            className="bmw-input w-full font-mono text-xs py-1.5 cursor-pointer"
                           >
-                            <option value="">-- Pilih Jenis --</option>
-                            <option value="Veneer">Veneer</option>
-                            <option value="Plywood">Plywood</option>
-                            <option value="Kayu Gergajian">Kayu Gergajian</option>
-                            <option value="Serpih">Serpih</option>
-                            <option value="Block Board">Block Board</option>
+                            <option value="" className="bg-[#1a1a1a]">-- Pilih Jenis --</option>
+                            <option value="Veneer" className="bg-[#1a1a1a]">Veneer</option>
+                            <option value="Plywood" className="bg-[#1a1a1a]">Plywood</option>
+                            <option value="Kayu Gergajian" className="bg-[#1a1a1a]">Kayu Gergajian</option>
+                            <option value="Serpih" className="bg-[#1a1a1a]">Serpih</option>
+                            <option value="Block Board" className="bg-[#1a1a1a]">Block Board</option>
                           </select>
                         </div>
                         <div className="space-y-1 col-span-1">
-                          <label className="font-bold text-slate-300">Masa Berlaku S-LK</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Masa Berlaku S-LK</label>
                           <input
                             type="date"
                             value={slkMasaBerlaku}
                             onChange={(e) => setSlkMasaBerlaku(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-mono text-xs py-1.5"
                           />
                         </div>
                         <div className="space-y-1 col-span-1">
-                          <label className="font-bold text-slate-300">Penerbit S-LK</label>
+                          <label className="font-bold text-[#bbbbbb] uppercase font-mono text-[10px]">Penerbit S-LK</label>
                           <input
                             type="text"
                             value={slkPenerbit}
                             onChange={(e) => setSlkPenerbit(e.target.value)}
                             placeholder="PT. Mutuagung..."
-                            className="w-full bg-slate-900 border border-slate-800/80 rounded-lg px-2.5 py-1.5 text-white focus:outline-none"
+                            className="bmw-input w-full font-sans text-xs py-1.5"
                           />
                         </div>
                       </div>
@@ -1290,34 +1293,34 @@ export default function MasterDataPanel({
                   )}
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Alamat Lengkap / Lokasi Operasional</label>
+                    <label className="font-bold text-white uppercase font-mono tracking-wider block">ALAMAT LENGKAP / LOKASI OPERASIONAL</label>
                     <textarea
                       value={pelakuAlamat}
                       onChange={(e) => setPelakuAlamat(e.target.value)}
                       rows={2}
                       placeholder="Kabupaten/Kota, Kalimantan Selatan..."
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-amber-500 leading-normal"
+                      className="bmw-input w-full font-sans leading-relaxed text-xs"
                     />
                   </div>
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex justify-end gap-2.5 pt-3 border-t border-[#22293f]">
+                <div className="flex justify-end gap-3 pt-3 border-t border-[#262626]">
                   <button
                     onClick={() => {
                       setEditingPelakuId(null);
                       setIsAddingPelaku(false);
                     }}
-                    className="px-3.5 py-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                    className="bmw-btn-outline px-4 py-2 text-xs font-mono uppercase cursor-pointer"
                   >
-                    Batal
+                    BATAL
                   </button>
                   <button
                     onClick={handleSavePelaku}
-                    className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                    className="bmw-btn-primary px-5 py-2 text-xs font-mono uppercase flex items-center gap-1.5 cursor-pointer"
                   >
-                    <Check className="w-3.5 h-3.5" />
-                    Simpan Pelaku Usaha
+                    <Check className="w-3.5 h-3.5 text-[#1c69d4]" />
+                    SIMPAN PELAKU USAHA
                   </button>
                 </div>
               </div>

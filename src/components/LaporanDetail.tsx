@@ -324,15 +324,17 @@ export default function LaporanDetail({
   const getStatusLabelAndColor = () => {
     switch (laporan.status) {
       case 'approved':
-        return { label: 'Disetujui', bg: 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400', icon: <CheckCircle2 className="w-4 h-4" /> };
+        return { label: 'DISETUJUI', bg: 'bg-[#0fa336]/10 border-[#0fa336]/30 text-[#0fa336]', icon: <CheckCircle2 className="w-4 h-4 text-[#0fa336]" /> };
       case 'submitted':
-        return { label: 'Menunggu Verifikasi', bg: 'bg-amber-500/10 border-amber-500/25 text-amber-400', icon: <RefreshCw className="w-4 h-4 animate-spin" /> };
+        return { label: 'MENUNGGU VERIFIKASI', bg: 'bg-[#0066b1]/10 border-[#0066b1]/40 text-[#0066b1]', icon: <RefreshCw className="w-4 h-4 text-[#0066b1] animate-spin" /> };
+      case 'verified':
+        return { label: 'TERVERIFIKASI', bg: 'bg-[#1c69d4]/10 border-[#1c69d4]/40 text-[#1c69d4]', icon: <CheckCircle2 className="w-4 h-4 text-[#1c69d4]" /> };
       case 'revision':
-        return { label: 'Perlu Revisi', bg: 'bg-purple-500/10 border-purple-500/25 text-purple-400', icon: <AlertCircle className="w-4 h-4" /> };
+        return { label: 'PERLU REVISI', bg: 'bg-[#f4b400]/10 border-[#f4b400]/30 text-[#f4b400]', icon: <AlertCircle className="w-4 h-4 text-[#f4b400]" /> };
       case 'rejected':
-        return { label: 'Ditolak', bg: 'bg-red-500/10 border-red-500/25 text-red-500', icon: <AlertCircle className="w-4 h-4" /> };
+        return { label: 'DITOLAK', bg: 'bg-[#e22718]/10 border-[#e22718]/40 text-[#e22718]', icon: <AlertCircle className="w-4 h-4 text-[#e22718]" /> };
       default:
-        return { label: 'Draft', bg: 'bg-slate-500/10 border-slate-500/25 text-slate-300', icon: <FileText className="w-4 h-4 animate-pulse" /> };
+        return { label: 'DRAFT', bg: 'bg-[#262626] border-[#3c3c3c] text-[#bbbbbb]', icon: <FileText className="w-4 h-4 text-[#bbbbbb]" /> };
     }
   };
 
@@ -342,60 +344,56 @@ export default function LaporanDetail({
     <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in-50 duration-200">
       
       {/* Action Buttons Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#22293f] pb-4 print:hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#3c3c3c] pb-4 print:hidden">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 text-xs text-[#bbbbbb] hover:text-white uppercase font-mono font-bold transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          Kembali ke Daftar LPD
+          KEMBALI KE DAFTAR LPD
         </button>
 
-        <div className="flex flex-wrap gap-2.5">
+        <div className="flex flex-wrap gap-3">
           {isEditable && (
             <button
               onClick={onEdit}
-              className="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 hover:text-slate-900 text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-md shadow-amber-500/5 font-sans"
+              className="bmw-btn-outline px-4 py-2 text-xs flex items-center gap-2 cursor-pointer font-mono"
             >
               <Edit2 className="w-3.5 h-3.5" />
-              Ubah Laporan
+              UBAH LAPORAN
             </button>
           )}
           <button
             onClick={exportToPDF}
             disabled={isGeneratingPDF}
-            className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer font-sans shadow-md ${
-              isGeneratingPDF 
-                ? 'bg-indigo-800 text-slate-300 cursor-wait' 
-                : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-500/10'
-            }`}
+            className="bmw-btn-outline px-4 py-2 text-xs flex items-center gap-2 cursor-pointer font-mono disabled:opacity-50"
           >
             {isGeneratingPDF ? (
               <>
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                Mengekstrak PDF...
+                MENGEKSTRAK PDF...
               </>
             ) : (
               <>
-                <Download className="w-3.5 h-3.5" />
-                Ekspor Unduh PDF
+                <Download className="w-3.5 h-3.5 text-[#1c69d4]" />
+                EKSPOR UNDUH PDF
               </>
             )}
           </button>
           <button
             onClick={triggerBrowserPrint}
-            className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer font-sans shadow-md shadow-emerald-500/10"
+            className="bmw-btn-primary px-5 py-2 text-xs flex items-center gap-2 cursor-pointer font-mono"
           >
-            <Printer className="w-3.5 h-3.5" />
-            Cetak Laporan
+            <Printer className="w-3.5 h-3.5 text-[#1c69d4]" />
+            CETAK LAPORAN
           </button>
           {currentUser.role === 'admin' && onDeleteLaporan && (
             <button
               onClick={() => onDeleteLaporan(laporan.id)}
-              className="px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-md shadow-red-500/5 font-sans"
+              className="px-4 py-2 bg-[#e22718]/10 border border-[#e22718]/40 text-[#e22718] hover:bg-[#e22718] hover:text-white text-xs font-bold font-mono tracking-widest uppercase transition-all cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              Hapus LPD (Admin)
+              HAPUS LPD
             </button>
           )}
         </div>
@@ -403,21 +401,21 @@ export default function LaporanDetail({
 
       {/* Informative Warning Note for Non-Approved Status */}
       {laporan.status !== 'approved' && (
-        <div className="p-4 bg-[#141b30] border border-amber-900/15 rounded-xl flex items-start gap-3 text-xs text-slate-300 leading-relaxed print:hidden">
-          <div className="p-1 px-1.5 bg-amber-500/10 text-amber-500 font-bold font-mono rounded">!</div>
+        <div className="p-4 bg-[#0d0d0d] border border-[#3c3c3c] rounded-none flex items-start gap-3 text-xs text-[#bbbbbb] leading-relaxed print:hidden">
+          <div className="p-1 px-2 bg-[#1a1a1a] border border-[#3c3c3c] text-white font-bold font-mono">!</div>
           <div>
-            <span className="font-bold text-amber-400">Catatan Cetakan:</span> Dokumen ini berstatus <span className="font-semibold text-slate-50">{statusStyle.label}</span>. Cetakan kop surat resmi kementerian yang sah secara administratif biasanya membutuhkan verifikasi status <span className="text-emerald-400 font-bold">"Disetujui"</span> terlebih dahulu dari Kepala Balai.
+            <span className="font-bold text-white uppercase font-mono tracking-wider">CATATAN STATUS DOKUMEN:</span> Dokumen ini berstatus <span className="font-bold text-white font-mono uppercase bg-[#1a1a1a] px-1.5 py-0.5 border border-[#3c3c3c]">{statusStyle.label}</span>. Cetakan kop surat resmi kementerian yang sah secara administratif memerlukan persetujuan status <span className="text-[#0fa336] font-bold font-mono">"DISETUJUI"</span> terlebih dahulu.
           </div>
         </div>
       )}
 
       {/* PANEL RIWAYAT PERUBAHAN (CHANGE HISTORY PANEL) */}
       {laporan.riwayat_perubahan && laporan.riwayat_perubahan.length > 0 && (
-        <div className="p-5 bg-[#0f1424] border border-[#1e294b] rounded-2xl space-y-4 print:hidden shadow-lg animate-in fade-in-50 duration-200">
-          <div className="flex items-center gap-2 border-b border-[#1e294b]/50 pb-2.5">
-            <History className="w-4 h-4 text-emerald-400" />
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-              Riwayat Perubahan Status (Log Aktivitas Verifikasi)
+        <div className="p-5 bg-[#1a1a1a] border border-[#3c3c3c] rounded-none space-y-4 print:hidden shadow-2xl">
+          <div className="flex items-center gap-2 border-b border-[#262626] pb-3">
+            <History className="w-4 h-4 text-[#1c69d4]" />
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white font-mono">
+              RIWAYAT PERUBAHAN STATUS (LOG AKTIVITAS)
             </h4>
           </div>
           
@@ -425,41 +423,40 @@ export default function LaporanDetail({
             {laporan.riwayat_perubahan.map((riwayat, index) => {
               const getBadgeStyle = (status: string) => {
                 switch (status) {
-                  case 'approved': return 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400';
-                  case 'submitted': return 'bg-amber-500/10 border-amber-500/25 text-amber-400';
-                  case 'revision': return 'bg-purple-500/10 border-purple-500/25 text-purple-400';
-                  case 'rejected': return 'bg-red-500/10 border-red-500/25 text-red-500';
-                  case 'verified': return 'bg-blue-500/10 border-blue-500/25 text-blue-400';
-                  default: return 'bg-slate-500/10 border-slate-500/25 text-slate-300';
+                  case 'approved': return 'bg-[#0fa336]/10 border-[#0fa336]/40 text-[#0fa336]';
+                  case 'submitted': return 'bg-[#0066b1]/10 border-[#0066b1]/40 text-[#0066b1]';
+                  case 'revision': return 'bg-[#f4b400]/10 border-[#f4b400]/40 text-[#f4b400]';
+                  case 'rejected': return 'bg-[#e22718]/10 border-[#e22718]/40 text-[#e22718]';
+                  case 'verified': return 'bg-[#1c69d4]/10 border-[#1c69d4]/40 text-[#1c69d4]';
+                  default: return 'bg-[#262626] border-[#3c3c3c] text-[#bbbbbb]';
                 }
               };
 
               return (
                 <div key={riwayat.id} className="flex gap-4 items-start relative">
-                  {/* Timeline connecting line */}
                   {index < laporan.riwayat_perubahan!.length - 1 && (
-                    <div className="absolute top-6 left-[11px] w-px h-full bg-[#1e294b]"></div>
+                    <div className="absolute top-6 left-[11px] w-px h-full bg-[#3c3c3c]"></div>
                   )}
-                  <div className="w-6 h-6 rounded-full bg-[#141b30] border border-[#1e294b] flex items-center justify-center shrink-0 z-10">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                  <div className="w-6 h-6 rounded-none bg-[#0d0d0d] border border-[#3c3c3c] flex items-center justify-center shrink-0 z-10">
+                    <div className="w-1.5 h-1.5 bg-[#1c69d4]"></div>
                   </div>
-                  <div className="flex-1 bg-[#141b30] border border-[#1e294b] rounded-xl p-3">
+                  <div className="flex-1 bg-[#0d0d0d] border border-[#262626] rounded-none p-3">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                      <span className="font-bold text-slate-200 text-xs">{riwayat.user_nama}</span>
-                      <span className="text-[10px] text-slate-500 font-mono">
+                      <span className="font-bold text-white text-xs font-sans uppercase">{riwayat.user_nama}</span>
+                      <span className="text-[10px] text-[#7e7e7e] font-mono">
                         {new Date(riwayat.timestamp).toLocaleString('id-ID', {
                           day: 'numeric', month: 'short', year: 'numeric',
                           hour: '2-digit', minute: '2-digit'
                         })} WIB
                       </span>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
-                      <span>Mengubah status dari</span>
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] border font-bold uppercase ${getBadgeStyle(riwayat.status_before)}`}>
+                    <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#bbbbbb]">
+                      <span>Status diubah dari</span>
+                      <span className={`px-2 py-0.5 rounded-none text-[9px] border font-bold uppercase font-mono ${getBadgeStyle(riwayat.status_before)}`}>
                         {riwayat.status_before}
                       </span>
                       <span>menjadi</span>
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] border font-bold uppercase ${getBadgeStyle(riwayat.status_after)}`}>
+                      <span className={`px-2 py-0.5 rounded-none text-[9px] border font-bold uppercase font-mono ${getBadgeStyle(riwayat.status_after)}`}>
                         {riwayat.status_after}
                       </span>
                     </div>
@@ -472,82 +469,83 @@ export default function LaporanDetail({
       )}
 
       {/* PANEL KONFIGURASI CETAKAN (PRINT CONFIGURATION PANEL) */}
-      <div className="p-5 bg-[#0f1424] border border-[#1e294b] rounded-2xl space-y-4 print:hidden shadow-lg animate-in fade-in-50 duration-200">
-        <div className="flex items-center gap-2 border-b border-[#1e294b]/50 pb-2.5">
-          <Printer className="w-4 h-4 text-indigo-400" />
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-            Pengaturan Cetakan Dokumen (LPD)
+      <div className="p-5 bg-[#1a1a1a] border border-[#3c3c3c] rounded-none space-y-4 print:hidden shadow-2xl">
+        <div className="flex items-center gap-2 border-b border-[#262626] pb-3">
+          <Printer className="w-4 h-4 text-[#1c69d4]" />
+          <h4 className="text-xs font-bold uppercase tracking-widest text-white font-mono">
+            PENGATURAN CETAKAN DOKUMEN (PRINT CONFIGURATION)
           </h4>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Mode Tanda Tangan */}
           <div className="space-y-2">
-            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-tight block">
-              Metode Penandatanganan
+            <label className="text-[10px] font-bold text-[#bbbbbb] uppercase font-mono tracking-wider block">
+              METODE PENANDATANGANAN
             </label>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => setSignatureMode('digital')}
-                className={`py-2 px-3 rounded-xl border text-xs font-medium transition-all cursor-pointer text-center ${
+                className={`py-2 px-3 rounded-none border text-xs font-bold uppercase font-mono transition-all cursor-pointer text-center ${
                   signatureMode === 'digital'
-                    ? 'bg-indigo-600/15 border-indigo-500 text-indigo-300'
-                    : 'bg-[#141b30] border-slate-800 text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#0d0d0d] border-[#1c69d4] text-white'
+                    : 'bg-[#1a1a1a] border-[#262626] text-[#7e7e7e] hover:text-white'
                 }`}
               >
-                Tanda Tangan QR (Digital)
+                QR DIGITAL
               </button>
               <button
                 type="button"
                 onClick={() => setSignatureMode('physical')}
-                className={`py-2 px-3 rounded-xl border text-xs font-medium transition-all cursor-pointer text-center ${
+                className={`py-2 px-3 rounded-none border text-xs font-bold uppercase font-mono transition-all cursor-pointer text-center ${
                   signatureMode === 'physical'
-                    ? 'bg-indigo-600/15 border-indigo-500 text-indigo-300'
-                    : 'bg-[#141b30] border-slate-800 text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#0d0d0d] border-[#1c69d4] text-white'
+                    : 'bg-[#1a1a1a] border-[#262626] text-[#7e7e7e] hover:text-white'
                 }`}
               >
-                Tanda Tangan Basah (Fisik)
+                BASAH (FISIK)
               </button>
             </div>
           </div>
 
           {/* Include Photo Attachments */}
           <div className="space-y-2">
-            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-tight block">
-              Lampiran Foto Dokumentasi
+            <label className="text-[10px] font-bold text-[#bbbbbb] uppercase font-mono tracking-wider block">
+              LAMPIRAN FOTO DOKUMENTASI
             </label>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => setIncludeAttachments(true)}
-                className={`py-2 px-3 rounded-xl border text-xs font-medium transition-all cursor-pointer text-center ${
+                className={`py-2 px-3 rounded-none border text-xs font-bold uppercase font-mono transition-all cursor-pointer text-center ${
                   includeAttachments
-                    ? 'bg-indigo-600/15 border-indigo-500 text-indigo-300'
-                    : 'bg-[#141b30] border-slate-800 text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#0d0d0d] border-[#1c69d4] text-white'
+                    : 'bg-[#1a1a1a] border-[#262626] text-[#7e7e7e] hover:text-white'
                 }`}
               >
-                Sertakan Foto
+                SERTAKAN FOTO
               </button>
               <button
                 type="button"
                 onClick={() => setIncludeAttachments(false)}
-                className={`py-2 px-3 rounded-xl border text-xs font-medium transition-all cursor-pointer text-center ${
+                className={`py-2 px-3 rounded-none border text-xs font-bold uppercase font-mono transition-all cursor-pointer text-center ${
                   !includeAttachments
-                    ? 'bg-indigo-600/15 border-indigo-500 text-indigo-300'
-                    : 'bg-[#141b30] border-slate-800 text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#0d0d0d] border-[#1c69d4] text-white'
+                    : 'bg-[#1a1a1a] border-[#262626] text-[#7e7e7e] hover:text-white'
                 }`}
               >
-                Sembunyikan Foto
+                SEMBUNYIKAN
               </button>
             </div>
           </div>
 
-          {/* Page Border Guide for alignment or checking */}
+          {/* Page Border Guide */}
           <div className="space-y-2">
-            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-tight block">
-              Garis Batas Halaman (Pratinjau)
+            <label className="text-[10px] font-bold text-[#bbbbbb] uppercase font-mono tracking-wider block">
+              GARIS BATAS HALAMAN
             </label>
+
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"

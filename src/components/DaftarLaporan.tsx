@@ -71,63 +71,65 @@ export default function DaftarLaporan({
   const getStatusBadge = (status: Laporan['status']) => {
     switch (status) {
       case 'approved':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Disetujui ✓</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono tracking-wider uppercase bg-[#0fa336]/10 text-[#0fa336] border border-[#0fa336]/30">DISETUJUI ✓</span>;
       case 'submitted':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/25">Menunggu Verif</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono tracking-wider uppercase bg-[#0066b1]/10 text-[#0066b1] border border-[#0066b1]/30">MENUNGGU VERIF</span>;
       case 'verified':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/25">Terverifikasi</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono tracking-wider uppercase bg-[#1c69d4]/10 text-[#1c69d4] border border-[#1c69d4]/30">TERVERIFIKASI</span>;
       case 'revision':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">Perlu Revisi</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono tracking-wider uppercase bg-[#f4b400]/10 text-[#f4b400] border border-[#f4b400]/30">PERLU REVISI</span>;
       case 'rejected':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-500 border border-red-500/20">Ditolak</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono tracking-wider uppercase bg-[#e22718]/10 text-[#e22718] border border-[#e22718]/30">DITOLAK</span>;
       default:
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-500/10 text-slate-400 border border-slate-500/20">Draft</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-[9px] font-bold font-mono tracking-wider uppercase bg-[#0d0d0d] text-[#bbbbbb] border border-[#3c3c3c]">DRAFT</span>;
     }
   };
 
   const statusOptions = [
-    { value: 'all', label: 'Semua Status' },
-    { value: 'draft', label: 'Draft' },
-    { value: 'submitted', label: 'Menunggu Verifikasi' },
-    { value: 'verified', label: 'Terverifikasi (Menunggu Validasi)' },
-    { value: 'approved', label: 'Disetujui / Selesai' },
-    { value: 'revision', label: 'Perlu Revisi' },
-    { value: 'rejected', label: 'Ditolak' },
+    { value: 'all', label: 'SEMUA STATUS' },
+    { value: 'draft', label: 'DRAFT' },
+    { value: 'submitted', label: 'MENUNGGU VERIFIKASI' },
+    { value: 'verified', label: 'TERVERIFIKASI (MENUNGGU VALIDASI)' },
+    { value: 'approved', label: 'DISETUJUI / SELESAI' },
+    { value: 'revision', label: 'PERLU REVISI' },
+    { value: 'rejected', label: 'DITOLAK' },
   ];
 
   return (
     <div className="space-y-6 animate-in fade-in-50 duration-200">
       
       {/* Title Header */}
-      <div className="border-b border-[#22293f] pb-3 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+      <div className="border-b border-[#3c3c3c] pb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h2 className="text-lg font-bold text-white">Daftar Dokumen LPD</h2>
-          <p className="text-xs text-slate-400 font-mono mt-0.5">
-            {currentUser.role === 'user' ? 'Koleksi dokumen perjalanan dinas pribadi Anda' : 'Seluruh dokumen perjalanan dinas BPHL XI'}
+          <h2 className="text-xl font-bold text-white uppercase font-sans tracking-wide">
+            DAFTAR DOKUMEN LPD
+          </h2>
+          <p className="text-xs text-[#bbbbbb] font-mono mt-1 font-light">
+            {currentUser.role === 'user' ? 'Koleksi dokumen perjalanan dinas pribadi Anda' : 'Seluruh dokumen perjalanan dinas BPHL XI Banjarbaru'}
           </p>
         </div>
 
         <button
           onClick={onCreateNew}
-          className="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-lg hover:shadow-amber-500/5 cursor-pointer self-start"
+          className="bmw-btn-primary px-5 py-2.5 text-xs flex items-center gap-2 cursor-pointer self-start"
         >
-          <Plus className="w-4 h-4" />
-          LPD Baru
+          <Plus className="w-4 h-4 text-[#1c69d4]" />
+          LPD BARU
         </button>
       </div>
 
       {/* Modern Search and Filters Row */}
-      <div className="bg-[#101426] border border-[#1e233d] rounded-2xl p-4 flex flex-col md:flex-row items-stretch md:items-center gap-3 shadow-inner">
+      <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none p-4 flex flex-col md:flex-row items-stretch md:items-center gap-3 shadow-2xl">
         
         {/* Search */}
         <div className="relative flex-1 text-xs">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
+          <Search className="absolute left-3 top-3 w-4 h-4 text-[#7e7e7e]" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Cari berdasarkan tempat, nomor surat tugas, atau staf..."
-            className="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+            placeholder="Cari tempat, nomor surat tugas, atau staf pelaksana..."
+            className="bmw-input w-full pl-9 pr-3 py-2 text-white placeholder:text-[#7e7e7e] font-sans"
           />
         </div>
 
@@ -137,10 +139,10 @@ export default function DaftarLaporan({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-2 text-slate-300 focus:outline-none focus:border-amber-500 cursor-pointer"
+            className="bmw-input py-2 text-white cursor-pointer font-mono font-bold text-xs"
           >
             {statusOptions.map(opt => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
+              <option key={opt.value} value={opt.value} className="bg-[#1a1a1a] text-white">{opt.label}</option>
             ))}
           </select>
 
@@ -148,10 +150,10 @@ export default function DaftarLaporan({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-2 text-slate-300 focus:outline-none focus:border-amber-500 cursor-pointer font-mono"
+            className="bmw-input py-2 text-white cursor-pointer font-mono font-bold text-xs"
           >
-            <option value="newest">Terbaru</option>
-            <option value="oldest">Terlama</option>
+            <option value="newest" className="bg-[#1a1a1a] text-white">URUTKAN: TERBARU</option>
+            <option value="oldest" className="bg-[#1a1a1a] text-white">URUTKAN: TERLAMA</option>
           </select>
         </div>
 
@@ -159,23 +161,22 @@ export default function DaftarLaporan({
 
       {/* Grid listing */}
       {filteredReports.length === 0 ? (
-        <div className="py-16 text-center text-slate-500 text-xs bg-[#101426] border border-[#1e233d] rounded-2xl">
+        <div className="py-16 text-center text-[#7e7e7e] text-xs font-light bg-[#1a1a1a] border border-[#3c3c3c] rounded-none">
           Tidak ditemukan dokumen LPD yang cocok dengan filter pencarian Anda.
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {filteredReports.map((lpd) => {
             const programName = getProgramName(lpd.jenis_kegiatan_id);
-            const authorName = getOwnerName(lpd.user_id);
             return (
               <div 
                 key={lpd.id}
-                className="bg-[#101426] border border-[#1e233d] hover:border-[#2b335a] rounded-2xl p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-200"
+                className="bg-[#1a1a1a] border border-[#3c3c3c] hover:border-[#1c69d4] rounded-none p-5 flex flex-col justify-between shadow-xl transition-all duration-200"
               >
                 <div className="space-y-3">
                   {/* Tags */}
-                  <div className="flex items-center justify-between gap-2.5 border-b border-[#22293f] pb-2">
-                    <span className="text-[9px] font-extrabold text-amber-500 bg-amber-500/5 px-2 py-0.5 rounded font-mono uppercase tracking-wider">
+                  <div className="flex items-center justify-between gap-2 border-b border-[#262626] pb-2.5">
+                    <span className="text-[10px] font-bold text-white bg-[#0d0d0d] border border-[#3c3c3c] px-2.5 py-0.5 font-mono uppercase tracking-widest">
                       {programName}
                     </span>
                     {getStatusBadge(lpd.status)}
@@ -183,23 +184,23 @@ export default function DaftarLaporan({
 
                   {/* Travel details overview text */}
                   <div className="space-y-1">
-                    <p className="text-[10px] text-slate-500 font-mono font-medium truncate">
-                      ST: {lpd.nomor_surat_tugas || <span className="italic text-slate-600">[Belum diisi]</span>}
+                    <p className="text-[11px] text-white font-mono font-bold truncate">
+                      ST: {lpd.nomor_surat_tugas || <span className="italic text-[#7e7e7e] font-light">[Belum Diisi]</span>}
                     </p>
-                    <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-                      <UserIcon className="w-3.5 h-3.5" />
-                      Pelaksana: <span className="text-slate-200 font-semibold">{getPelaksanaNames(lpd.pelaksana_ids)}</span>
-                    </span>
+                    <div className="text-xs text-[#bbbbbb] font-light flex items-center gap-1.5 pt-0.5">
+                      <UserIcon className="w-3.5 h-3.5 text-[#1c69d4]" />
+                      Pelaksana: <span className="text-white font-semibold">{getPelaksanaNames(lpd.pelaksana_ids)}</span>
+                    </div>
                   </div>
 
-                  <div className="space-y-1.5 text-[11px] text-slate-400 font-sans">
-                    <div className="flex items-start gap-1.5 leading-snug">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
-                      <span className="line-clamp-2">{lpd.tempat_kegiatan}</span>
+                  <div className="space-y-2 text-xs text-[#bbbbbb] font-sans pt-1">
+                    <div className="flex items-start gap-2 leading-snug">
+                      <MapPin className="w-3.5 h-3.5 text-[#7e7e7e] shrink-0 mt-0.5" />
+                      <span className="line-clamp-2 text-white font-medium">{lpd.tempat_kegiatan}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 leading-none">
-                      <Calendar className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                      <span className="font-mono text-[10px]">
+                    <div className="flex items-center gap-2 leading-none">
+                      <Calendar className="w-3.5 h-3.5 text-[#7e7e7e] shrink-0" />
+                      <span className="font-mono text-[10px] text-[#bbbbbb]">
                         {new Date(lpd.tanggal_mulai).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })} s.d.{' '}
                         {new Date(lpd.tanggal_selesai).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </span>
@@ -207,9 +208,9 @@ export default function DaftarLaporan({
                   </div>
                 </div>
 
-                <div className="pt-4 flex justify-between items-center bg-[#101426]">
-                  <span className="text-[9px] text-slate-500 font-mono">
-                    Diinput: {new Date(lpd.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                <div className="pt-4 mt-3 flex justify-between items-center border-t border-[#262626]">
+                  <span className="text-[9px] text-[#7e7e7e] font-mono uppercase">
+                    INPUT: {new Date(lpd.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
                   
                   <div className="flex items-center gap-2">
@@ -220,16 +221,16 @@ export default function DaftarLaporan({
                           onDeleteLaporan(lpd.id);
                         }}
                         title="Hapus LPD (Admin)"
-                        className="p-1 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 hover:text-red-300 rounded transition-all focus:outline-none cursor-pointer"
+                        className="p-1.5 bg-[#e22718]/10 border border-[#e22718]/30 text-[#e22718] hover:bg-[#e22718] hover:text-white rounded-none transition-all cursor-pointer"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     )}
                     <button
                       onClick={() => onSelectLaporan(lpd)}
-                      className="px-3 py-1 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-500/20 text-amber-500 hover:text-amber-400 text-[11px] font-bold tracking-wide rounded transition-all focus:outline-none cursor-pointer"
+                      className="px-3.5 py-1.5 bg-[#0d0d0d] hover:bg-white hover:text-black border border-[#3c3c3c] text-white text-[10px] font-bold font-mono tracking-widest uppercase transition-all cursor-pointer"
                     >
-                      Buka Laporan
+                      BUKA DOKUMEN
                     </button>
                   </div>
                 </div>
@@ -242,3 +243,4 @@ export default function DaftarLaporan({
     </div>
   );
 }
+
