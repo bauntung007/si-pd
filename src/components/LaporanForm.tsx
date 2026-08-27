@@ -318,27 +318,55 @@ export default function LaporanForm({
     }
   };
 
-  // Simulated Attachments Upload
+  // Attachment Upload with Server File Storage & Base64 Fallback
   const handleUploadSimulated = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     Array.from(files).forEach((file: any) => {
       const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
+      reader.onload = async () => {
+        const rawResult = reader.result as string;
+        let finalUrl = rawResult;
+        
+        try {
+          // Attempt server disk upload to /api/upload
+          const response = await fetch('/api/upload', {
+            method: 'POST',
+            headers: getApiHeaders(),
+            body: JSON.stringify({
+              fileName: file.name,
+              dataUrl: rawResult
+            })
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.url) {
+              finalUrl = data.url;
+            }
+          }
+        } catch (err) {
+          console.warn("Upload ke disk server gagal, beralih ke simpan lokal DataURL:", err);
+        }
+
         const newLampiran: Lampiran = {
           id: 'lamp-' + Date.now() + Math.random().toString(36).substring(2, 7),
           nama_file: file.name,
-          dataUrl: result || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=400',
+          dataUrl: finalUrl,
           tipe: file.type.startsWith('image/') ? 'foto' : 'dokumen',
           ukuran: (file.size / 1024 / 1024).toFixed(2) + ' MB'
         };
+
         setLampiranList(prev => [...prev, newLampiran]);
+        if (onShowToast) {
+          onShowToast(`Berkas "${file.name}" berhasil diunggah!`);
+        }
       };
       reader.readAsDataURL(file);
     });
   };
+
 
   const removeLampiran = (id: string) => {
     setLampiranList(prev => prev.filter(lamp => lamp.id !== id));

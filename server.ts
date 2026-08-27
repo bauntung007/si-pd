@@ -13,6 +13,14 @@ const PORT = 3000;
 app.use(express.json({ limit: '10mb' }));
 
 const DB_FILE_PATH = path.join(process.cwd(), "db_store.json");
+const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
+// Serve uploaded images statically
+app.use("/uploads", express.static(UPLOADS_DIR));
 
 // Helper to read database state from server file
 function readDbFile() {
@@ -90,7 +98,39 @@ app.post("/api/db/:key", requireApiKey, (req, res) => {
   res.json({ success: true });
 });
 
+// API route for Image File Upload (Protected)
+app.post("/api/upload", requireApiKey, (req, res) => {
+  const { fileName, dataUrl } = req.body;
+  if (!dataUrl) {
+    return res.status(400).json({ error: "Data gambar tidak boleh kosong." });
+  }
+
+  try {
+    const matches = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
+    if (!matches) {
+      return res.status(400).json({ error: "Format base64 gambar tidak valid." });
+    }
+
+    const mimeType = matches[1];
+    const ext = mimeType.split("/")[1] || "jpg";
+    const base64Data = matches[2];
+    const buffer = Buffer.from(base64Data, "base64");
+
+    const safeName = `img_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${ext}`;
+    const filePath = path.join(UPLOADS_DIR, safeName);
+
+    fs.writeFileSync(filePath, buffer);
+
+    const fileUrl = `/uploads/${safeName}`;
+    res.json({ success: true, url: fileUrl });
+  } catch (err: any) {
+    console.error("Error saving uploaded image:", err);
+    res.status(500).json({ error: "Gagal menyimpan file gambar ke disk server." });
+  }
+});
+
 // Route to serve the Kemenhut logo SVG (Public)
+
 app.get("/api/kemenhut-logo.svg", (req, res) => {
   res.setHeader("Content-Type", "image/svg+xml");
   res.sendFile(path.join(process.cwd(), "assets", "kemenhut-logo.svg"));
