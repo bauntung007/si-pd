@@ -19,6 +19,12 @@
       "skillPath": "skills/fullstack-guardian/SKILL.md",
       "computedHash": "44019dea8ef287894c7bbcae244797d7b2b0ae536648483585302c21f1d628eb"
     },
+    "high-end-visual-design": {
+      "source": "leonxlnx/taste-skill",
+      "sourceType": "github",
+      "skillPath": "skills/soft-skill/SKILL.md",
+      "computedHash": "f730e4132775f13eea19e3dc39afc6bb453cfc0498872b127ad8f0d47cfd802d"
+    },
     "supabase": {
       "source": "supabase/agent-skills",
       "sourceType": "github",
