@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { User, Laporan, TelaahanStaf } from '../types';
 import { LocalDB, OFFICIAL_KOP_SURAT } from '../lib/db';
+import { getApiHeaders } from '../lib/utils';
+
 import { 
   FileText, Plus, Wand2, Printer, Save, Trash2, 
   ArrowLeft, Calendar, MapPin, User as UserIcon, 
@@ -173,8 +175,9 @@ export default function TelaahanStafPanel({
     try {
       const response = await fetch('/api/generate-telaahan', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getApiHeaders(),
         body: JSON.stringify({
+
           nomor_surat_tugas: lpd.nomor_surat_tugas,
           tanggal_surat_tugas: lpd.tanggal_surat_tugas,
           tempat_kegiatan: lpd.tempat_kegiatan,

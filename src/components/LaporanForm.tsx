@@ -4,7 +4,7 @@ import {
   Calendar, MapPin, Users, FileText, ArrowLeft, ArrowRight, Save, 
   Send, User as UserIcon, Plus, Trash2, HelpCircle, ImageIcon, CheckCircle, Image, Sparkles, Brain
 } from 'lucide-react';
-import { sortRegulations, sortPelaksana, sortPelaksanaDinas } from '../lib/utils';
+import { sortRegulations, sortPelaksana, sortPelaksanaDinas, getApiHeaders } from '../lib/utils';
 
 interface LaporanFormProps {
   jenisKegiatanList: JenisKegiatan[];
@@ -396,9 +396,7 @@ export default function LaporanForm({
     try {
       const res = await fetch("/api/generate-ai", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: getApiHeaders(),
         body: JSON.stringify({
           type: "kesimpulan",
           pembahasan: hasil
@@ -442,12 +440,11 @@ export default function LaporanForm({
     try {
       const res = await fetch("/api/generate-ai", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: getApiHeaders(),
         body: JSON.stringify({
           type: "rekomendasi",
           pembahasan: hasil,
+
           kesimpulan: kesimpulan
         })
       });

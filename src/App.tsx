@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { User, JenisKegiatan, Laporan, AppNotification, PelakuUsaha, RiwayatPerubahan } from './types';
 import { LocalDB } from './lib/db';
+import { getApiHeaders } from './lib/utils';
 import HeaderAndNav from './components/HeaderAndNav';
+
 import Dashboard from './components/Dashboard';
 import LaporanForm from './components/LaporanForm';
 import LaporanDetail from './components/LaporanDetail';
@@ -147,7 +149,7 @@ export default function App() {
     }
     
     // Compare with server backend JSON store
-    fetch('/api/db/all')
+    fetch('/api/db/all', { headers: getApiHeaders() })
       .then(res => res.json())
       .then(serverDb => {
         console.log('%c--- Perbandingan Data Server Backend ---', 'color: #f59e0b; font-weight: bold;');
@@ -174,7 +176,7 @@ export default function App() {
   useEffect(() => {
     const syncDbWithServer = async () => {
       try {
-        const response = await fetch('/api/db/all');
+        const response = await fetch('/api/db/all', { headers: getApiHeaders() });
         if (response.ok) {
           const serverDb = await response.json();
           const keys = ['users', 'jenis_kegiatan', 'laporan', 'notifications', 'pelaku_usaha', 'kop_surat', 'telaahan_staf'];
@@ -189,7 +191,7 @@ export default function App() {
               if (localVal) {
                 await fetch(`/api/db/${key}`, {
                   method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
+                  headers: getApiHeaders(),
                   body: JSON.stringify({ value: localVal })
                 });
               }

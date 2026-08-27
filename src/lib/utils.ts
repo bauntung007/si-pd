@@ -255,3 +255,15 @@ export function sortPelaksanaDinas(usersList: User[]): User[] {
   });
 }
 
+/**
+ * Standard API headers helper for backend security authentication
+ */
+export function getApiHeaders(extraHeaders: Record<string, string> = {}): Record<string, string> {
+  const secretKey = (import.meta as any).env?.VITE_API_SECRET_KEY || 'silaperdin_secret_api_key_2026';
+  return {
+    'Content-Type': 'application/json',
+    'x-api-key': secretKey,
+    ...extraHeaders
+  };
+}
+

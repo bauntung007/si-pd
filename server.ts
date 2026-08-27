@@ -51,19 +51,35 @@ function parseCleanJson(text: string): any {
   return JSON.parse(cleaned);
 }
 
-// Database Persistence API Routes
-app.get("/api/db/all", (req, res) => {
+// Security Middleware: API Key Authentication
+const DEFAULT_API_SECRET = "silaperdin_secret_api_key_2026";
+
+function requireApiKey(req: express.Request, res: express.Response, next: express.NextFunction) {
+  const apiKey = req.headers['x-api-key'] || req.headers['authorization'];
+  const expectedKey = process.env.API_SECRET_KEY || DEFAULT_API_SECRET;
+
+  if (!apiKey || apiKey !== expectedKey) {
+    return res.status(401).json({
+      error: "Unauthorized",
+      message: "Akses ditolak: Kunci akses API (x-api-key) tidak valid atau tidak disertakan."
+    });
+  }
+  next();
+}
+
+// Database Persistence API Routes (Protected)
+app.get("/api/db/all", requireApiKey, (req, res) => {
   const db = readDbFile();
   res.json(db);
 });
 
-app.get("/api/db/:key", (req, res) => {
+app.get("/api/db/:key", requireApiKey, (req, res) => {
   const { key } = req.params;
   const db = readDbFile();
   res.json({ value: db[key] || null });
 });
 
-app.post("/api/db/:key", (req, res) => {
+app.post("/api/db/:key", requireApiKey, (req, res) => {
   const { key } = req.params;
   const { value } = req.body;
   
@@ -74,14 +90,15 @@ app.post("/api/db/:key", (req, res) => {
   res.json({ success: true });
 });
 
-// Route to serve the Kemenhut logo SVG
+// Route to serve the Kemenhut logo SVG (Public)
 app.get("/api/kemenhut-logo.svg", (req, res) => {
   res.setHeader("Content-Type", "image/svg+xml");
   res.sendFile(path.join(process.cwd(), "assets", "kemenhut-logo.svg"));
 });
 
-// API route for AI Generation
-app.post("/api/generate-ai", async (req, res) => {
+// API route for AI Generation (Protected)
+app.post("/api/generate-ai", requireApiKey, async (req, res) => {
+
   const { type, pembahasan, kesimpulan } = req.body;
 
   if (!pembahasan) {
@@ -153,8 +170,10 @@ app.post("/api/generate-ai", async (req, res) => {
   return res.json(getFallback());
 });
 
-app.post("/api/generate-telaahan", async (req, res) => {
+// API route for Telaahan Staf AI Generation (Protected)
+app.post("/api/generate-telaahan", requireApiKey, async (req, res) => {
   const {
+
     nomor_surat_tugas,
     tanggal_surat_tugas,
     tempat_kegiatan,

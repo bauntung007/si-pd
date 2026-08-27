@@ -1,4 +1,5 @@
 import { User, JenisKegiatan, Laporan, AppNotification, PelakuUsaha, KopSuratConfig } from '../types';
+import { getApiHeaders } from './utils';
 
 // Initial Users Seed
 export const DEFAULT_USERS: User[] = [
@@ -983,15 +984,14 @@ export class LocalDB {
 
   static set(key: string, value: any): void {
     localStorage.setItem(`lpd_bphl_${key}`, JSON.stringify(value));
-    // Non-blocking background save to server backend
+    // Non-blocking background save to server backend with API key auth
     fetch(`/api/db/${key}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: getApiHeaders(),
       body: JSON.stringify({ value })
     }).catch((err) => console.error(`Failed to sync ${key} with backend:`, err));
   }
+
 
   static initializeToDefault(force = false): void {
     if (force || localStorage.getItem('lpd_bphl_initialized_v12_perjalanan_dinas') !== 'true') {
