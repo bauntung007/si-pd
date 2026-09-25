@@ -56,8 +56,16 @@ async function executeTahap2CompleteSuite() {
     run2_count: countsRun2[table],
     difference: countsRun2[table] - countsRun1[table]
   })));
-  console.log('MAPPING_RUN_1', JSON.stringify(mappingsRun1));
-  console.log('MAPPING_RUN_2', JSON.stringify(mappingsRun2));
+  const sourceData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'db_store.json'), 'utf8'));
+  const sourceReportIds = new Set((sourceData.laporan || []).map((report: { id: string }) => report.id));
+  const migratedReportIds = new Set(mappingsRun2.filter((mapping: { entity_type: string }) => mapping.entity_type === 'reports').map((mapping: { legacy_id: string }) => mapping.legacy_id));
+  const unmigratedReports = [...sourceReportIds].filter((id) => !migratedReportIds.has(id));
+  console.log('UNMIGRATED_REPORT_IDS', JSON.stringify(unmigratedReports));
+  if (unmigratedReports.length > 0) {
+    console.error('MIGRATION_INCOMPLETE: laporan sumber belum memiliki mapping dan tidak ada daftar pengecualian yang disetujui.');
+    process.exitCode = 1;
+    return;
+  }
   const countFailures = tableNames.filter((table) => countsRun1[table] !== countsRun2[table]);
   const mappingFailure = JSON.stringify(mappingsRun1) !== JSON.stringify(mappingsRun2);
   if (countFailures.length || mappingFailure) {

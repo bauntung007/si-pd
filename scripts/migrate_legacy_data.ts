@@ -125,21 +125,28 @@ export async function runDryRunMigration(existingDb?: PGlite): Promise<Migration
   let migratedAttachments = 0;
 
   for (const rep of legacyLaporan) {
-    // 2a. Strict User Attribution: NO Default User Fallback
-    const userRes = await db.query<{ id: string }>(
-      `SELECT id FROM users WHERE nip = $1 OR email = $1 LIMIT 1;`,
-      [rep.user_id]
+    const mappedUserRes = await db.query<{ pg_id: string }>(
+      `SELECT pg_id FROM legacy_id_map WHERE entity_type = $1 AND legacy_id = $2 LIMIT 1;`,
+      ['users', rep.user_id]
     );
+    const userRes = mappedUserRes.rows.length > 0
+      ? mappedUserRes
+      : await db.query<{ id: string }>(
+          `SELECT id FROM users WHERE nip = $1 OR email = $1 LIMIT 1;`,
+          [rep.user_id]
+        );
 
     let createdByUserId: string | null = null;
-    if (userRes.rows.length > 0) {
+    if (mappedUserRes.rows.length > 0) {
+      createdByUserId = mappedUserRes.rows[0].pg_id;
+    } else if (userRes.rows.length > 0) {
       createdByUserId = userRes.rows[0].id;
     } else {
       unmappedFieldsReport.push({
         entity: 'laporan',
         id: rep.id,
         field: 'user_id',
-        reason: `Pegawai '${rep.user_id}' tidak ditemukan di tabel users; record laporan dihentikan tanpa fallback.`
+        reason: `Pegawai legacy '${rep.user_id}' tidak ditemukan melalui legacy_id_map maupun identitas terverifikasi; record laporan dihentikan tanpa fallback.`
       });
       continue;
     }
