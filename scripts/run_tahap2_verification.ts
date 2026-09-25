@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import { PGlite } from '@electric-sql/pglite';
 import { auditSourceMetadata } from './audit_source_metadata.js';
 import { createVerifiedBackup } from './backup_db_store.js';
 import { runPostgresStagingTests } from './run_pg_staging_tests.js';
@@ -16,30 +19,53 @@ async function executeTahap2CompleteSuite() {
   console.log('\n>>> STEP 2: PROSEDUR BACKUP SUMBER DATA VERIFIED SHA-256...');
   const backupResult = createVerifiedBackup();
 
-  // Step 3: Run isolated staging tests (DDL, UPDATE/DELETE immutability, staff study lock)
   console.log('\n>>> STEP 3: PENGUJIAN SKEMA & CONSTRAINT DATABASE POSTGRESQL STAGING...');
-  const stagingDb = await runPostgresStagingTests();
+  await runPostgresStagingTests();
 
-  // Step 4: RUN MIGRATION #1 on staging DB
-  console.log('\n>>> STEP 4A: DRY-RUN MIGRASI TERREVISI (RUN #1 ON STAGING DB)...');
-  const migrationRun1 = await runDryRunMigration(stagingDb);
+  console.log('\n>>> STEP 4: MENYIAPKAN DATABASE MIGRASI STAGING BERSIH...');
+  const migrationDb = new PGlite();
+  const ddl = fs.readFileSync(path.join(process.cwd(), 'migrations', '001_initial_schema.sql'), 'utf8');
+  await migrationDb.exec(ddl);
 
-  // Step 5: RUN MIGRATION #2 on the SAME staging DB (Idempotency Proof)
-  console.log('\n>>> STEP 4B: EKSEKUSI ULANG MIGRASI (RUN #2 ON SAME STAGING DB - UJI IDEMPOTENSI)...');
-  const migrationRun2 = await runDryRunMigration(stagingDb);
+  const tableNames = ['legacy_id_map', 'users', 'assignments', 'activities', 'reports', 'report_versions', 'attachments', 'staff_studies'];
+  const getCounts = async () => {
+    const result: Record<string, number> = {};
+    for (const table of tableNames) {
+      const rows = await migrationDb.query<{ count: string }>(`SELECT COUNT(*)::text AS count FROM ${table};`);
+      result[table] = Number(rows.rows[0].count);
+    }
+    return result;
+  };
+  const getMappings = async () => (await migrationDb.query(
+    'SELECT entity_type, legacy_id, pg_id::text FROM legacy_id_map ORDER BY entity_type, legacy_id;'
+  )).rows;
 
-  console.log('-----------------------------------------------------------------------------');
-  console.log(' BUKTI PENUH IDEMPOTENSI (RUN #1 VS RUN #2 PADA STAGING DB YANG SAMA)');
-  console.log('-----------------------------------------------------------------------------');
-  console.table([
-    { Entitas: 'Users (Pegawai)', Run1_Count: migrationRun1.usersCount, Run2_Count: migrationRun2.usersCount, SelisihDuplikasi: 0, StatusIdempoten: 'LULUS (100% IDENTIK)' },
-    { Entitas: 'Assignments (Surat Tugas)', Run1_Count: migrationRun1.assignmentsCount, Run2_Count: migrationRun2.assignmentsCount, SelisihDuplikasi: 0, StatusIdempoten: 'LULUS (100% IDENTIK)' },
-    { Entitas: 'Activities (Kegiatan Container)', Run1_Count: migrationRun1.activitiesCount, Run2_Count: migrationRun2.activitiesCount, SelisihDuplikasi: 0, StatusIdempoten: 'LULUS (100% IDENTIK)' },
-    { Entitas: 'Reports (Laporan)', Run1_Count: migrationRun1.reportsCount, Run2_Count: migrationRun2.reportsCount, SelisihDuplikasi: 0, StatusIdempoten: 'LULUS (100% IDENTIK)' },
-    { Entitas: 'Report Versions (Snapshot)', Run1_Count: migrationRun1.reportVersionsCount, Run2_Count: migrationRun2.reportVersionsCount, SelisihDuplikasi: 0, StatusIdempoten: 'LULUS (100% IDENTIK)' },
-    { Entitas: 'Attachments (Lampiran)', Run1_Count: migrationRun1.attachmentsCount, Run2_Count: migrationRun2.attachmentsCount, SelisihDuplikasi: 0, StatusIdempoten: 'LULUS (100% IDENTIK)' },
-    { Entitas: 'Staff Studies (Telaahan Staf)', Run1_Count: migrationRun1.staffStudiesCount, Run2_Count: migrationRun2.staffStudiesCount, SelisihDuplikasi: 0, StatusIdempoten: 'LULUS (100% IDENTIK)' }
-  ]);
+  console.log('>>> STEP 4A: DRY-RUN MIGRASI RUN #1...');
+  const migrationRun1 = await runDryRunMigration(migrationDb);
+  const countsRun1 = await getCounts();
+  const mappingsRun1 = await getMappings();
+
+  console.log('>>> STEP 4B: DRY-RUN MIGRASI RUN #2 PADA DATABASE YANG SAMA...');
+  const migrationRun2 = await runDryRunMigration(migrationDb);
+  const countsRun2 = await getCounts();
+  const mappingsRun2 = await getMappings();
+
+  console.table(tableNames.map((table) => ({
+    table,
+    run1_count: countsRun1[table],
+    run2_count: countsRun2[table],
+    difference: countsRun2[table] - countsRun1[table]
+  })));
+  console.log('MAPPING_RUN_1', JSON.stringify(mappingsRun1));
+  console.log('MAPPING_RUN_2', JSON.stringify(mappingsRun2));
+  const countFailures = tableNames.filter((table) => countsRun1[table] !== countsRun2[table]);
+  const mappingFailure = JSON.stringify(mappingsRun1) !== JSON.stringify(mappingsRun2);
+  if (countFailures.length || mappingFailure) {
+    console.error('IDEMPOTENCY_FAILED', { countFailures, mappingFailure });
+    process.exitCode = 1;
+    return;
+  }
+  console.log('IDEMPOTENCY_PASSED: COUNT(*) dan pemetaan legacy_id tidak berubah.');
 
   console.log('\n-----------------------------------------------------------------------------');
   console.log(' TABEL PEMETAAN ID-BY-ID & FIELD PENTING (PEMBUKTIAN TRANSFORMATION PARITY)');

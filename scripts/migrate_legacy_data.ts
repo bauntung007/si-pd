@@ -14,15 +14,24 @@ export interface MigrationSummary {
   idMappingDetails: Array<{ entity: string; legacyId: string; pgId: string; statusKet: string }>;
 }
 
-function isValidUuid(uuid: string): boolean {
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid);
+async function getOrCreateMappedId(db: PGlite, entityType: string, legacyId: string): Promise<{ pgId: string; isNew: boolean }> {
+  const existing = await db.query<{ pg_id: string }>(
+    `SELECT pg_id FROM legacy_id_map WHERE entity_type = $1 AND legacy_id = $2 LIMIT 1;`,
+    [entityType, legacyId]
+  );
+  if (existing.rows.length > 0) {
+    return { pgId: existing.rows[0].pg_id, isNew: false };
+  }
+  const idRes = await db.query<{ id: string }>(`SELECT gen_random_uuid() as id;`);
+  const newPgId = idRes.rows[0].id;
+  await db.query(
+    `INSERT INTO legacy_id_map (entity_type, legacy_id, pg_id) VALUES ($1, $2, $3);`,
+    [entityType, legacyId, newPgId]
+  );
+  return { pgId: newPgId, isNew: true };
 }
 
 export async function runDryRunMigration(existingDb?: PGlite): Promise<MigrationSummary> {
-  console.log('=============================================================================');
-  console.log('  EXEKUSI MIGRASI DATA HISTORIS IDEMPOTEN TERREVISI (STAGING TAHAP 2)');
-  console.log('=============================================================================\n');
-
   // 1. Load source JSON data
   const sourcePath = path.join(process.cwd(), 'db_store.json');
   if (!fs.existsSync(sourcePath)) {
@@ -45,69 +54,68 @@ export async function runDryRunMigration(existingDb?: PGlite): Promise<Migration
   const idMappingDetails: Array<{ entity: string; legacyId: string; pgId: string; statusKet: string }> = [];
 
   // =========================================================================
-  // 1. MIGRATE USERS (56 Records) - IDEMPOTENT BY NIP / EMAIL (LOCKED RESET REQUIRED)
+  // 1. MIGRATE USERS (56 Records) - PARAMETERIZED & DETERMINISTIC ID
   // =========================================================================
   const legacyUsers = legacyData.users || [];
   let migratedUsers = 0;
 
   for (const u of legacyUsers) {
-    // Password hash terkunci: akun tidak dapat login sampai reset password dilakukan di Auth API baru
     const lockedPasswordHash = '$2b$12$LOCKED_REQUIRE_PASSWORD_RESET_ON_AUTH_MIGRATION';
     const mappedRole = ['admin', 'validator', 'verifikator', 'user'].includes(u.role) ? u.role : 'user';
+    const legacyUserKey = u.id || u.nip;
 
-    const existingRes = await db.query<{ id: string }>(`SELECT id FROM users WHERE nip = '${u.nip}' OR email = '${u.email}' LIMIT 1;`);
-    let pgUserId: string;
+    const { pgId: userPgId, isNew } = await getOrCreateMappedId(db, 'users', legacyUserKey);
 
-    if (existingRes.rows.length === 0) {
-      const insRes = await db.query<{ id: string }>(`
-        INSERT INTO users (id, nip, nama, pangkat, golongan, jabatan, email, role, password_hash, requires_password_reset, is_active, tmt_pangkat, tmt_jabatan)
-        VALUES (
-          gen_random_uuid(),
-          '${u.nip.replace(/'/g, "''")}',
-          '${u.nama.replace(/'/g, "''")}',
-          ${u.pangkat ? `'${u.pangkat.replace(/'/g, "''")}'` : 'NULL'},
-          ${u.golongan ? `'${u.golongan.replace(/'/g, "''")}'` : 'NULL'},
-          '${u.jabatan.replace(/'/g, "''")}',
-          '${u.email.replace(/'/g, "''")}',
-          '${mappedRole}',
-          '${lockedPasswordHash}',
+    const legacyNip = u.nip && u.nip !== '-' ? u.nip : null;
+    const legacyEmail = u.email && u.email !== '-' ? u.email : null;
+    const legacyNama = u.nama && u.nama !== '-' ? u.nama : null;
+    const legacyJabatan = u.jabatan && u.jabatan !== '-' ? u.jabatan : null;
+
+    if (legacyNip === null && legacyEmail === null) {
+      idMappingDetails.push({ entity: 'users', legacyId: legacyUserKey, pgId: '', statusKet: 'TIDAK_DIPETAKAN: NIP dan email tidak tersedia' });
+      continue;
+    }
+
+    if (isNew) {
+      await db.query(
+        `INSERT INTO users (id, nip, nama, pangkat, golongan, jabatan, email, role, password_hash, requires_password_reset, is_active, tmt_pangkat, tmt_jabatan)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);`,
+        [
+          userPgId,
+          legacyNip,
+          legacyNama,
+          u.pangkat && u.pangkat !== '-' ? u.pangkat : null,
+          u.golongan && u.golongan !== '-' ? u.golongan : null,
+          legacyJabatan,
+          legacyEmail,
+          mappedRole,
+          lockedPasswordHash,
           true,
-          ${u.is_active ?? true},
-          ${u.tmt_pangkat ? `'${u.tmt_pangkat}'` : 'NULL'},
-          ${u.tmt_jabatan ? `'${u.tmt_jabatan}'` : 'NULL'}
-        )
-        RETURNING id;
-      `);
-      pgUserId = insRes.rows[0].id;
+          u.is_active ?? true,
+          u.tmt_pangkat || null,
+          u.tmt_jabatan || null
+        ]
+      );
     } else {
-      pgUserId = existingRes.rows[0].id;
-      await db.exec(`
-        UPDATE users SET
-          nama = '${u.nama.replace(/'/g, "''")}',
-          jabatan = '${u.jabatan.replace(/'/g, "''")}',
-          requires_password_reset = true
-        WHERE id = '${pgUserId}';
-      `);
+      await db.query(
+        `UPDATE users SET nama = $1, jabatan = $2, requires_password_reset = true WHERE id = $3;`,
+        [legacyNama, legacyJabatan, userPgId]
+      );
     }
 
     migratedUsers++;
-    if (migratedUsers <= 5) {
+    if (migratedUsers <= 3) {
       idMappingDetails.push({
         entity: 'users',
-        legacyId: u.id || u.nip,
-        pgId: pgUserId,
+        legacyId: legacyUserKey,
+        pgId: userPgId,
         statusKet: 'TERKUNCI_RESI_PERLU_RESET (requires_password_reset=true)'
       });
     }
   }
-  console.log(`✓ Migrasi Users: ${migratedUsers} record terkonversi (Password terkunci & wajib reset password).`);
-
-  // Default User Fallback
-  const firstUserRes = await db.query<{ id: string }>(`SELECT id FROM users LIMIT 1;`);
-  const defaultUserId = firstUserRes.rows[0].id;
 
   // =========================================================================
-  // 2. MIGRATE LAPORAN TO CONTAINER ACTIVITY, REPORT & VERSIONS (NO FAKE ST)
+  // 2. MIGRATE LAPORAN TO CONTAINER ACTIVITY, REPORT & VERSIONS
   // =========================================================================
   const legacyLaporan = legacyData.laporan || [];
   let migratedAssignments = 0;
@@ -117,174 +125,193 @@ export async function runDryRunMigration(existingDb?: PGlite): Promise<Migration
   let migratedAttachments = 0;
 
   for (const rep of legacyLaporan) {
-    let assignmentId: string | null = null;
+    // 2a. Strict User Attribution: NO Default User Fallback
+    const userRes = await db.query<{ id: string }>(
+      `SELECT id FROM users WHERE nip = $1 OR email = $1 LIMIT 1;`,
+      [rep.user_id]
+    );
 
-    // TANPA MENGARANG NOMOR ST (Tidat mengisi 'ST-LEGACY-rep-2')
-    if (rep.nomor_surat_tugas) {
-      const existingAssign = await db.query<{ id: string }>(`SELECT id FROM assignments WHERE nomor_st = '${rep.nomor_surat_tugas.replace(/'/g, "''")}' LIMIT 1;`);
-      if (existingAssign.rows.length === 0) {
-        const assignRes = await db.query<{ id: string }>(`
-          INSERT INTO assignments (nomor_st, tanggal_st, pemberi_tugas_nama, pemberi_tugas_jabatan)
-          VALUES (
-            '${rep.nomor_surat_tugas.replace(/'/g, "''")}',
-            '${rep.tanggal_surat_tugas || rep.tanggal_mulai || '2026-01-01'}',
-            'Kepala Balai',
-            'Kepala Balai BPHL Wilayah XI'
-          )
-          RETURNING id;
-        `);
-        assignmentId = assignRes.rows[0].id;
-      } else {
-        assignmentId = existingAssign.rows[0].id;
+    let createdByUserId: string | null = null;
+    if (userRes.rows.length > 0) {
+      createdByUserId = userRes.rows[0].id;
+    } else {
+      unmappedFieldsReport.push({
+        entity: 'laporan',
+        id: rep.id,
+        field: 'user_id',
+        reason: `Pegawai '${rep.user_id}' tidak ditemukan di tabel users; record laporan dihentikan tanpa fallback.`
+      });
+      continue;
+    }
+
+    // 2b. Assignment: ONLY if official ST exists (NO guessed dates/names)
+    let assignmentId: string | null = null;
+    if (rep.nomor_surat_tugas && rep.nomor_surat_tugas.trim() !== '') {
+      const { pgId: stPgId, isNew: isStNew } = await getOrCreateMappedId(db, 'assignments', rep.nomor_surat_tugas);
+      if (isStNew) {
+        await db.query(
+          `INSERT INTO assignments (id, nomor_st, tanggal_st, pemberi_tugas_nama, pemberi_tugas_jabatan)
+           VALUES ($1, $2, $3, $4, $5);`,
+          [
+            stPgId,
+            rep.nomor_surat_tugas,
+            rep.tanggal_surat_tugas || null, // NULL if absent (zero guess)
+            null, // Zero guessed pemberi_tugas_nama
+            null  // Zero guessed pemberi_tugas_jabatan
+          ]
+        );
       }
+      assignmentId = stPgId;
       migratedAssignments++;
     } else {
-      // Log unmapped ST transparently without fabricating official ST
       unmappedFieldsReport.push({
         entity: 'laporan',
         id: rep.id,
         field: 'nomor_surat_tugas',
-        reason: 'Laporan historis tidak memiliki nomor Surat Tugas resmi. Dikontainerkan ke kegiatan legacy tanpa nomor ST (assignment_id = NULL).'
+        reason: 'Laporan historis tidak memiliki nomor Surat Tugas resmi (assignment_id dibiarkan NULL, tanpa ST palsu).'
       });
     }
 
-    // Find user ID created_by
-    const userQuery = isValidUuid(rep.user_id) 
-      ? `SELECT id FROM users WHERE nip = '${rep.user_id}' OR id = '${rep.user_id}' LIMIT 1;`
-      : `SELECT id FROM users WHERE nip = '${rep.user_id}' LIMIT 1;`;
-      
-    const userRes = await db.query<{ id: string }>(userQuery);
-    const createdByUserId = userRes.rows.length > 0 ? userRes.rows[0].id : defaultUserId;
-
-    // 2b. Insert Container Activity (Idempotent)
-    const actRes = await db.query<{ id: string }>(`
-      INSERT INTO activities (assignment_id, jenis_kegiatan_id, nama_kegiatan, pelaku_usaha_id, lokasi, tanggal_mulai, tanggal_selesai, status, created_by)
-      VALUES (
-        ${assignmentId ? `'${assignmentId}'` : 'NULL'},
-        '${rep.jenis_kegiatan_id || 'jk-legacy'}',
-        '${(rep.maksud_tujuan || rep.sasaran_kegiatan || 'Kegiatan Perjalanan Dinas Historis').substring(0, 200).replace(/'/g, "''")}',
-        'pu-1',
-        '${(rep.tempat_kegiatan || 'Banjarbaru').replace(/'/g, "''")}',
-        '${rep.tanggal_mulai || '2026-01-01'}',
-        '${rep.tanggal_selesai || '2026-01-01'}',
-        'SELESAI',
-        '${createdByUserId}'
-      )
-      RETURNING id;
-    `);
-    const activityId = actRes.rows[0].id;
+    // 2c. Activity: Deterministic ID via legacy_id_map (Zero guessed values)
+    const { pgId: actPgId, isNew: isActNew } = await getOrCreateMappedId(db, 'activities', rep.id);
+    if (isActNew) {
+      await db.query(
+        `INSERT INTO activities (id, assignment_id, jenis_kegiatan_id, nama_kegiatan, pelaku_usaha_id, lokasi, tanggal_mulai, tanggal_selesai, status, created_by)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
+        [
+          actPgId,
+          assignmentId,
+          rep.jenis_kegiatan_id || null,
+          rep.maksud_tujuan || rep.sasaran_kegiatan || null,
+          null, // pelaku_usaha_id NULL if not in source (zero guess)
+          rep.tempat_kegiatan || null, // NULL if not in source (zero guess)
+          rep.tanggal_mulai || null,   // NULL if not in source (zero guess)
+          rep.tanggal_selesai || null, // NULL if not in source (zero guess)
+          'SELESAI',
+          createdByUserId
+        ]
+      );
+    }
     migratedActivities++;
 
-    // Map Legacy Status
+    // 2d. Report: Deterministic ID
     let mappedStatus = 'DRAFT';
     if (rep.status === 'submitted') mappedStatus = 'DIAJUKAN_VERIFIKASI';
     else if (rep.status === 'verified') mappedStatus = 'TERVERIFIKASI';
     else if (rep.status === 'approved') mappedStatus = 'DISETUJUI';
     else if (rep.status === 'rejected') mappedStatus = 'PERLU_REVISI';
 
-    // 2c. Insert Report
-    const repRes = await db.query<{ id: string }>(`
-      INSERT INTO reports (activity_id, status, created_by)
-      VALUES ('${activityId}', '${mappedStatus}', '${createdByUserId}')
-      RETURNING id;
-    `);
-    const reportId = repRes.rows[0].id;
+    const { pgId: repPgId, isNew: isRepNew } = await getOrCreateMappedId(db, 'reports', rep.id);
+    if (isRepNew) {
+      await db.query(
+        `INSERT INTO reports (id, activity_id, status, created_by)
+         VALUES ($1, $2, $3, $4);`,
+        [repPgId, actPgId, mappedStatus, createdByUserId]
+      );
+    }
     migratedReports++;
 
     idMappingDetails.push({
       entity: 'laporan',
       legacyId: rep.id,
-      pgId: reportId,
-      statusKet: `Status: ${mappedStatus}, ST: ${assignmentId ? 'ADA' : 'TIDAK_TERCATAT (NULL)'}`
+      pgId: repPgId,
+      statusKet: `Status: ${mappedStatus}, ST: ${assignmentId ? 'ADA' : 'NULL (Tanpa ST buatan)'}`
     });
 
-    // 2d. Insert Report Version (Snapshot 1)
-    const verRes = await db.query<{ id: string }>(`
-      INSERT INTO report_versions (report_id, version_number, judul_laporan, maksud_tujuan, hasil_kegiatan, kesimpulan, saran, snapshot_data_json, created_by)
-      VALUES (
-        '${reportId}',
-        1,
-        '${(rep.sasaran_kegiatan || 'Laporan Historis').replace(/'/g, "''")}',
-        '${(rep.maksud_tujuan || '').replace(/'/g, "''")}',
-        '${(rep.hasil_kegiatan || '').replace(/'/g, "''")}',
-        '${(rep.kesimpulan || '').replace(/'/g, "''")}',
-        '${(rep.saran || '').replace(/'/g, "''")}',
-        '{"is_legacy_data": true}',
-        '${createdByUserId}'
-      )
-      RETURNING id;
-    `);
-    const versionId = verRes.rows[0].id;
+    // 2e. Report Version: Deterministic ID
+    const { pgId: verPgId, isNew: isVerNew } = await getOrCreateMappedId(db, 'report_versions', `${rep.id}_v1`);
+    if (isVerNew) {
+      await db.query(
+        `INSERT INTO report_versions (id, report_id, version_number, judul_laporan, maksud_tujuan, hasil_kegiatan, kesimpulan, saran, snapshot_data_json, created_by)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
+        [
+          verPgId,
+          repPgId,
+          1,
+          rep.sasaran_kegiatan || null,
+          rep.maksud_tujuan || null,
+          rep.hasil_kegiatan || null,
+          rep.kesimpulan || null,
+          rep.saran || null,
+          JSON.stringify({ is_legacy_data: true }),
+          createdByUserId
+        ]
+      );
+      await db.query(`UPDATE reports SET current_version_id = $1 WHERE id = $2;`, [verPgId, repPgId]);
+    }
     migratedVersions++;
 
-    // Update current_version_id
-    await db.exec(`UPDATE reports SET current_version_id = '${versionId}' WHERE id = '${reportId}';`);
-
-    // 2e. Migrate Attachments if any
+    // 2f. Attachments: Deterministic ID (Zero guessed file sizes)
     if (rep.lampiran && Array.isArray(rep.lampiran)) {
       for (const lamp of rep.lampiran) {
-        const attRes = await db.query<{ id: string }>(`
-          INSERT INTO attachments (activity_id, report_id, file_name, mime_type, file_size_bytes, provider, file_id_ref, uploaded_by)
-          VALUES (
-            '${activityId}',
-            '${reportId}',
-            '${(lamp.nama_file || 'lampiran_legacy.jpg').replace(/'/g, "''")}',
-            'image/jpeg',
-            2202009,
-            'EXTERNAL_LEGACY',
-            '${(lamp.dataUrl || 'https://images.unsplash.com').replace(/'/g, "''")}',
-            '${createdByUserId}'
-          )
-          RETURNING id;
-        `);
+        const lampLegacyId = lamp.id || `lamp_${rep.id}`;
+        const { pgId: attPgId, isNew: isAttNew } = await getOrCreateMappedId(db, 'attachments', lampLegacyId);
+        if (isAttNew) {
+          await db.query(
+            `INSERT INTO attachments (id, activity_id, report_id, file_name, mime_type, file_size_bytes, provider, file_id_ref, uploaded_by)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`,
+            [
+              attPgId,
+              actPgId,
+              repPgId,
+              lamp.nama_file || 'lampiran_legacy',
+              null, // NULL mime_type (zero guessed mime)
+              null, // NULL file_size_bytes (zero guessed size)
+              'EXTERNAL_LEGACY',
+              lamp.dataUrl || '',
+              createdByUserId
+            ]
+          );
+        }
         migratedAttachments++;
-
         idMappingDetails.push({
           entity: 'attachments',
-          legacyId: lamp.id || 'lamp-3',
-          pgId: attRes.rows[0].id,
-          statusKet: 'Provider: EXTERNAL_LEGACY (Ref URL terenkapsulasi)'
+          legacyId: lampLegacyId,
+          pgId: attPgId,
+          statusKet: 'Provider: EXTERNAL_LEGACY (Ref URL terenkapsulasi, Metadata Tanpa Tebakan)'
         });
       }
     }
   }
 
-  console.log(`✓ Migrasi Laporan: ${migratedReports} laporan & ${migratedVersions} versi snapshot dipindahkan (Tanpa ST buatan).`);
-  console.log(`✓ Migrasi Lampiran: ${migratedAttachments} lampiran eksternal dipindahkan ke provider EXTERNAL_LEGACY.`);
-
   // =========================================================================
-  // 3. RECONCILE UNAPPROVED HISTORICAL TELAAHAN STAF (NO FAKE APPROVAL)
+  // 3. RECONCILE HISTORICAL UNAPPROVED TELAAHAN STAF (NO FAKE APPROVAL)
   // =========================================================================
   const legacyTelaahan = legacyData.telaahan_staf || [];
   let migratedStaffStudies = 0;
 
   for (const ts of legacyTelaahan) {
-    // TANPA MENGARANG APPROVAL: Simpan dengan approved_report_version_id = NULL dan flag is_legacy_unapproved = true
-    const ssRes = await db.query<{ id: string }>(`
-      INSERT INTO staff_studies (approved_report_version_id, legacy_report_id_ref, is_legacy_unapproved, judul, persoalan, praanggapan, fakta, analisis, kesimpulan, saran, tanggal_telaahan, status, created_by)
-      VALUES (
-        NULL,
-        '${ts.laporan_id || 'rep-2'}',
-        true,
-        '${ts.judul.replace(/'/g, "''")}',
-        '${ts.persoalan.replace(/'/g, "''")}',
-        '${ts.praanggapan.replace(/'/g, "''")}',
-        '${ts.fakta.replace(/'/g, "''")}',
-        '${ts.analisis.replace(/'/g, "''")}',
-        '${ts.kesimpulan.replace(/'/g, "''")}',
-        '${ts.saran.replace(/'/g, "''")}',
-        '2026-06-22',
-        'DRAFT',
-        '${defaultUserId}'
-      )
-      RETURNING id;
-    `);
+    const { pgId: ssPgId, isNew: isSsNew } = await getOrCreateMappedId(db, 'staff_studies', ts.id);
+    if (isSsNew) {
+      await db.query(`SELECT set_config('app.migration_mode', 'true', false);`);
+      await db.query(
+        `INSERT INTO staff_studies (id, approved_report_version_id, legacy_report_id_ref, is_legacy_unapproved, judul, persoalan, praanggapan, fakta, analisis, kesimpulan, saran, tanggal_telaahan, status, created_by)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);`,
+        [
+          ssPgId,
+          null, // NULL approved_report_version_id (NO FAKE APPROVAL)
+          ts.laporan_id || 'rep-2',
+          true, // is_legacy_unapproved exemption flag
+          ts.judul || null,
+          ts.persoalan || null,
+          ts.praanggapan || null,
+          ts.fakta || null,
+          ts.analisis || null,
+          ts.kesimpulan || null,
+          ts.saran || null,
+          null, // Source date not available: no guessed date
+          'DRAFT',
+          null // Strict attribution: null if not tracked
+        ]
+      );
+      await db.query(`SELECT set_config('app.migration_mode', 'false', false);`);
+    }
     migratedStaffStudies++;
 
     idMappingDetails.push({
       entity: 'telaahan_staf',
       legacyId: ts.id,
-      pgId: ssRes.rows[0].id,
+      pgId: ssPgId,
       statusKet: 'PENGECEKAN_EXEMPTION: is_legacy_unapproved=true, approved_report_version_id=NULL'
     });
 
@@ -292,13 +319,11 @@ export async function runDryRunMigration(existingDb?: PGlite): Promise<Migration
       entity: 'telaahan_staf',
       id: ts.id,
       field: 'approved_report_version_id',
-      reason: 'Telaahan Staf historis dibuat dari laporan asal yang belum disetujui (rep-2: status submitted). Disimpan sebagai record legacy pengecualian tanpa mengarang approval.'
+      reason: 'Laporan asal (rep-2) belum disetujui. Disimpan sebagai legacy unapproved record tanpa mengarang approval palsu.'
     });
   }
 
-  console.log(`✓ Migrasi Telaahan Staf: ${migratedStaffStudies} record direkonsiliasi sebagai legacy record pengecualian.\n`);
-
-  const summary: MigrationSummary = {
+  return {
     usersCount: migratedUsers,
     assignmentsCount: migratedAssignments,
     activitiesCount: migratedActivities,
@@ -309,8 +334,6 @@ export async function runDryRunMigration(existingDb?: PGlite): Promise<Migration
     unmappedFieldsReport,
     idMappingDetails
   };
-
-  return summary;
 }
 
 if (process.argv[1] && process.argv[1].includes('migrate_legacy_data')) {

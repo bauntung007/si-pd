@@ -1,10 +1,8 @@
 -- =============================================================================
--- SI-PD BPHL WILAYAH XI BANJARBARU — SKEMA SQL AWAL (TAHAP 1 & 2 REVISED)
+-- SI-PD BPHL WILAYAH XI BANJARBARU — SKEMA SQL AWAL (TAHAP 1 & 2 FINAL REVISED)
 -- File: migrations/001_initial_schema.sql
--- Keterangan: DDL PostgreSQL lengkap untuk kontrak domain SI-PD V2.0
+-- Keterangan: DDL PostgreSQL untuk SI-PD V2.0 dengan Dukungan Legacy Nullable & Constraint Strict
 -- =============================================================================
-
--- Enable gen_random_uuid (Native PostgreSQL ANSI Standard)
 
 -- -----------------------------------------------------------------------------
 -- 1. ENUM TYPES DEFINITION
@@ -58,15 +56,24 @@ END $$;
 -- 2. CORE TABLES DEFINITION
 -- -----------------------------------------------------------------------------
 
+-- Table: legacy_id_map (Tabel Pemetaan Unik Deterministik ID Legacy ke ID Postgres)
+CREATE TABLE IF NOT EXISTS legacy_id_map (
+    entity_type VARCHAR(50) NOT NULL,
+    legacy_id VARCHAR(255) NOT NULL,
+    pg_id UUID NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (entity_type, legacy_id)
+);
+
 -- Table: users (Pegawai / Pengguna System)
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nip VARCHAR(30) UNIQUE NOT NULL,
-    nama VARCHAR(255) NOT NULL,
+    nip VARCHAR(30) UNIQUE,
+    nama VARCHAR(255),
     pangkat VARCHAR(100),
     golongan VARCHAR(20),
-    jabatan VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
+    jabatan VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
     role user_role_type NOT NULL DEFAULT 'user',
     password_hash VARCHAR(255) NOT NULL,
     requires_password_reset BOOLEAN NOT NULL DEFAULT true,
@@ -83,11 +90,11 @@ CREATE TABLE IF NOT EXISTS attachments (
     activity_id UUID,
     report_id UUID,
     file_name VARCHAR(255) NOT NULL,
-    mime_type VARCHAR(100) NOT NULL,
-    file_size_bytes BIGINT NOT NULL,
+    mime_type VARCHAR(100),
+    file_size_bytes BIGINT,
     provider attachment_provider_type NOT NULL DEFAULT 'LOCAL_PRIVATE',
     file_id_ref TEXT NOT NULL,
-    uploaded_by UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    uploaded_by UUID REFERENCES users(id) ON DELETE RESTRICT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -95,10 +102,10 @@ CREATE TABLE IF NOT EXISTS attachments (
 CREATE TABLE IF NOT EXISTS assignments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nomor_st VARCHAR(100) UNIQUE NOT NULL,
-    tanggal_st DATE NOT NULL,
+    tanggal_st DATE,
     file_st_id UUID REFERENCES attachments(id) ON DELETE SET NULL,
-    pemberi_tugas_nama VARCHAR(255) NOT NULL,
-    pemberi_tugas_jabatan VARCHAR(255) NOT NULL,
+    pemberi_tugas_nama VARCHAR(255),
+    pemberi_tugas_jabatan VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -107,17 +114,17 @@ CREATE TABLE IF NOT EXISTS assignments (
 CREATE TABLE IF NOT EXISTS activities (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     assignment_id UUID REFERENCES assignments(id) ON DELETE RESTRICT,
-    jenis_kegiatan_id VARCHAR(50) NOT NULL,
-    nama_kegiatan TEXT NOT NULL,
+    jenis_kegiatan_id VARCHAR(50),
+    nama_kegiatan TEXT,
     pelaku_usaha_id VARCHAR(50),
-    lokasi TEXT NOT NULL,
-    tanggal_mulai DATE NOT NULL,
-    tanggal_selesai DATE NOT NULL,
+    lokasi TEXT,
+    tanggal_mulai DATE,
+    tanggal_selesai DATE,
     status activity_status_type NOT NULL DEFAULT 'DRAFT',
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    created_by UUID REFERENCES users(id) ON DELETE RESTRICT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT chk_kegiatan_dates CHECK (tanggal_selesai >= tanggal_mulai)
+    CONSTRAINT chk_kegiatan_dates CHECK (tanggal_selesai IS NULL OR tanggal_mulai IS NULL OR tanggal_selesai >= tanggal_mulai)
 );
 
 -- Add Foreign Key activity_id to attachments
@@ -151,7 +158,7 @@ CREATE TABLE IF NOT EXISTS reports (
     activity_id UUID NOT NULL UNIQUE REFERENCES activities(id) ON DELETE RESTRICT,
     current_version_id UUID,
     status report_status_type NOT NULL DEFAULT 'DRAFT',
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    created_by UUID REFERENCES users(id) ON DELETE RESTRICT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -166,14 +173,14 @@ CREATE TABLE IF NOT EXISTS report_versions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     report_id UUID NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
     version_number INT NOT NULL,
-    judul_laporan TEXT NOT NULL,
+    judul_laporan TEXT,
     maksud_tujuan TEXT,
     hasil_kegiatan TEXT,
     kesimpulan TEXT,
     saran TEXT,
     snapshot_data_json JSONB NOT NULL DEFAULT '{}'::jsonb,
     content_hash VARCHAR(64),
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    created_by UUID REFERENCES users(id) ON DELETE RESTRICT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uq_report_version UNIQUE (report_id, version_number)
 );
@@ -199,16 +206,16 @@ CREATE TABLE IF NOT EXISTS staff_studies (
     approved_report_version_id UUID REFERENCES report_versions(id) ON DELETE RESTRICT,
     legacy_report_id_ref VARCHAR(100),
     is_legacy_unapproved BOOLEAN NOT NULL DEFAULT false,
-    judul TEXT NOT NULL,
-    persoalan TEXT NOT NULL,
-    praanggapan TEXT NOT NULL,
-    fakta TEXT NOT NULL,
-    analisis TEXT NOT NULL,
-    kesimpulan TEXT NOT NULL,
-    saran TEXT NOT NULL,
-    tanggal_telaahan DATE NOT NULL DEFAULT CURRENT_DATE,
+    judul TEXT,
+    persoalan TEXT,
+    praanggapan TEXT,
+    fakta TEXT,
+    analisis TEXT,
+    kesimpulan TEXT,
+    saran TEXT,
+    tanggal_telaahan DATE DEFAULT CURRENT_DATE,
     status staff_study_status_type NOT NULL DEFAULT 'DRAFT',
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    created_by UUID REFERENCES users(id) ON DELETE RESTRICT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -296,17 +303,21 @@ CREATE TRIGGER trg_check_report_current_version
     FOR EACH ROW EXECUTE PROCEDURE check_report_current_version_match();
 
 -- Trigger 4.4: Staff Study Creation Lock
--- Post-cutover staff studies MUST have approved_report_version_id pointing to report in status DISETUJUI.
--- Legacy unapproved staff studies are allowed ONLY when is_legacy_unapproved = true and approved_report_version_id IS NULL.
 CREATE OR REPLACE FUNCTION check_staff_study_report_status()
 RETURNS TRIGGER AS $$
 DECLARE
     parent_report_status report_status_type;
 BEGIN
-    -- Legacy unapproved exception handling
+    -- Legacy unapproved exemption handling is restricted to migration session.
     IF NEW.is_legacy_unapproved = true THEN
+        IF current_setting('app.migration_mode', true) IS DISTINCT FROM 'true' THEN
+            RAISE EXCEPTION 'LKP_STAFF_STUDY_LOCK_ERROR: Legacy exemption hanya dapat dibuat oleh sesi migrasi yang ditandai.';
+        END IF;
         IF NEW.approved_report_version_id IS NOT NULL THEN
-            RAISE EXCEPTION 'LKP_STAFF_STUDY_LOCK_ERROR: Record legacy unapproved tidak boleh menunjuk ke approved_report_version_id.';
+            RAISE EXCEPTION 'LKP_STAFF_STUDY_LOCK_ERROR: Record legacy unapproved tidak boleh memiliki approved_report_version_id.';
+        END IF;
+        IF NEW.legacy_report_id_ref IS NULL THEN
+            RAISE EXCEPTION 'LKP_STAFF_STUDY_LOCK_ERROR: Record legacy unapproved wajib menyertakan legacy_report_id_ref.';
         END IF;
         RETURN NEW;
     END IF;
