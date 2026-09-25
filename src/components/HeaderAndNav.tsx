@@ -214,7 +214,7 @@ export default function HeaderAndNav({
                           <span className="font-bold truncate text-white uppercase font-sans tracking-wide">{u.nama}</span>
                           {u.username && (
                             <span className="text-[10px] font-mono text-[#1c69d4] font-bold">
-                              {u.username} | {u.password}
+                              @{u.username}
                             </span>
                           )}
                           <span className="text-[9px] text-[#7e7e7e] font-mono">NIP. {u.nip}</span>

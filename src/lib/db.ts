@@ -985,24 +985,30 @@ export class LocalDB {
   }
 
   static set(key: string, value: any): void {
-    localStorage.setItem(`lpd_bphl_${key}`, JSON.stringify(value));
-    // Non-blocking background save to server backend with API key auth
-    fetch(`/api/db/${key}`, {
-      method: 'POST',
-      headers: getApiHeaders(),
-      body: JSON.stringify({ value })
-    }).catch((err) => console.error(`Failed to sync ${key} with backend:`, err));
-
-    // Non-blocking sync to Supabase Cloud PostgreSQL database if configured
-    if (supabase && isSupabaseConfigured && Array.isArray(value)) {
-      supabase.from(key).upsert(value).then(({ error }) => {
-        if (error) {
-          console.warn(`[Supabase Sync Warning] Failed to upsert ${key}:`, error.message);
-        } else {
-          console.log(`[Supabase Sync] Successfully upserted ${value.length} rows to '${key}' table.`);
-        }
-      });
+    try {
+      localStorage.setItem(`lpd_bphl_${key}`, JSON.stringify(value));
+    } catch (e) {
+      console.warn(`[LocalDB Storage Warning] Cannot write key '${key}' to localStorage:`, e);
     }
+
+    // Non-blocking background save to server backend and Supabase
+    setTimeout(() => {
+      fetch(`/api/db/${key}`, {
+        method: 'POST',
+        headers: getApiHeaders(),
+        body: JSON.stringify({ value })
+      }).catch((err) => console.error(`Failed to sync ${key} with backend:`, err));
+
+      if (supabase && isSupabaseConfigured && Array.isArray(value)) {
+        supabase.from(key).upsert(value).then(({ error }) => {
+          if (error) {
+            console.warn(`[Supabase Sync Warning] Failed to upsert ${key}:`, error.message);
+          } else {
+            console.log(`[Supabase Sync] Successfully upserted ${value.length} rows to '${key}' table.`);
+          }
+        });
+      }
+    }, 0);
   }
 
 
@@ -1016,6 +1022,9 @@ export class LocalDB {
       this.set('notifications', DEFAULT_NOTIFICATIONS);
       this.set('pelaku_usaha', DEFAULT_PELAKU_USAHA);
       this.set('kop_surat', OFFICIAL_KOP_SURAT);
+      if (!localStorage.getItem('lpd_bphl_telaahan_staf')) {
+        this.set('telaahan_staf', []);
+      }
       localStorage.setItem('lpd_bphl_initialized_v12_perjalanan_dinas', 'true');
     }
   }

@@ -236,6 +236,23 @@ export default function App() {
     debugDatabaseState();
   }, []);
 
+  // Synchronize initial page with URL hash if present
+  useEffect(() => {
+    const handleHashChange = () => {
+      const rawHash = window.location.hash.replace(/^#\/?/, '');
+      if (rawHash) {
+        setCurrentPage(rawHash);
+      }
+    };
+
+    if (window.location.hash) {
+      handleHashChange();
+    }
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   // Sync state changes with localStorage
   const updateUsersState = (newList: User[]) => {
     setAllUsers(newList);
@@ -456,6 +473,7 @@ export default function App() {
   // Screen routing navigation
   const handleNavigate = (page: string) => {
     setCurrentPage(page);
+    window.location.hash = page;
     setSelectedLaporan(null);
     setEditingLaporan(null);
   };
@@ -619,64 +637,85 @@ export default function App() {
         <div className="space-y-6">
           
           {/* Toast Notification Alerts */}
-          {toastMessage && (
-            <div className="fixed bottom-6 right-6 z-50 bg-[#1a1a1a] border border-[#1c69d4] text-white px-5 py-3.5 rounded-none shadow-2xl flex items-center gap-3 animate-in fade-in duration-150 font-mono text-xs leading-none print:hidden">
-              <div className="w-2 h-2 bg-[#1c69d4]"></div>
-              <CheckCircle2 className="w-4 h-4 text-[#1c69d4] shrink-0" />
-              <span className="uppercase tracking-wider font-bold">{toastMessage}</span>
-            </div>
-          )}
+          <AnimatePresence>
+            {toastMessage && (
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="fixed bottom-6 right-6 z-50 bg-[#1a1a1a] border border-[#1c69d4] text-white px-5 py-3.5 rounded-none shadow-2xl flex items-center gap-3 font-mono text-xs leading-none print:hidden"
+              >
+                <div className="w-2 h-2 bg-[#1c69d4]"></div>
+                <CheckCircle2 className="w-4 h-4 text-[#1c69d4] shrink-0" />
+                <span className="uppercase tracking-wider font-bold">{toastMessage}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Custom Safe Confirmation Dialog Modal */}
-          {confirmDialog && (
-            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#000000]/90 backdrop-blur-sm animate-in fade-in duration-150 print:hidden">
-              <div className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none max-w-md w-full p-6 space-y-4 shadow-2xl relative">
-                <div className="m-stripe-bg h-1 w-full -mt-2 mb-4" />
-                <div className="flex items-start gap-4">
-                  <div className={`p-3 rounded-none shrink-0 ${
-                    confirmDialog.type === 'danger' 
-                      ? 'bg-[#e22718]/10 text-[#e22718] border border-[#e22718]' 
-                      : 'bg-[#1c69d4]/10 text-[#1c69d4] border border-[#1c69d4]'
-                  }`}>
-                    {confirmDialog.type === 'danger' ? (
-                      <Trash2 className="w-6 h-6" />
-                    ) : (
-                      <AlertTriangle className="w-6 h-6" />
-                    )}
+          <AnimatePresence>
+            {confirmDialog && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#000000]/90 backdrop-blur-md print:hidden"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  transition={{ duration: 0.15 }}
+                  className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-none max-w-md w-full p-6 space-y-4 shadow-2xl relative"
+                >
+                  <div className="m-stripe-bg h-1 w-full -mt-2 mb-4" />
+                  <div className="flex items-start gap-4">
+                    <div className={`p-3 rounded-none shrink-0 ${
+                      confirmDialog.type === 'danger' 
+                        ? 'bg-[#e22718]/10 text-[#e22718] border border-[#e22718]' 
+                        : 'bg-[#1c69d4]/10 text-[#1c69d4] border border-[#1c69d4]'
+                    }`}>
+                      {confirmDialog.type === 'danger' ? (
+                        <Trash2 className="w-6 h-6" />
+                      ) : (
+                        <AlertTriangle className="w-6 h-6" />
+                      )}
+                    </div>
+                    <div className="space-y-1.5 flex-1">
+                      <h3 className="text-sm font-bold text-white tracking-widest uppercase font-sans">
+                        {confirmDialog.title}
+                      </h3>
+                      <p className="text-xs text-[#bbbbbb] leading-relaxed font-light">
+                        {confirmDialog.message}
+                      </p>
+                    </div>
                   </div>
-                  <div className="space-y-1.5 flex-1">
-                    <h3 className="text-sm font-bold text-white tracking-widest uppercase font-sans">
-                      {confirmDialog.title}
-                    </h3>
-                    <p className="text-xs text-[#bbbbbb] leading-relaxed font-light">
-                      {confirmDialog.message}
-                    </p>
-                  </div>
-                </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-[#262626] text-xs font-bold">
-                  <button
-                    onClick={() => setConfirmDialog(null)}
-                    className="bmw-btn-outline px-4 py-2 text-xs"
-                  >
-                    BATAL
-                  </button>
-                  <button
-                    onClick={() => {
-                      confirmDialog.onConfirm();
-                    }}
-                    className={`px-5 py-2 text-white font-bold tracking-widest uppercase rounded-none transition-all cursor-pointer ${
-                      confirmDialog.type === 'danger'
-                        ? 'bg-[#e22718] hover:bg-[#e22718]/80'
-                        : 'bg-[#1c69d4] hover:bg-[#1c69d4]/80'
-                    }`}
-                  >
-                    {confirmDialog.type === 'danger' ? 'YA, HAPUS' : 'YA, KONFIRMASI'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+                  <div className="flex justify-end gap-3 pt-4 border-t border-[#262626] text-xs font-bold">
+                    <button
+                      onClick={() => setConfirmDialog(null)}
+                      className="bmw-btn-outline px-4 py-2 text-xs"
+                    >
+                      BATAL
+                    </button>
+                    <button
+                      onClick={() => {
+                        confirmDialog.onConfirm();
+                      }}
+                      className={`px-5 py-2 text-white font-bold tracking-widest uppercase rounded-none transition-all cursor-pointer ${
+                        confirmDialog.type === 'danger'
+                          ? 'bg-[#e22718] hover:bg-[#e22718]/80'
+                          : 'bg-[#1c69d4] hover:bg-[#1c69d4]/80'
+                      }`}
+                    >
+                      {confirmDialog.type === 'danger' ? 'YA, HAPUS' : 'YA, KONFIRMASI'}
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* PAGE ROUTER PLACEMENT WITH MOTION ANIMATIONS */}
           <AnimatePresence mode="wait">

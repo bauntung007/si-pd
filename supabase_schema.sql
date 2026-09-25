@@ -150,24 +150,24 @@ ALTER TABLE public.laporan ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.telaahan_staf ENABLE ROW LEVEL SECURITY;
 
--- Allow public/authenticated read access for application data API
-CREATE POLICY "Allow public read users" ON public.users FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY "Allow public write users" ON public.users FOR ALL TO anon, authenticated USING (true);
+-- Read access for application data API
+CREATE POLICY "Allow read users" ON public.users FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow authenticated write users" ON public.users FOR ALL TO authenticated USING (true);
 
-CREATE POLICY "Allow public read jenis_kegiatan" ON public.jenis_kegiatan FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY "Allow public write jenis_kegiatan" ON public.jenis_kegiatan FOR ALL TO anon, authenticated USING (true);
+CREATE POLICY "Allow read jenis_kegiatan" ON public.jenis_kegiatan FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow authenticated write jenis_kegiatan" ON public.jenis_kegiatan FOR ALL TO authenticated USING (true);
 
-CREATE POLICY "Allow public read pelaku_usaha" ON public.pelaku_usaha FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY "Allow public write pelaku_usaha" ON public.pelaku_usaha FOR ALL TO anon, authenticated USING (true);
+CREATE POLICY "Allow read pelaku_usaha" ON public.pelaku_usaha FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow authenticated write pelaku_usaha" ON public.pelaku_usaha FOR ALL TO authenticated USING (true);
 
-CREATE POLICY "Allow public read laporan" ON public.laporan FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY "Allow public write laporan" ON public.laporan FOR ALL TO anon, authenticated USING (true);
+CREATE POLICY "Allow read laporan" ON public.laporan FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow authenticated write laporan" ON public.laporan FOR ALL TO authenticated USING (true);
 
-CREATE POLICY "Allow public read notifications" ON public.notifications FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY "Allow public write notifications" ON public.notifications FOR ALL TO anon, authenticated USING (true);
+CREATE POLICY "Allow read notifications" ON public.notifications FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow authenticated write notifications" ON public.notifications FOR ALL TO authenticated USING (true);
 
-CREATE POLICY "Allow public read telaahan_staf" ON public.telaahan_staf FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY "Allow public write telaahan_staf" ON public.telaahan_staf FOR ALL TO anon, authenticated USING (true);
+CREATE POLICY "Allow read telaahan_staf" ON public.telaahan_staf FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow authenticated write telaahan_staf" ON public.telaahan_staf FOR ALL TO authenticated USING (true);
 
 -- ====================================================================
 -- SUPABASE STORAGE BUCKET UNTUK FOTO (lampiran-lpd)
@@ -176,6 +176,11 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('lampiran-lpd', 'lampiran-lpd', true)
 ON CONFLICT (id) DO NOTHING;
 
-CREATE POLICY "Allow public access to lampiran-lpd bucket"
-ON storage.objects FOR ALL TO anon, authenticated
+CREATE POLICY "Allow read access to lampiran-lpd bucket"
+ON storage.objects FOR SELECT TO anon, authenticated
 USING (bucket_id = 'lampiran-lpd');
+
+CREATE POLICY "Allow authenticated write access to lampiran-lpd bucket"
+ON storage.objects FOR INSERT TO authenticated
+WITH CHECK (bucket_id = 'lampiran-lpd');
+

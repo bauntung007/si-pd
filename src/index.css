@@ -210,3 +210,42 @@ body {
   }
 }
 
+/* Glassmorphism & Status Badges */
+.glass-card {
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.badge-approved {
+  background-color: rgba(15, 163, 54, 0.12);
+  border: 1px solid rgba(15, 163, 54, 0.35);
+  color: #0fa336;
+}
+
+.badge-pending {
+  background-color: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #f59e0b;
+}
+
+.badge-rejected {
+  background-color: rgba(226, 39, 24, 0.12);
+  border: 1px solid rgba(226, 39, 24, 0.35);
+  color: #e22718;
+}
+
+.badge-draft {
+  background-color: rgba(126, 126, 126, 0.12);
+  border: 1px solid rgba(126, 126, 126, 0.35);
+  color: #bbbbbb;
+}
+
+/* Interactive focus ring enhancement for accessibility */
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #1c69d4;
+  outline-offset: 2px;
+}
+
+

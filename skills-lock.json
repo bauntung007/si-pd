@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "audit-website": {
+      "source": "squirrelscan/skills",
+      "sourceType": "github",
+      "skillPath": "skills/audit-website/SKILL.md",
+      "computedHash": "15d6e5cb12872ced10d1661ed19726283a146c45d32a3438cf1a01bbdc68eac5"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
